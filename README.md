@@ -22,7 +22,7 @@ A sticker-aesthetic web UI kit inspired by cozy life-sim games:
 - **Inflated push feel** — buttons have physical depth and actually sink when pressed
 - **Sunny meadow palette** — sky blue / meadow green / cream / butter / coral
 - **Checker-grass & tile-quilt motifs** — the page sits in a tiny handcrafted world
-- **Original icon set (Pokoland Icons)** — 20 hand-drawn SVG symbols, zero emoji in UI
+- **Original icon set (Pokoland Icons)** — 21 hand-drawn SVG symbols, zero emoji in UI
 - **Trilingual demo** — Chinese / English / Japanese, switchable live
 
 ## 🚀 Quick start

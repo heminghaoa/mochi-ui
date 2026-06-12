@@ -63,8 +63,21 @@
     document.querySelectorAll('.lang-switch button').forEach(b => { b.setAttribute('aria-pressed', String(b.dataset.lang === lang)); });
   }
 
+  function initToTop() {
+    var btn = document.querySelector('.to-top');
+    if (!btn) return;
+    var onScroll = function () { btn.classList.toggle('show', window.scrollY > 400); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    btn.addEventListener('click', function () {
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+    });
+  }
+
   function init() {
     initTabs();
+    initToTop();
     document.querySelectorAll('.lang-switch button').forEach(b => b.addEventListener('click', function () { applyLang(b.dataset.lang); }));
     if (Object.keys(DICT).length) { cur = detect(); applyLang(cur); }
   }

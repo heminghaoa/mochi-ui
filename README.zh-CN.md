@@ -67,7 +67,7 @@ pokoland-ui/
 ├── src/
 │   ├── pokoland.css              # 核心样式
 │   ├── pokoland.js               # Toast / Tabs / Dialog / i18n
-│   └── icons.svg                 # Pokoland Icons 图标集(20 个)
+│   └── icons.svg                 # Pokoland Icons 图标集(21 个)
 ├── scripts/
 │   ├── serve.ts                  # 开发服务器(bun run dev)
 │   ├── build.ts                  # 构建 & 同步图标(bun run build)

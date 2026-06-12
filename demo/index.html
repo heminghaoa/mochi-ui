@@ -217,6 +217,7 @@ body {
   <symbol id="pi-tent" viewBox="0 0 24 24"><path d="M12 3.6L2.9 19.4C2.6 20 3 20.6 3.6 20.6H8.6L11.3 15.9C11.6 15.4 12.4 15.4 12.7 15.9L15.4 20.6H20.4C21 20.6 21.4 20 21.1 19.4L12 3.6Z" fill="currentColor"/></symbol>
   <symbol id="pi-face" viewBox="0 0 24 24"><ellipse cx="8.6" cy="11" rx="1.5" ry="2" fill="currentColor"/><ellipse cx="15.4" cy="11" rx="1.5" ry="2" fill="currentColor"/><path d="M10.4 15.2C11.3 16.1 12.7 16.1 13.6 15.2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="5.8" cy="13.6" rx="1.9" ry="1.2" fill="rgba(232,121,121,.55)"/><ellipse cx="18.2" cy="13.6" rx="1.9" ry="1.2" fill="rgba(232,121,121,.55)"/></symbol>
   <symbol id="pi-flower" viewBox="0 0 24 24"><circle cx="12" cy="5.8" r="3.6" fill="currentColor"/><circle cx="17.9" cy="10.1" r="3.6" fill="currentColor"/><circle cx="15.7" cy="17" r="3.6" fill="currentColor"/><circle cx="8.3" cy="17" r="3.6" fill="currentColor"/><circle cx="6.1" cy="10.1" r="3.6" fill="currentColor"/><circle cx="12" cy="12" r="3" fill="rgba(92,74,54,.45)"/></symbol>
+  <symbol id="pi-up" viewBox="0 0 24 24"><path d="M5 15L12 7.5L19 15" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
 <!-- ICONS:END -->
 
@@ -449,6 +450,39 @@ body {
     </div>
   </section>
 
+  <!-- ===== 导航 & 告示牌 ===== -->
+  <section class="section">
+    <div class="section-tag"><span class="dot" style="background:var(--wood)"></span><span data-i18n="secNav">导航 & 告示牌</span></div>
+    <div class="panel">
+      <nav class="signpost" aria-label="Pokoland demo">
+        <a class="nav-link active" href="#" aria-current="page" data-i18n="navHome">首页</a>
+        <a class="nav-link" href="#" data-i18n="navDex">图鉴</a>
+        <a class="nav-link" href="#" data-i18n="navBuild">建造</a>
+        <a class="nav-link" href="#" data-i18n="navMap">地图</a>
+        <a class="nav-link" href="#" data-i18n="navShop">小卖部</a>
+      </nav>
+      <div class="cloud-sign">
+        <svg viewBox="0 0 380 190" aria-hidden="true">
+          <g fill="#FFFFFF">
+            <circle cx="78" cy="96" r="48"/>
+            <circle cx="138" cy="62" r="46"/>
+            <circle cx="206" cy="52" r="50"/>
+            <circle cx="276" cy="66" r="44"/>
+            <circle cx="316" cy="104" r="40"/>
+            <circle cx="118" cy="128" r="42"/>
+            <circle cx="196" cy="138" r="44"/>
+            <circle cx="268" cy="128" r="40"/>
+            <rect x="78" y="62" width="220" height="76" rx="38"/>
+          </g>
+        </svg>
+        <div class="body">
+          <h3 data-i18n="signTitle">开垦一片新草原</h3>
+          <p data-i18n="signBody">捡三块石头、两根木头,小屋明天就能动工。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== 头像 & 提示 ===== -->
   <section class="section">
     <div class="section-tag"><span class="dot" style="background:var(--coral-deep)"></span><span data-i18n="secAvatar">头像 & 提示 Tooltip</span></div>
@@ -487,6 +521,10 @@ body {
     </div>
   </div>
 </div>
+
+<button class="to-top" type="button" aria-label="回到顶部" data-i18n-aria="topLabel">
+  <svg class="pi" aria-hidden="true"><use href="#pi-up"/></svg>
+</button>
 
 <div class="toast-zone" id="toast-zone" aria-live="polite"></div>
 
@@ -579,6 +617,15 @@ window.POKOLAND_I18N = {
   btnToastWarn:['提醒 Toast', 'Warning toast', '注意トースト'],
   toastOk:    ['操作成功!获得 10 颗星星', 'Success! You earned 10 stars', 'せいこう!星を10こゲット'],
   toastWarn:  ['背包里好像混进了一只虫子', 'Looks like a bug snuck into your bag', 'リュックに虫がまぎれこんだみたい'],
+  secNav:     ['导航 & 告示牌', 'Navbar & signs', 'ナビ & 立て看板'],
+  navHome:    ['首页', 'Home', 'ホーム'],
+  navDex:     ['图鉴', 'Critterdex', 'ずかん'],
+  navBuild:   ['建造', 'Build', 'クラフト'],
+  navMap:     ['地图', 'Map', 'マップ'],
+  navShop:    ['小卖部', 'Shop', 'ばいてん'],
+  signTitle:  ['开垦一片新草原', 'Cultivate a new meadow', 'あたらしい草原をひらこう'],
+  signBody:   ['捡三块石头、两根木头,小屋明天就能动工。', 'Three stones and two logs — the cottage breaks ground tomorrow.', 'いし3つ、まるた2ほん。おうちの着工はあしたです。'],
+  topLabel:   ['回到顶部', 'Back to top', 'トップへもどる'],
   dlgTitle:   ['要在这里搭帐篷吗?', 'Pitch your tent here?', 'ここにテントをはる?'],
   dlgBody:    ['这片草地看起来很平整,晚上还能看到星星。不过离小卖部有点远哦。',
                'The grass looks nice and flat, and you can see the stars at night. It is a bit far from the shop, though.',

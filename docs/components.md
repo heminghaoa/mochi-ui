@@ -5,7 +5,7 @@
 
 ## 图标与 i18n 约定
 
-图标:`<svg class="mi" aria-hidden="true"><use href="#pi-leaf"/></svg>`,可用名:leaf drop zap berry moon check wrench heart star bug package backpack book map mushroom bubbles speaker tent face flower(共 20 个)。
+图标:`<svg class="mi" aria-hidden="true"><use href="#pi-leaf"/></svg>`,可用名:leaf drop zap berry moon check wrench heart star bug package backpack book map mushroom bubbles speaker tent face flower up(共 21 个)。
 toast 第二参传**图标名**:`toast('ok', 'star', T('toastOk'))`。
 文案标记:`data-i18n`(文本)/`data-i18n-html`/`data-i18n-ph`(placeholder)/`data-i18n-aria`;词典 `window.POKOLAND_I18N = { key: [zh, en, ja] }` 须在 `pokoland.js` 之前定义;`?lang=en` URL 参数可强制语言。
 
@@ -156,3 +156,28 @@ toast('warn', '🐛', '背包里好像混进了一只虫子');
 ```
 
 自动 2.6s 后弹出离场。容器带 `aria-live="polite"`。
+
+## Signpost 导航木牌
+
+```html
+<nav class="signpost" aria-label="主导航">
+  <a class="nav-link active" href="#" aria-current="page">首页</a>
+  <a class="nav-link" href="#">图鉴</a>
+</nav>
+```
+
+木板底色取 `--wood` / `--wood-deep`,两侧自带角钉。激活项加 `.active` 与 `aria-current="page"`(云朵蓝胶囊);悬停为波浪下划线。
+
+## Cloud Sign 云朵告示牌
+
+云形由一组 `<circle>` + 圆角 `<rect>` 拼合(同色 fill 自然融合,投影作用于整体),内容放 `.cloud-sign .body` 居中浮于云上。完整标记见 demo「导航 & 告示牌」一节。
+
+## Back to top 回到顶部
+
+```html
+<button class="to-top" type="button" aria-label="回到顶部">
+  <svg class="pi" aria-hidden="true"><use href="#pi-up"/></svg>
+</button>
+```
+
+`pokoland.js` 自动绑定:页面滚动超过 400px 时弹簧浮现;点击平滑回顶,`prefers-reduced-motion` 下为瞬时跳转。
