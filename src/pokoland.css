@@ -519,6 +519,87 @@ input[type="range"].slider:focus-visible { outline: 4px solid var(--sky-deep); o
 .to-top:focus-visible { outline: 4px solid var(--sky-deep); outline-offset: 3px; }
 .to-top .pi { width: 24px; height: 24px; }
 
+/* ============================================================
+   木牌横幅 Plank
+============================================================ */
+.plank {
+  display: inline-block; position: relative;
+  background: linear-gradient(180deg, #D2A876, var(--wood) 55%, #BC8F5D);
+  border: 4px solid var(--white); border-radius: 12px;
+  padding: 12px 40px;
+  color: var(--white); font-weight: 800; font-size: 18px;
+  text-shadow: 0 2px 0 rgba(92,74,54,.35);
+  box-shadow: 0 5px 0 var(--wood-deep), var(--shadow-float);
+}
+.plank::before, .plank::after {
+  content: ""; position: absolute; top: 50%; width: 7px; height: 7px;
+  transform: translateY(-50%); border-radius: 50%;
+  background: rgba(92,74,54,.4);
+  box-shadow: inset 0 2px 2px rgba(0,0,0,.25), 0 1px 0 rgba(255,255,255,.25);
+}
+.plank::before { left: 9px; } .plank::after { right: 9px; }
+
+/* ============================================================
+   蠕动气泡 Wobble bubble(外圈软坨持续蠕动)
+============================================================ */
+.wobble-bubble {
+  display: inline-block;
+  padding: 18px 22px;
+  background: #E8DFFA;
+  border-radius: 58% 42% 55% 45% / 52% 60% 40% 48%;
+  animation: squirm 9s ease-in-out infinite;
+}
+.wobble-bubble .inner {
+  background: var(--white);
+  padding: 13px 30px;
+  font-weight: 800; font-size: 17px; color: var(--lilac-deep);
+  border-radius: 46% 54% 48% 52% / 55% 45% 58% 42%;
+  animation: squirm 7s ease-in-out infinite reverse;
+  white-space: nowrap;
+}
+.wobble-bubble.seal {
+  background: var(--white);
+  border: 3px solid #CDBCE8;
+  padding: 26px 24px;
+  animation-duration: 8s;
+}
+.wobble-bubble.seal .inner {
+  background: none; padding: 0; animation: none; border-radius: 0;
+  font-size: 14.5px; color: var(--lilac-deep); text-align: center; white-space: normal;
+  max-width: 150px; line-height: 1.55;
+}
+@keyframes squirm {
+  0%, 100% { border-radius: 58% 42% 55% 45% / 52% 60% 40% 48%; }
+  25%      { border-radius: 45% 55% 48% 52% / 58% 44% 56% 42%; }
+  50%      { border-radius: 52% 48% 58% 42% / 45% 55% 48% 52%; }
+  75%      { border-radius: 42% 58% 45% 55% / 50% 48% 55% 45%; }
+}
+
+/* ============================================================
+   撕边照片 Photo
+============================================================ */
+.photo {
+  display: inline-block; transform: rotate(-2deg);
+  filter: drop-shadow(0 6px 0 rgba(92,74,54,.12)) drop-shadow(0 14px 24px rgba(92,74,54,.16));
+  transition: transform .2s ease;
+}
+.photo:nth-child(even) { transform: rotate(1.6deg); }
+.photo:hover { transform: rotate(0) translateY(-4px); }
+.photo .frame {
+  background: var(--white);
+  padding: 12px 12px 10px;
+  clip-path: polygon(0% 4%, 3% 1%, 8% 3%, 14% 0%, 20% 2%, 27% 1%, 33% 3%, 40% 0%, 47% 2%, 54% 1%, 61% 3%, 68% 0%, 75% 2%, 82% 1%, 89% 3%, 95% 0%, 100% 3%, 99% 10%, 100% 18%, 98% 26%, 100% 34%, 99% 43%, 100% 52%, 98% 61%, 100% 70%, 99% 79%, 100% 88%, 99% 96%, 95% 100%, 88% 98%, 81% 100%, 73% 99%, 65% 100%, 57% 98%, 49% 100%, 41% 99%, 33% 100%, 25% 98%, 17% 100%, 9% 99%, 3% 100%, 0% 96%, 1% 88%, 0% 79%, 2% 70%, 0% 61%, 1% 52%, 0% 43%, 2% 34%, 0% 26%, 1% 18%, 0% 10%);
+}
+.photo .shot {
+  width: 230px; height: 145px; border-radius: 4px;
+  background: linear-gradient(160deg, #D9F2CB, #B5E59C);
+  display: grid; place-items: center;
+}
+.photo .cap {
+  text-align: center; font-size: 12.5px; font-weight: 700;
+  color: var(--bark-soft); padding-top: 8px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }

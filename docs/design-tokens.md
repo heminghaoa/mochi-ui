@@ -96,7 +96,7 @@ Pokoland UI 的所有视觉决策都收敛在这份文档里。新组件必须�
 
 - 24×24 网格;实心墩形 + 圆头线;颜色走 `currentColor`,内部细节用半透明白分层
 - **小尺寸单坨原则**:≤20px 必须是一整块实心形,多零件结构会碎
-- sprite 权威来源 `src/icons.svg`(21 个 symbol),demo 内联副本由 `bun run build` 同步(标记区勿手改)
+- sprite 权威来源 `src/icons.svg`(25 个 symbol),demo 内联副本由 `bun run build` 同步(标记区勿手改)
 - **UI 内零 emoji**(原生 `<option>` 用纯文字)
 
 ## 8. CJK 排版

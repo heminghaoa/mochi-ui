@@ -5,7 +5,7 @@
 
 ## 图标与 i18n 约定
 
-图标:`<svg class="mi" aria-hidden="true"><use href="#pi-leaf"/></svg>`,可用名:leaf drop zap berry moon check wrench heart star bug package backpack book map mushroom bubbles speaker tent face flower up(共 21 个)。
+图标:`<svg class="mi" aria-hidden="true"><use href="#pi-leaf"/></svg>`,可用名:leaf drop zap berry moon check wrench heart star bug package backpack book map mushroom bubbles speaker tent face flower up hammer tile tile-flower goo(共 25 个)。
 toast 第二参传**图标名**:`toast('ok', 'star', T('toastOk'))`。
 文案标记:`data-i18n`(文本)/`data-i18n-html`/`data-i18n-ph`(placeholder)/`data-i18n-aria`;词典 `window.POKOLAND_I18N = { key: [zh, en, ja] }` 须在 `pokoland.js` 之前定义;`?lang=en` URL 参数可强制语言。
 
@@ -181,3 +181,31 @@ toast('warn', '🐛', '背包里好像混进了一只虫子');
 ```
 
 `pokoland.js` 自动绑定:页面滚动超过 400px 时弹簧浮现;点击平滑回顶,`prefers-reduced-motion` 下为瞬时跳转。
+
+## Plank 木牌横幅
+
+```html
+<span class="plank">村庄公告</span>
+```
+
+独立木牌标签(标题/分组横幅),取 `--wood` 系令牌,两侧角钉。
+
+## Wobble Bubble 蠕动气泡
+
+```html
+<div class="wobble-bubble"><div class="inner">春季活动 · 即将开始</div></div>
+<div class="wobble-bubble seal"><div class="inner">新地图筹备中</div></div>
+```
+
+外圈软坨以 `border-radius` 关键帧持续蠕动(`squirm`,内外圈反向),`prefers-reduced-motion` 下静止。`.seal` 为白底描边的印章变体。
+
+## Photo 撕边照片
+
+```html
+<div class="photo"><div class="frame">
+  <div class="shot">…</div>
+  <div class="cap">今天的村口</div>
+</div></div>
+```
+
+`clip-path` 锯齿多边形撕边 + 微旋转(偶数项反向),悬停回正抬升。
