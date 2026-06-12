@@ -1,4 +1,5 @@
 // bun run build —— ① icons 同步进 demo ② 产出 dist/(外部使用者引入;demo 不依赖)
+import { $ } from 'bun';
 import { mkdirSync, rmSync } from 'node:fs';
 
 const icons = (await Bun.file('src/icons.svg').text()).trim();
@@ -25,4 +26,6 @@ try {
   console.warn('当前 Bun 版本不支持 CSS 构建,dist/pokoland.css 为未压缩副本');
 }
 await Bun.write('dist/icons.svg', icons);
+const react = await $`bun run scripts/build-react.ts`.nothrow();
+if (react.exitCode !== 0) process.exit(1);
 console.log('build 完成 → dist/{pokoland.css,pokoland.js,icons.svg}');

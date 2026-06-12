@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist/react",
+    "rootDir": "src/react",
+    "skipLibCheck": true
+  },
+  "include": ["src/react"],
+  "exclude": ["src/react/__tests__"]
+}
