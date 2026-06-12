@@ -18,36 +18,26 @@ export const toast = {
 
 export interface ToasterProps extends React.ComponentPropsWithoutRef<'div'> {}
 
+/**
+ * Global toast outlet. Mount at most one <Toaster /> per app —
+ * multiple instances each subscribe to the shared queue and will render duplicate messages.
+ */
 export function Toaster({ className, ...rest }: ToasterProps) {
   const [items, setItems] = React.useState<(ToastItem & { bye?: boolean })[]>([]);
 
   React.useEffect(() => {
+    const allTimers: ReturnType<typeof setTimeout>[] = [];
     const handler = (item: ToastItem) => {
       setItems((prev) => [...prev, item]);
-
-      const timers: ReturnType<typeof setTimeout>[] = [];
-
-      timers.push(
-        setTimeout(() => {
-          setItems((prev) =>
-            prev.map((i) => (i.id === item.id ? { ...i, bye: true } : i)),
-          );
-        }, 2600),
-      );
-
-      timers.push(
-        setTimeout(() => {
-          setItems((prev) => prev.filter((i) => i.id !== item.id));
-        }, 2600 + 320),
-      );
-
-      return () => timers.forEach(clearTimeout);
+      allTimers.push(setTimeout(() => {
+        setItems((prev) => prev.map((i) => (i.id === item.id ? { ...i, bye: true } : i)));
+      }, 2600));
+      allTimers.push(setTimeout(() => {
+        setItems((prev) => prev.filter((i) => i.id !== item.id));
+      }, 2600 + 320));
     };
-
     listeners.add(handler);
-    return () => {
-      listeners.delete(handler);
-    };
+    return () => { listeners.delete(handler); allTimers.forEach(clearTimeout); };
   }, []);
 
   return (

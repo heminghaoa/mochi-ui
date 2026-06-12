@@ -34,6 +34,7 @@ export function Dialog({ open, onOpenChange, children, className }: DialogProps)
         if (e.target === e.currentTarget) onOpenChange?.(false);
       }}
     >
+      {/* TODO(a11y): focus trap / initial focus / restore focus deliberately deferred past 0.3.0 — portal + Esc + backdrop click are the v0.3 scope. */}
       <div
         className={['dialog', 'sticker', className].filter(Boolean).join(' ')}
         role="dialog"
