@@ -1,6 +1,7 @@
 /* Mochi UI v0.2 — 可选交互(零依赖)
    提供:toast()/openDialog()/closeDialog()/Tabs 自动初始化/轻量 i18n
-   i18n 词典由页面在加载本脚本前定义:window.MOCHI_I18N = { key: [zh, en, ja] } */
+   i18n 词典由页面在加载本脚本前定义:window.MOCHI_I18N = { key: [zh, en, ja] }
+   注意:data-i18n-html 对应的词典值以 innerHTML 渲染,务必为可信静态字符串,不可含用户输入。 */
 (function () {
   'use strict';
 
@@ -25,10 +26,17 @@
     if (!zone) return;
     const el = document.createElement('div');
     el.className = 'toast ' + type;
-    el.innerHTML = '<span class="ico"><svg class="mi" aria-hidden="true"><use href="#mi-' + icon + '"/></svg></span>' + msg;
+    const ico = document.createElement('span');
+    ico.className = 'ico';
+    ico.innerHTML = '<svg class="mi" aria-hidden="true"><use href="#mi-' + icon + '"/></svg>';
+    el.appendChild(ico);
+    el.appendChild(document.createTextNode(msg));
     zone.appendChild(el);
     setTimeout(() => { el.classList.add('bye'); setTimeout(() => el.remove(), 320); }, 2600);
   }
+
+  function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* 隐私模式静默 */ } }
 
   var LANGS = ['zh', 'en', 'ja'];
   var DICT = window.MOCHI_I18N || {};
@@ -36,7 +44,7 @@
   function detect() {
     var url = new URLSearchParams(location.search).get('lang');
     if (LANGS.indexOf(url) >= 0) return url;
-    var saved = localStorage.getItem('mochi-lang');
+    var saved = lsGet('mochi-lang');
     if (LANGS.indexOf(saved) >= 0) return saved;
     var nav = (navigator.language || 'zh').toLowerCase();
     return nav.indexOf('ja') === 0 ? 'ja' : nav.indexOf('en') === 0 ? 'en' : 'zh';
@@ -45,7 +53,7 @@
   function applyLang(lang) {
     if (LANGS.indexOf(lang) < 0) return;
     cur = lang;
-    localStorage.setItem('mochi-lang', lang);
+    lsSet('mochi-lang', lang);
     document.documentElement.lang = { zh: 'zh-CN', en: 'en', ja: 'ja' }[lang];
     if (DICT.title) document.title = T('title');
     document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = T(el.dataset.i18n); });
