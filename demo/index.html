@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mochi UI · 治愈系贴纸风组件库</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=M+PLUS+Rounded+1c:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Mochi UI — Pokopia 风格贴纸组件库
+   设计令牌
+============================================================ */
+:root {
+  /* 色板:晴天草原 */
+  --sky:        #BDE8F7;   /* 天空蓝 */
+  --sky-deep:   #6EC9EA;
+  --meadow:     #8FD178;   /* 草地绿 */
+  --meadow-deep:#5FAE52;
+  --cream:      #FFF9EC;   /* 奶油底 */
+  --butter:     #FFD66B;   /* 黄油黄 */
+  --butter-deep:#F0B73C;
+  --coral:      #FF9D9D;   /* 珊瑚粉 */
+  --coral-deep: #E87979;
+  --lilac:      #C9B8F0;   /* 丁香紫 */
+  --lilac-deep: #A88FE0;
+  --bark:       #5C4A36;   /* 树皮棕(正文) */
+  --bark-soft:  #8C7860;
+  --white:      #FFFFFF;
+
+  /* 贴纸语言 */
+  --sticker-border: 4px solid var(--white);
+  --sticker-radius: 22px;
+  --shadow-sticker: 0 5px 0 rgba(92, 74, 54, .16);
+  --shadow-float:   0 10px 24px rgba(92, 74, 54, .14);
+
+  --font-round: 'Baloo 2', 'M PLUS Rounded 1c', 'Yuanti SC', 'YouYuan', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+body {
+  font-family: var(--font-round);
+  color: var(--bark);
+  background:
+    linear-gradient(180deg, var(--sky) 0%, #DFF4FC 38%, var(--cream) 72%);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+::selection { background: var(--butter); color: var(--bark); }
+
+/* ---- 环境装饰:云朵与小山 ---- */
+.scenery { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.cloud {
+  position: absolute;
+  background: var(--white);
+  border-radius: 999px;
+  opacity: .85;
+  animation: drift 60s linear infinite;
+}
+.cloud::before, .cloud::after {
+  content: ""; position: absolute; background: inherit; border-radius: 999px;
+}
+.cloud.c1 { width: 140px; height: 46px; top: 8%; left: -160px; }
+.cloud.c1::before { width: 60px; height: 60px; top: -28px; left: 24px; }
+.cloud.c1::after  { width: 44px; height: 44px; top: -18px; left: 72px; }
+.cloud.c2 { width: 100px; height: 36px; top: 22%; left: -120px; animation-delay: -28s; animation-duration: 80s; opacity: .6; }
+.cloud.c2::before { width: 44px; height: 44px; top: -20px; left: 18px; }
+.cloud.c2::after  { width: 32px; height: 32px; top: -12px; left: 52px; }
+@keyframes drift { to { transform: translateX(calc(100vw + 300px)); } }
+
+.hills {
+  position: fixed; bottom: 0; left: 0; right: 0; height: 130px; z-index: 0;
+  pointer-events: none;
+}
+.hills svg { width: 100%; height: 100%; display: block; }
+
+/* ---- 页面布局 ---- */
+.page { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; padding: 0 24px 200px; }
+
+/* ---- Hero ---- */
+.hero { text-align: center; padding: 88px 0 56px; }
+.hero-badge {
+  display: inline-block;
+  background: var(--white);
+  border-radius: 999px;
+  padding: 8px 20px;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--bark-soft);
+  box-shadow: var(--shadow-sticker);
+  transform: rotate(-2deg);
+  margin-bottom: 24px;
+}
+.hero h1 {
+  font-size: clamp(44px, 8vw, 84px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: .01em;
+  margin-bottom: 18px;
+}
+/* 充气字:每个字母一种贴纸色,厚白描边 */
+.hero h1 .puff {
+  display: inline-block;
+  -webkit-text-stroke: 0;
+  paint-order: stroke fill;
+  text-shadow:
+    3px 3px 0 var(--white), -3px 3px 0 var(--white),
+    3px -3px 0 var(--white), -3px -3px 0 var(--white),
+    0 6px 0 rgba(92,74,54,.18);
+  animation: bob 3.2s ease-in-out infinite;
+}
+.hero h1 .puff:nth-child(odd) { animation-delay: -1.6s; }
+@keyframes bob { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-6px) } }
+
+.hero p {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--bark-soft);
+  max-width: 520px;
+  margin: 0 auto 32px;
+}
+.hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+/* ============================================================
+   贴纸基类:厚白描边 + 投影
+============================================================ */
+.sticker {
+  background: var(--white);
+  border: var(--sticker-border);
+  border-radius: var(--sticker-radius);
+  box-shadow: var(--shadow-sticker), var(--shadow-float);
+}
+
+/* ---- 组件分区 ---- */
+.section { margin-top: 72px; }
+.section-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--white);
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 20px; font-weight: 800;
+  box-shadow: var(--shadow-sticker);
+  transform: rotate(-1.5deg);
+  margin-bottom: 26px;
+}
+.section-tag .dot { width: 12px; height: 12px; border-radius: 50%; }
+.panel {
+  background: rgba(255,255,255,.55);
+  border: 3px dashed rgba(92,74,54,.18);
+  border-radius: 28px;
+  padding: 32px;
+  display: flex; flex-wrap: wrap; gap: 22px; align-items: center;
+  backdrop-filter: blur(2px);
+}
+.panel.col { flex-direction: column; align-items: stretch; }
+
+/* ============================================================
+   按钮:充气贴纸,按下会下沉
+============================================================ */
+.btn {
+  font-family: var(--font-round);
+  font-size: 17px; font-weight: 800;
+  color: var(--white);
+  padding: 13px 30px;
+  border: 4px solid var(--white);
+  border-radius: 999px;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 5px 0 var(--btn-deep, var(--meadow-deep)), 0 10px 18px rgba(92,74,54,.18);
+  background: var(--btn-bg, var(--meadow));
+  transition: transform .1s ease, box-shadow .1s ease, filter .15s ease;
+  text-shadow: 0 2px 0 rgba(92,74,54,.15);
+}
+.btn:hover { filter: brightness(1.05); transform: translateY(-1px) rotate(-.5deg); }
+.btn:active {
+  transform: translateY(5px);
+  box-shadow: 0 0 0 var(--btn-deep, var(--meadow-deep)), 0 4px 8px rgba(92,74,54,.12);
+}
+.btn:focus-visible { outline: 4px solid var(--sky-deep); outline-offset: 3px; }
+.btn.sky    { --btn-bg: var(--sky-deep);   --btn-deep: #4BA8CC; }
+.btn.butter { --btn-bg: var(--butter);     --btn-deep: var(--butter-deep); color: var(--bark); text-shadow: none; }
+.btn.coral  { --btn-bg: var(--coral);      --btn-deep: var(--coral-deep); }
+.btn.lilac  { --btn-bg: var(--lilac);      --btn-deep: var(--lilac-deep); }
+.btn.ghost  {
+  --btn-bg: var(--white); --btn-deep: #E2D8C6;
+  color: var(--bark); text-shadow: none;
+  border-color: #F0E8D8;
+}
+.btn.small { font-size: 14px; padding: 9px 20px; border-width: 3px; }
+.btn.icon-btn { display: inline-flex; align-items: center; gap: 8px; }
+
+/* ============================================================
+   标签 Badge
+============================================================ */
+.badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13.5px; font-weight: 800;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 3px solid var(--white);
+  box-shadow: 0 3px 0 rgba(92,74,54,.12);
+  color: var(--bark);
+  transform: rotate(-1deg);
+}
+.badge:nth-child(even) { transform: rotate(1.2deg); }
+.badge.green  { background: #D9F2CB; }
+.badge.blue   { background: #D2EEFA; }
+.badge.yellow { background: #FFEDB8; }
+.badge.pink   { background: #FFDCDC; }
+.badge.purple { background: #E8DFFA; }
+
+/* ============================================================
+   输入控件
+============================================================ */
+.field { display: flex; flex-direction: column; gap: 8px; min-width: 240px; flex: 1; }
+.field label { font-weight: 800; font-size: 15px; padding-left: 6px; }
+.input, .textarea, .select {
+  font-family: var(--font-round);
+  font-size: 16px; font-weight: 600;
+  color: var(--bark);
+  background: var(--white);
+  border: 4px solid #F0E6D2;
+  border-radius: 18px;
+  padding: 12px 18px;
+  box-shadow: inset 0 3px 0 rgba(92,74,54,.06);
+  transition: border-color .15s ease, transform .15s ease;
+  width: 100%;
+}
+.input::placeholder, .textarea::placeholder { color: #C4B49C; }
+.input:focus, .textarea:focus, .select:focus {
+  outline: none;
+  border-color: var(--butter);
+  transform: scale(1.01);
+}
+.textarea { resize: vertical; min-height: 90px; }
+.select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='12'%3E%3Cpath d='M2 2l7 7 7-7' stroke='%235C4A36' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  cursor: pointer;
+}
+
+/* ============================================================
+   开关:小木牌弹簧感
+============================================================ */
+.switch { position: relative; display: inline-block; width: 72px; height: 40px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.switch .track {
+  position: absolute; inset: 0;
+  background: #E8DFC9;
+  border: 4px solid var(--white);
+  border-radius: 999px;
+  box-shadow: 0 4px 0 rgba(92,74,54,.14);
+  transition: background .2s ease;
+  cursor: pointer;
+}
+.switch .track::after {
+  content: "";
+  position: absolute; top: 3px; left: 3px;
+  width: 26px; height: 26px;
+  background: var(--white);
+  border-radius: 50%;
+  box-shadow: 0 3px 4px rgba(92,74,54,.22);
+  transition: transform .25s cubic-bezier(.5, 1.8, .5, 1);
+}
+.switch input:checked + .track { background: var(--meadow); }
+.switch input:checked + .track::after { transform: translateX(32px); }
+.switch input:focus-visible + .track { outline: 4px solid var(--sky-deep); outline-offset: 3px; }
+
+/* ============================================================
+   复选框 / 单选:果实选取
+============================================================ */
+.check, .radio {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-weight: 700; font-size: 16px; cursor: pointer; user-select: none;
+}
+.check input, .radio input { position: absolute; opacity: 0; }
+.check .box {
+  width: 28px; height: 28px;
+  background: var(--white);
+  border: 4px solid #EADFC8;
+  border-radius: 10px;
+  display: grid; place-items: center;
+  box-shadow: 0 3px 0 rgba(92,74,54,.1);
+  transition: all .15s ease;
+}
+.check .box svg { opacity: 0; transform: scale(.4); transition: all .2s cubic-bezier(.5,1.8,.5,1); }
+.check input:checked + .box { background: var(--butter); border-color: var(--white); }
+.check input:checked + .box svg { opacity: 1; transform: scale(1); }
+.check input:focus-visible + .box,
+.radio input:focus-visible + .ring { outline: 4px solid var(--sky-deep); outline-offset: 2px; }
+.radio .ring {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--white);
+  border: 4px solid #EADFC8;
+  display: grid; place-items: center;
+  box-shadow: 0 3px 0 rgba(92,74,54,.1);
+  transition: border-color .15s ease;
+}
+.radio .ring::after {
+  content: ""; width: 12px; height: 12px; border-radius: 50%;
+  background: var(--coral);
+  transform: scale(0);
+  transition: transform .2s cubic-bezier(.5,1.8,.5,1);
+}
+.radio input:checked + .ring { border-color: var(--white); }
+.radio input:checked + .ring::after { transform: scale(1); }
+
+/* ============================================================
+   进度条:藤蔓生长
+============================================================ */
+.grow { width: 100%; }
+.grow .meta { display: flex; justify-content: space-between; font-weight: 800; font-size: 14px; margin-bottom: 8px; padding: 0 6px; }
+.grow .track {
+  height: 26px;
+  background: var(--white);
+  border: 4px solid #F0E6D2;
+  border-radius: 999px;
+  overflow: hidden;
+  box-shadow: inset 0 3px 0 rgba(92,74,54,.06);
+}
+.grow .fill {
+  height: 100%;
+  width: var(--p, 60%);
+  border-radius: 999px;
+  background: repeating-linear-gradient(-45deg, var(--meadow) 0 14px, #A4DC8E 14px 28px);
+  transition: width .6s cubic-bezier(.4,1.4,.4,1);
+  position: relative;
+}
+.grow .fill::after {
+  content: "🌱";
+  position: absolute; right: -4px; top: 50%;
+  transform: translateY(-54%);
+  font-size: 20px;
+  filter: drop-shadow(0 2px 0 rgba(92,74,54,.2));
+}
+.grow.sunny .fill { background: repeating-linear-gradient(-45deg, var(--butter) 0 14px, #FFE38F 14px 28px); }
+.grow.sunny .fill::after { content: "🌻"; }
+
+/* ============================================================
+   滑块
+============================================================ */
+.slider-wrap { display: flex; align-items: center; gap: 14px; width: 100%; font-weight: 800; }
+input[type="range"].slider {
+  -webkit-appearance: none; appearance: none;
+  flex: 1; height: 18px;
+  background: var(--white);
+  border: 4px solid #F0E6D2;
+  border-radius: 999px;
+  cursor: pointer;
+}
+input[type="range"].slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 32px; height: 32px;
+  background: var(--coral);
+  border: 4px solid var(--white);
+  border-radius: 50%;
+  box-shadow: 0 4px 0 rgba(92,74,54,.18);
+  cursor: grab;
+  transition: transform .12s ease;
+}
+input[type="range"].slider::-webkit-slider-thumb:hover { transform: scale(1.12); }
+input[type="range"].slider::-webkit-slider-thumb:active { cursor: grabbing; transform: scale(1.05) translateY(2px); box-shadow: 0 1px 0 rgba(92,74,54,.18); }
+input[type="range"].slider::-moz-range-thumb {
+  width: 26px; height: 26px;
+  background: var(--coral);
+  border: 4px solid var(--white);
+  border-radius: 50%;
+  box-shadow: 0 4px 0 rgba(92,74,54,.18);
+  cursor: grab;
+}
+input[type="range"].slider:focus-visible { outline: 4px solid var(--sky-deep); outline-offset: 3px; }
+.slider-value {
+  min-width: 64px; text-align: center;
+  background: var(--white);
+  border-radius: 14px;
+  padding: 8px 0;
+  box-shadow: var(--shadow-sticker);
+}
+
+/* ============================================================
+   卡片:图鉴小卡
+============================================================ */
+.card {
+  width: 250px;
+  padding: 0;
+  overflow: hidden;
+  transform: rotate(-1deg);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.card:nth-child(2) { transform: rotate(1.2deg); }
+.card:nth-child(3) { transform: rotate(-.6deg); }
+.card:hover { transform: rotate(0) translateY(-6px); box-shadow: var(--shadow-sticker), 0 18px 32px rgba(92,74,54,.2); }
+.card .art {
+  height: 130px;
+  display: grid; place-items: center;
+  font-size: 56px;
+}
+.card .art.grass { background: linear-gradient(160deg, #D9F2CB, #B5E59C); }
+.card .art.sky   { background: linear-gradient(160deg, #D2EEFA, #A5DEF5); }
+.card .art.dusk  { background: linear-gradient(160deg, #E8DFFA, #CDBCF2); }
+.card .body { padding: 16px 18px 20px; }
+.card h3 { font-size: 19px; font-weight: 800; margin-bottom: 4px; }
+.card p { font-size: 13.5px; font-weight: 600; color: var(--bark-soft); line-height: 1.5; margin-bottom: 14px; }
+.card .row { display: flex; justify-content: space-between; align-items: center; }
+
+/* ============================================================
+   Tabs:路牌切换
+============================================================ */
+.tabs { width: 100%; }
+.tab-list { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: -4px; position: relative; z-index: 2; padding-left: 14px; }
+.tab-btn {
+  font-family: var(--font-round);
+  font-size: 15px; font-weight: 800;
+  color: var(--bark-soft);
+  background: #F4ECDA;
+  border: 4px solid var(--white);
+  border-bottom: none;
+  border-radius: 18px 18px 0 0;
+  padding: 10px 22px 14px;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.tab-btn:hover { background: #FBF4E4; }
+.tab-btn[aria-selected="true"] {
+  background: var(--white);
+  color: var(--bark);
+  transform: translateY(-4px);
+}
+.tab-btn:focus-visible { outline: 4px solid var(--sky-deep); outline-offset: -2px; }
+.tab-panel {
+  background: var(--white);
+  border: 4px solid var(--white);
+  border-radius: 22px;
+  box-shadow: var(--shadow-sticker), var(--shadow-float);
+  padding: 26px;
+  font-weight: 600;
+  line-height: 1.7;
+}
+.tab-panel[hidden] { display: none; }
+.tab-panel h4 { font-size: 18px; margin-bottom: 6px; }
+
+/* ============================================================
+   Toast
+============================================================ */
+.toast-zone {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; gap: 12px; z-index: 100;
+  align-items: center;
+}
+.toast {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--white);
+  border: 4px solid var(--white);
+  border-radius: 999px;
+  padding: 12px 24px 12px 14px;
+  font-weight: 800; font-size: 15px;
+  box-shadow: var(--shadow-sticker), var(--shadow-float);
+  animation: pop-in .35s cubic-bezier(.4,1.6,.4,1);
+}
+.toast .ico {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 18px;
+}
+.toast.ok .ico { background: #D9F2CB; }
+.toast.warn .ico { background: #FFEDB8; }
+.toast.bye { animation: pop-out .3s ease forwards; }
+@keyframes pop-in { from { transform: translateY(30px) scale(.8); opacity: 0; } }
+@keyframes pop-out { to { transform: translateY(20px) scale(.85); opacity: 0; } }
+
+/* ============================================================
+   对话框
+============================================================ */
+.dialog-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(92,74,54,.35);
+  backdrop-filter: blur(3px);
+  display: grid; place-items: center;
+  z-index: 90;
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s ease;
+}
+.dialog-backdrop.open { opacity: 1; pointer-events: auto; }
+.dialog {
+  width: min(420px, calc(100vw - 48px));
+  padding: 34px 30px 28px;
+  text-align: center;
+  transform: scale(.8) translateY(24px);
+  transition: transform .3s cubic-bezier(.4,1.5,.4,1);
+}
+.dialog-backdrop.open .dialog { transform: scale(1) translateY(0); }
+.dialog .big-emoji { font-size: 54px; margin-bottom: 10px; display: block; }
+.dialog h3 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+.dialog p { font-weight: 600; color: var(--bark-soft); margin-bottom: 24px; line-height: 1.6; }
+.dialog .actions { display: flex; gap: 12px; justify-content: center; }
+
+/* ============================================================
+   头像 & 工具提示
+============================================================ */
+.avatar {
+  width: 64px; height: 64px; border-radius: 50%;
+  border: 4px solid var(--white);
+  box-shadow: 0 4px 0 rgba(92,74,54,.15);
+  display: grid; place-items: center;
+  font-size: 30px;
+  transition: transform .15s ease;
+}
+.avatar:hover { transform: scale(1.1) rotate(-4deg); }
+.avatar.g { background: #D9F2CB; } .avatar.b { background: #D2EEFA; }
+.avatar.y { background: #FFEDB8; } .avatar.p { background: #FFDCDC; }
+
+.tip-wrap { position: relative; display: inline-block; }
+.tip-wrap .tip {
+  position: absolute; bottom: calc(100% + 12px); left: 50%;
+  transform: translateX(-50%) scale(.7);
+  background: var(--bark);
+  color: var(--cream);
+  font-size: 13px; font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 12px;
+  white-space: nowrap;
+  opacity: 0; pointer-events: none;
+  transition: all .18s cubic-bezier(.4,1.6,.4,1);
+}
+.tip-wrap .tip::after {
+  content: ""; position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%);
+  border: 7px solid transparent; border-top-color: var(--bark);
+}
+.tip-wrap:hover .tip, .tip-wrap:focus-within .tip {
+  opacity: 1; transform: translateX(-50%) scale(1);
+}
+
+/* ---- 页脚 ---- */
+.footer {
+  margin-top: 90px; text-align: center;
+  font-weight: 700; color: var(--bark-soft); font-size: 14px;
+}
+.footer .heart { color: var(--coral-deep); }
+
+@media (max-width: 640px) {
+  .panel { padding: 22px 18px; }
+  .card { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="scenery" aria-hidden="true">
+  <div class="cloud c1"></div>
+  <div class="cloud c2"></div>
+</div>
+<div class="hills" aria-hidden="true">
+  <svg viewBox="0 0 1440 130" preserveAspectRatio="none">
+    <path d="M0,90 C240,20 420,120 720,70 C1020,20 1200,110 1440,60 L1440,130 L0,130 Z" fill="#A4DC8E"/>
+    <path d="M0,110 C300,60 560,130 880,95 C1160,65 1320,120 1440,100 L1440,130 L0,130 Z" fill="#8FD178"/>
+  </svg>
+</div>
+
+<div class="page">
+
+  <!-- ===== Hero ===== -->
+  <header class="hero">
+    <span class="hero-badge">🌿 治愈系贴纸风组件库 v0.1</span>
+    <h1>
+      <span class="puff" style="color:var(--meadow)">M</span><span class="puff" style="color:var(--sky-deep)">o</span><span class="puff" style="color:var(--butter)">c</span><span class="puff" style="color:var(--coral)">h</span><span class="puff" style="color:var(--lilac)">i</span>
+      <span class="puff" style="color:var(--meadow-deep)">U</span><span class="puff" style="color:var(--coral-deep)">I</span>
+    </h1>
+    <p>圆滚滚、软乎乎、按下去会"咕"一下的 UI 组件。<br>把你的网页变成一片晴天草原。</p>
+    <div class="hero-actions">
+      <button class="btn icon-btn" onclick="toast('ok','🎒','开始冒险!欢迎来到草原')">🌱 开始使用</button>
+      <button class="btn ghost" onclick="toast('warn','📦','npm install mochi-ui(假装的)')">查看文档</button>
+    </div>
+  </header>
+
+  <!-- ===== 按钮 ===== -->
+  <section class="section">
+    <div class="section-tag"><span class="dot" style="background:var(--meadow)"></span>按钮 Buttons</div>
+    <div class="panel">
+      <button class="btn">采集果实</button>
+      <button class="btn sky">跳进水里</button>
+      <button class="btn butter">晒晒太阳</button>
+      <button class="btn coral">交个朋友</button>
+      <button class="btn lilac">夜间散步</button>
+      <button class="btn ghost">再想想…</button>
+      <button class="btn small">小一号</button>
+      <button class="btn coral small icon-btn">❤️ 喜欢</button>
+    </div>
+  </section>
+
+  <!-- ===== 标签 ===== -->
+  <section class="section">
+    <div class="section-tag"><span class="dot" style="background:var(--butter)"></span>标签 Badges</div>
+    <div class="panel">
+      <span class="badge green">🌿 草系</span>
+      <span class="badge blue">💧 水系</span>
+      <span class="badge yellow">⚡ 元气满满</span>
+      <span class="badge pink">🍓 限定款</span>
+      <span class="badge purple">🌙 夜行性</span>
+      <span class="badge green">✅ 已完成</span>
+      <span class="badge yellow">🔧 施工中</span>
+    </div>
+  </section>
+
+  <!-- ===== 表单 ===== -->
+  <section class="section">
+    <div class="section-tag"><span class="dot" style="background:var(--sky-deep)"></span>表单 Form</div>
+    <div class="panel">
+      <div class="field">
+        <label for="f-name">给小屋起个名字</label>
+        <input id="f-name" class="input" type="text" placeholder="比如:咕咕小筑">
+      </div>
+      <div class="field">
+        <label for="f-biome">选择地形</label>
+        <select id="f-biome" class="select">
+          <option>🌾 微风草原</option>
+          <option>🏖️ 贝壳海滩</option>
+          <option>🌲 蘑菇森林</option>
+          <option>⛰️ 云朵山丘</option>
+        </select>
+      </div>
+      <div class="field" style="flex-basis:100%">
+        <label for="f-memo">留言板</label>
+        <textarea id="f-memo" class="textarea" placeholder="今天也是适合发呆的一天…"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 开关与选择 ===== -->
+  <section class="section">
+    <div class="section-tag"><span class="dot" style="background:var(--coral)"></span>开关 & 选择</div>
+    <div class="panel">
+      <label class="switch" aria-label="背景音乐">
+        <input type="checkbox" checked>
+        <span class="track"></span>
+      </label>
+      <label class="switch" aria-label="夜间模式">
+        <input type="checkbox">
+        <span class="track"></span>
+      </label>
+
+      <label class="check">
+        <input type="checkbox" checked>
+        <span class="box">
+          <svg width="16" height="13" viewBox="0 0 16 13"><path d="M2 7l4 4 8-9" stroke="#5C4A36" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        浇水
+      </label>
+      <label class="check">
+        <input type="checkbox">
+        <span class="box">
+          <svg width="16" height="13" viewBox="0 0 16 13"><path d="M2 7l4 4 8-9" stroke="#5C4A36" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        除草
+      </label>
+
+      <label class="radio"><input type="radio" name="meal" checked><span class="ring"></span>苹果派</label>
+      <label class="radio"><input type="radio" name="meal"><span class="ring"></span>蜂蜜吐司</label>
+      <label class="radio"><input type="radio" name="meal"><span class="ring"></span>蘑菇汤</label>
+    </div>
+  </section>
+
+  <!-- ===== 进度与滑块 ===== -->
+  <section class="section">
+    <div class="section-tag"><span class="dot" style="background:var(--lilac)"></span>进度 & 滑块</div>
+    <div class="panel col">
+      <div class="grow">
+        <div class="meta"><span>小番茄生长中</span><span id="p1-label">60%</span></div>
+        <div class="track"><div class="fill" id="p1" style="--p:60%"></div></div>
+      </div>
+      <div class="grow sunny">
+        <div class="meta"><span>向日葵能量</span><span>85%</span></div>
+        <div class="track"><div class="fill" style="--p:85%"></div></div>
+      </div>
+      <div class="slider-wrap">
+        🔉
+        <input type="range" class="slider" min="0" max="100" value="60" id="vol"
+               oninput="document.getElementById('vol-out').textContent=this.value; document.getElementById('p1').style.setProperty('--p', this.value+'%'); document.getElementById('p1-label').textContent=this.value+'%'">
+        <span class="slider-value" id="vol-out">60</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 卡片 ===== -->
+  <section class="section">
+    <div class="section-tag"><span class="dot" style="background:var(--meadow-deep)"></span>卡片 Cards</div>
+    <div class="panel">
+      <div class="card sticker">
+        <div class="art grass">🍄</div>
+        <div class="body">
+          <h3>圆圆菇</h3>
+          <p>下雨天会自己撑开伞,据说摸起来像年糕一样软。</p>
+          <div class="row">
+            <span class="badge green">🌿 草系</span>
+            <button class="btn small" onclick="toast('ok','🍄','圆圆菇加入了背包!')">收下</button>
+          </div>
+        </div>
+      </div>
+      <div class="card sticker">
+        <div class="art sky">🫧</div>
+        <div class="body">
+          <h3>泡泡灵</h3>
+          <p>由清晨的露水凝聚而成,开心时会发出汽水般的声音。</p>
+          <div class="row">
+            <span class="badge blue">💧 水系</span>
+            <button class="btn sky small" onclick="toast('ok','🫧','泡泡灵跟你回家了!')">收下</button>
+          </div>
+        </div>
+      </div>
+      <div class="card sticker">
+        <div class="art dusk">🌙</div>
+        <div class="body">
+          <h3>眠眠绒</h3>
+          <p>只在月亮升起后出现,抱着它睡觉不会做噩梦。</p>
+          <div class="row">
+            <span class="badge purple">🌙 夜行</span>
+            <button class="btn lilac small" onclick="toast('ok','🌙','眠眠绒打了个哈欠~')">收下</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Tabs ===== -->
+  <section class="section">
+    <div class="section-tag"><span class="dot" style="background:var(--butter-deep)"></span>选项卡 Tabs</div>
+    <div class="tabs">
+      <div class="tab-list" role="tablist">
+        <button class="tab-btn" role="tab" aria-selected="true" data-tab="t1">🎒 背包</button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-tab="t2">📖 图鉴</button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-tab="t3">🗺️ 地图</button>
+      </div>
+      <div class="tab-panel" id="t1" role="tabpanel">
+        <h4>背包(12/30)</h4>
+        背包里有:苹果 ×3、木材 ×8、神秘的发光石头 ×1。要不要去河边看看今天有没有新东西被冲上岸?
+      </div>
+      <div class="tab-panel" id="t2" role="tabpanel" hidden>
+        <h4>图鉴进度</h4>
+        已收录 24 / 96 种小生物。最近一次新发现是「圆圆菇」,出现地点:蘑菇森林的树桩旁。
+      </div>
+      <div class="tab-panel" id="t3" role="tabpanel" hidden>
+        <h4>云朵山丘 · 微风草原</h4>
+        当前位置:微风草原。向北走 5 分钟有一座吊桥,过桥之后就是云朵山丘的观景台啦。
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 头像 & 提示 ===== -->
+  <section class="section">
+    <div class="section-tag"><span class="dot" style="background:var(--coral-deep)"></span>头像 & 提示 Tooltip</div>
+    <div class="panel">
+      <span class="tip-wrap"><span class="avatar g" tabindex="0">🐸</span><span class="tip">蛙蛙村长 · 在线</span></span>
+      <span class="tip-wrap"><span class="avatar b" tabindex="0">🐧</span><span class="tip">企鹅邮差 · 送信中</span></span>
+      <span class="tip-wrap"><span class="avatar y" tabindex="0">🐤</span><span class="tip">小鸡店员 · 摸鱼中</span></span>
+      <span class="tip-wrap"><span class="avatar p" tabindex="0">🐰</span><span class="tip">兔兔裁缝 · 离线</span></span>
+    </div>
+  </section>
+
+  <!-- ===== 对话框 & Toast ===== -->
+  <section class="section">
+    <div class="section-tag"><span class="dot" style="background:var(--sky)"></span>对话框 & 通知</div>
+    <div class="panel">
+      <button class="btn coral" onclick="openDialog()">打开对话框</button>
+      <button class="btn" onclick="toast('ok','🌟','操作成功!获得 10 颗星星')">成功 Toast</button>
+      <button class="btn butter" onclick="toast('warn','🐛','背包里好像混进了一只虫子')">提醒 Toast</button>
+    </div>
+  </section>
+
+  <footer class="footer">
+    用 <span class="heart">♥</span> 和一点点阳光制作 · Mochi UI · 原创设计,灵感来自治愈系生活模拟游戏
+  </footer>
+</div>
+
+<!-- 对话框 -->
+<div class="dialog-backdrop" id="dlg" onclick="if(event.target===this) closeDialog()">
+  <div class="dialog sticker" role="dialog" aria-modal="true" aria-labelledby="dlg-title">
+    <span class="big-emoji">🏕️</span>
+    <h3 id="dlg-title">要在这里搭帐篷吗?</h3>
+    <p>这片草地看起来很平整,晚上还能看到星星。不过离小卖部有点远哦。</p>
+    <div class="actions">
+      <button class="btn ghost" onclick="closeDialog()">再逛逛</button>
+      <button class="btn" onclick="closeDialog(); toast('ok','⛺','帐篷搭好啦!晚安~')">就这里!</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-zone" id="toast-zone" aria-live="polite"></div>
+
+<script>
+/* Tabs */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.setAttribute('aria-selected', 'false'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.hidden = true);
+    btn.setAttribute('aria-selected', 'true');
+    document.getElementById(btn.dataset.tab).hidden = false;
+  });
+});
+
+/* Dialog */
+function openDialog(){ document.getElementById('dlg').classList.add('open'); }
+function closeDialog(){ document.getElementById('dlg').classList.remove('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDialog(); });
+
+/* Toast */
+function toast(type, emoji, msg){
+  const zone = document.getElementById('toast-zone');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  el.innerHTML = '<span class="ico">' + emoji + '</span>' + msg;
+  zone.appendChild(el);
+  setTimeout(() => { el.classList.add('bye'); setTimeout(() => el.remove(), 320); }, 2600);
+}
+</script>
+</body>
+</html>

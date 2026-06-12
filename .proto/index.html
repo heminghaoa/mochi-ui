@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mochi UI · 治愈系贴纸风组件库</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=M+PLUS+Rounded+1c:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Mochi UI — Pokopia 风格贴纸组件库
+   设计令牌
+============================================================ */
+:root {
+  /* 色板:晴天草原 */
+  --sky:        #BDE8F7;   /* 天空蓝 */
+  --sky-deep:   #6EC9EA;
+  --meadow:     #8FD178;   /* 草地绿 */
+  --meadow-deep:#5FAE52;
+  --cream:      #FFF9EC;   /* 奶油底 */
+  --butter:     #FFD66B;   /* 黄油黄 */
+  --butter-deep:#F0B73C;
+  --coral:      #FF9D9D;   /* 珊瑚粉 */
+  --coral-deep: #E87979;
+  --lilac:      #C9B8F0;   /* 丁香紫 */
+  --lilac-deep: #A88FE0;
+  --bark:       #5C4A36;   /* 树皮棕(正文) */
+  --bark-soft:  #8C7860;
+  --white:      #FFFFFF;
+
+  /* 贴纸语言 */
+  --sticker-border: 4px solid var(--white);
+  --sticker-radius: 22px;
+  --shadow-sticker: 0 5px 0 rgba(92, 74, 54, .16);
+  --shadow-float:   0 10px 24px rgba(92, 74, 54, .14);
+
+  --font-round: 'Baloo 2', 'M PLUS Rounded 1c', 'Yuanti SC', 'YouYuan', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+body {
+  font-family: var(--font-round);
+  color: var(--bark);
+  background:
+    linear-gradient(180deg, var(--sky) 0%, #DFF4FC 38%, var(--cream) 72%);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+::selection { background: var(--butter); color: var(--bark); }
+
+/* ---- 环境装饰:云朵与小山 ---- */
+.scenery { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.cloud {
+  position: absolute;
+  background: var(--white);
+  border-radius: 999px;
+  opacity: .85;
+  animation: drift 60s linear infinite;
+}
+.cloud::before, .cloud::after {
+  content: ""; position: absolute; background: inherit; border-radius: 999px;
+}
+.cloud.c1 { width: 140px; height: 46px; top: 8%; left: -160px; }
+.cloud.c1::before { width: 60px; height: 60px; top: -28px; left: 24px; }
+.cloud.c1::after  { width: 44px; height: 44px; top: -18px; left: 72px; }
+.cloud.c2 { width: 100px; height: 36px; top: 22%; left: -120px; animation-delay: -28s; animation-duration: 80s; opacity: .6; }
+.cloud.c2::before { width: 44px; height: 44px; top: -20px; left: 18px; }
+.cloud.c2::after  { width: 32px; height: 32px; top: -12px; left: 52px; }
+@keyframes drift { to { transform: translateX(calc(100vw + 300px)); } }
+
+.hills {
+  position: fixed; bottom: 0; left: 0; right: 0; height: 130px; z-index: 0;
+  pointer-events: none;
+}
+.hills svg { width: 100%; height: 100%; display: block; }
+
+/* ---- 页面布局 ---- */
+.page { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; padding: 0 24px 200px; }
+
+/* ---- Hero ---- */
+.hero { text-align: center; padding: 88px 0 56px; }
+.hero-badge {
+  display: inline-block;
+  background: var(--white);
+  border-radius: 999px;
+  padding: 8px 20px;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--bark-soft);
+  box-shadow: var(--shadow-sticker);
+  transform: rotate(-2deg);
+  margin-bottom: 24px;
+}
+.hero h1 {
+  font-size: clamp(44px, 8vw, 84px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: .01em;
+  margin-bottom: 18px;
+}
+/* 充气字:每个字母一种贴纸色,厚白描边 */
+.hero h1 .puff {
+  display: inline-block;
+  -webkit-text-stroke: 0;
+  paint-order: stroke fill;
+  text-shadow:
+    3px 3px 0 var(--white), -3px 3px 0 var(--white),
+    3px -3px 0 var(--white), -3px -3px 0 var(--white),
+    0 6px 0 rgba(92,74,54,.18);
+  animation: bob 3.2s ease-in-out infinite;
+}
+.hero h1 .puff:nth-child(odd) { animation-delay: -1.6s; }
+@keyframes bob { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-6px) } }
+
+.hero p {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--bark-soft);
+  max-width: 520px;
+  margin: 0 auto 32px;
+}
+.hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+/* ============================================================
+   贴纸基类:厚白描边 + 投影
+============================================================ */
+.sticker {
+  background: var(--white);
+  border: var(--sticker-border);
+  border-radius: var(--sticker-radius);
+  box-shadow: var(--shadow-sticker), var(--shadow-float);
+}
+
+/* ---- 组件分区 ---- */
+.section { margin-top: 72px; }
+.section-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--white);
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 20px; font-weight: 800;
+  box-shadow: var(--shadow-sticker);
+  transform: rotate(-1.5deg);
+  margin-bottom: 26px;
+}
+.section-tag .dot { width: 12px; height: 12px; border-radius: 50%; }
+.panel {
+  background: rgba(255,255,255,.55);
+  border: 3px dashed rgba(92,74,54,.18);
+  border-radius: 28px;
+  padding: 32px;
+  display: flex; flex-wrap: wrap; gap: 22px; align-items: center;
+  backdrop-filter: blur(2px);
+}
+.panel.col { flex-direction: column; align-items: stretch; }
+
+/* ============================================================
+   按钮:充气贴纸,按下会下沉
+============================================================ */
+.btn {
+  font-family: var(--font-round);
+  font-size: 17px; font-weight: 800;
+  color: var(--white);
+  padding: 13px 30px;
+  border: 4px solid var(--white);
+  border-radius: 999px;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 5px 0 var(--btn-deep, var(--meadow-deep)), 0 10px 18px rgba(92,74,54,.18);
+  background: var(--btn-bg, var(--meadow));
+  transition: transform .1s ease, box-shadow .1s ease, filter .15s ease;
+  text-shadow: 0 2px 0 rgba(92,74,54,.15);
+}
+.btn:hover { filter: brightness(1.05); transform: translateY(-1px) rotate(-.5deg); }
+.btn:active {
+  transform: translateY(5px);
+  box-shadow: 0 0 0 var(--btn-deep, var(--meadow-deep)), 0 4px 8px rgba(92,74,54,.12);
+}
+.btn:focus-visible { outline: 4px solid var(--sky-deep); outline-offset: 3px; }
+.btn.sky    { --btn-bg: var(--sky-deep);   --btn-deep: #4BA8CC; }
+.btn.butter { --btn-bg: var(--butter);     --btn-deep: var(--butter-deep); color: var(--bark); text-shadow: none; }
+.btn.coral  { --btn-bg: var(--coral);      --btn-deep: var(--coral-deep); }
+.btn.lilac  { --btn-bg: var(--lilac);      --btn-deep: var(--lilac-deep); }
+.btn.ghost  {
+  --btn-bg: var(--white); --btn-deep: #E2D8C6;
+  color: var(--bark); text-shadow: none;
+  border-color: #F0E8D8;
+}
+.btn.small { font-size: 14px; padding: 9px 20px; border-width: 3px; }
+.btn.icon-btn { display: inline-flex; align-items: center; gap: 8px; }
+
+/* ============================================================
+   标签 Badge
+============================================================ */
+.badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13.5px; font-weight: 800;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 3px solid var(--white);
+  box-shadow: 0 3px 0 rgba(92,74,54,.12);
+  color: var(--bark);
+  transform: rotate(-1deg);
+}
+.badge:nth-child(even) { transform: rotate(1.2deg); }
+.badge.green  { background: #D9F2CB; }
+.badge.blue   { background: #D2EEFA; }
+.badge.yellow { background: #FFEDB8; }
+.badge.pink   { background: #FFDCDC; }
+.badge.purple { background: #E8DFFA; }
+
+/* ============================================================
+   输入控件
+============================================================ */
+.field { display: flex; flex-direction: column; gap: 8px; min-width: 240px; flex: 1; }
+.field label { font-weight: 800; font-size: 15px; padding-left: 6px; }
+.input, .textarea, .select {
+  font-family: var(--font-round);
+  font-size: 16px; font-weight: 600;
+  color: var(--bark);
+  background: var(--white);
+  border: 4px solid #F0E6D2;
+  border-radius: 18px;
+  padding: 12px 18px;
+  box-shadow: inset 0 3px 0 rgba(92,74,54,.06);
+  transition: border-color .15s ease, transform .15s ease;
+  width: 100%;
+}
+.input::placeholder, .textarea::placeholder { color: #C4B49C; }
+.input:focus, .textarea:focus, .select:focus {
+  outline: none;
+  border-color: var(--butter);
+  transform: scale(1.01);
+}
+.textarea { resize: vertical; min-height: 90px; }
+.select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='12'%3E%3Cpath d='M2 2l7 7 7-7' stroke='%235C4A36' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  cursor: pointer;
+}
+
+/* ============================================================
+   开关:小木牌弹簧感
+============================================================ */
+.switch { position: relative; display: inline-block; width: 72px; height: 40px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.switch .track {
+  position: absolute; inset: 0;
+  background: #E8DFC9;
+  border: 4px solid var(--white);
+  border-radius: 999px;
+  box-shadow: 0 4px 0 rgba(92,74,54,.14);
+  transition: background .2s ease;
+  cursor: pointer;
+}
+.switch .track::after {
+  content: "";
+  position: absolute; top: 3px; left: 3px;
+  width: 26px; height: 26px;
+  background: var(--white);
+  border-radius: 50%;
+  box-shadow: 0 3px 4px rgba(92,74,54,.22);
+  transition: transform .25s cubic-bezier(.5, 1.8, .5, 1);
+}
+.switch input:checked + .track { background: var(--meadow); }
+.switch input:checked + .track::after { transform: translateX(32px); }
+.switch input:focus-visible + .track { outline: 4px solid var(--sky-deep); outline-offset: 3px; }
+
+/* ============================================================
+   复选框 / 单选:果实选取
+============================================================ */
+.check, .radio {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-weight: 700; font-size: 16px; cursor: pointer; user-select: none;
+}
+.check input, .radio input { position: absolute; opacity: 0; }
+.check .box {
+  width: 28px; height: 28px;
+  background: var(--white);
+  border: 4px solid #EADFC8;
+  border-radius: 10px;
+  display: grid; place-items: center;
+  box-shadow: 0 3px 0 rgba(92,74,54,.1);
+  transition: all .15s ease;
+}
+.check .box svg { opacity: 0; transform: scale(.4); transition: all .2s cubic-bezier(.5,1.8,.5,1); }
+.check input:checked + .box { background: var(--butter); border-color: var(--white); }
+.check input:checked + .box svg { opacity: 1; transform: scale(1); }
+.check input:focus-visible + .box,
+.radio input:focus-visible + .ring { outline: 4px solid var(--sky-deep); outline-offset: 2px; }
+.radio .ring {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--white);
+  border: 4px solid #EADFC8;
+  display: grid; place-items: center;
+  box-shadow: 0 3px 0 rgba(92,74,54,.1);
+  transition: border-color .15s ease;
+}
+.radio .ring::after {
+  content: ""; width: 12px; height: 12px; border-radius: 50%;
+  background: var(--coral);
+  transform: scale(0);
+  transition: transform .2s cubic-bezier(.5,1.8,.5,1);
+}
+.radio input:checked + .ring { border-color: var(--white); }
+.radio input:checked + .ring::after { transform: scale(1); }
+
+/* ============================================================
+   进度条:藤蔓生长
+============================================================ */
+.grow { width: 100%; }
+.grow .meta { display: flex; justify-content: space-between; font-weight: 800; font-size: 14px; margin-bottom: 8px; padding: 0 6px; }
+.grow .track {
+  height: 26px;
+  background: var(--white);
+  border: 4px solid #F0E6D2;
+  border-radius: 999px;
+  overflow: hidden;
+  box-shadow: inset 0 3px 0 rgba(92,74,54,.06);
+}
+.grow .fill {
+  height: 100%;
+  width: var(--p, 60%);
+  border-radius: 999px;
+  background: repeating-linear-gradient(-45deg, var(--meadow) 0 14px, #A4DC8E 14px 28px);
+  transition: width .6s cubic-bezier(.4,1.4,.4,1);
+  position: relative;
+}
+.grow .fill::after {
+  content: "";
+  position: absolute; right: -4px; top: 50%;
+  transform: translateY(-54%);
+  width: 20px; height: 20px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20 4C10.5 4 4.5 10 4.5 19.5C14 19.5 20 13.5 20 4Z' fill='%235FAE52'/%3E%3Cpath d='M7 17C9.5 12.5 13 9 17 7' stroke='rgba(255,255,255,.5)' stroke-width='2' stroke-linecap='round' fill='none'/%3E%3C/svg%3E") center/contain no-repeat;
+  filter: drop-shadow(0 2px 0 rgba(92,74,54,.2));
+}
+.grow.sunny .fill { background: repeating-linear-gradient(-45deg, var(--butter) 0 14px, #FFE38F 14px 28px); }
+.grow.sunny .fill::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='5.8' r='3.6' fill='%23F0B73C'/%3E%3Ccircle cx='17.9' cy='10.1' r='3.6' fill='%23F0B73C'/%3E%3Ccircle cx='15.7' cy='17' r='3.6' fill='%23F0B73C'/%3E%3Ccircle cx='8.3' cy='17' r='3.6' fill='%23F0B73C'/%3E%3Ccircle cx='6.1' cy='10.1' r='3.6' fill='%23F0B73C'/%3E%3Ccircle cx='12' cy='12' r='3' fill='%235C4A36'/%3E%3C/svg%3E"); }
+
+/* ============================================================
+   滑块
+============================================================ */
+.slider-wrap { display: flex; align-items: center; gap: 14px; width: 100%; font-weight: 800; }
+input[type="range"].slider {
+  -webkit-appearance: none; appearance: none;
+  flex: 1; height: 18px;
+  background: var(--white);
+  border: 4px solid #F0E6D2;
+  border-radius: 999px;
+  cursor: pointer;
+}
+input[type="range"].slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 32px; height: 32px;
+  background: var(--coral);
+  border: 4px solid var(--white);
+  border-radius: 50%;
+  box-shadow: 0 4px 0 rgba(92,74,54,.18);
+  cursor: grab;
+  transition: transform .12s ease;
+}
+input[type="range"].slider::-webkit-slider-thumb:hover { transform: scale(1.12); }
+input[type="range"].slider::-webkit-slider-thumb:active { cursor: grabbing; transform: scale(1.05) translateY(2px); box-shadow: 0 1px 0 rgba(92,74,54,.18); }
+input[type="range"].slider::-moz-range-thumb {
+  width: 26px; height: 26px;
+  background: var(--coral);
+  border: 4px solid var(--white);
+  border-radius: 50%;
+  box-shadow: 0 4px 0 rgba(92,74,54,.18);
+  cursor: grab;
+}
+input[type="range"].slider:focus-visible { outline: 4px solid var(--sky-deep); outline-offset: 3px; }
+.slider-value {
+  min-width: 64px; text-align: center;
+  background: var(--white);
+  border-radius: 14px;
+  padding: 8px 0;
+  box-shadow: var(--shadow-sticker);
+}
+
+/* ============================================================
+   卡片:图鉴小卡
+============================================================ */
+.card {
+  width: 270px;
+  padding: 0;
+  overflow: hidden;
+  transform: rotate(-1deg);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.card:nth-child(2) { transform: rotate(1.2deg); }
+.card:nth-child(3) { transform: rotate(-.6deg); }
+.card:hover { transform: rotate(0) translateY(-6px); box-shadow: var(--shadow-sticker), 0 18px 32px rgba(92,74,54,.2); }
+.card .art {
+  height: 130px;
+  display: grid; place-items: center;
+  font-size: 56px;
+}
+.card .art.grass { background: linear-gradient(160deg, #D9F2CB, #B5E59C); }
+.card .art.sky   { background: linear-gradient(160deg, #D2EEFA, #A5DEF5); }
+.card .art.dusk  { background: linear-gradient(160deg, #E8DFFA, #CDBCF2); }
+.card .body { padding: 16px 18px 20px; }
+.card h3 { font-size: 19px; font-weight: 800; margin-bottom: 4px; }
+.card p { font-size: 13.5px; font-weight: 600; color: var(--bark-soft); line-height: 1.5; margin-bottom: 14px; }
+.card .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+/* CJK 在任意字符间都可折行:胶囊组件一律单行,空间不够时整体换行 */
+.btn, .badge, .tab-btn, .section-tag { white-space: nowrap; }
+
+/* ============================================================
+   Tabs:路牌切换
+============================================================ */
+.tabs { width: 100%; }
+.tab-list { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: -4px; position: relative; z-index: 2; padding-left: 14px; }
+.tab-btn {
+  font-family: var(--font-round);
+  font-size: 15px; font-weight: 800;
+  color: var(--bark-soft);
+  background: #F4ECDA;
+  border: 4px solid var(--white);
+  border-bottom: none;
+  border-radius: 18px 18px 0 0;
+  padding: 10px 22px 14px;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.tab-btn:hover { background: #FBF4E4; }
+.tab-btn[aria-selected="true"] {
+  background: var(--white);
+  color: var(--bark);
+  transform: translateY(-4px);
+}
+.tab-btn:focus-visible { outline: 4px solid var(--sky-deep); outline-offset: -2px; }
+.tab-panel {
+  background: var(--white);
+  border: 4px solid var(--white);
+  border-radius: 22px;
+  box-shadow: var(--shadow-sticker), var(--shadow-float);
+  padding: 26px;
+  font-weight: 600;
+  line-height: 1.7;
+}
+.tab-panel[hidden] { display: none; }
+.tab-panel h4 { font-size: 18px; margin-bottom: 6px; }
+
+/* ============================================================
+   Toast
+============================================================ */
+.toast-zone {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; gap: 12px; z-index: 100;
+  align-items: center;
+}
+.toast {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--white);
+  border: 4px solid var(--white);
+  border-radius: 999px;
+  padding: 12px 24px 12px 14px;
+  font-weight: 800; font-size: 15px;
+  box-shadow: var(--shadow-sticker), var(--shadow-float);
+  animation: pop-in .35s cubic-bezier(.4,1.6,.4,1);
+}
+.toast .ico {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 18px;
+}
+.toast.ok .ico { background: #D9F2CB; }
+.toast.warn .ico { background: #FFEDB8; }
+.toast.bye { animation: pop-out .3s ease forwards; }
+@keyframes pop-in { from { transform: translateY(30px) scale(.8); opacity: 0; } }
+@keyframes pop-out { to { transform: translateY(20px) scale(.85); opacity: 0; } }
+
+/* ============================================================
+   对话框
+============================================================ */
+.dialog-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(92,74,54,.35);
+  backdrop-filter: blur(3px);
+  display: grid; place-items: center;
+  z-index: 90;
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s ease;
+}
+.dialog-backdrop.open { opacity: 1; pointer-events: auto; }
+.dialog {
+  width: min(420px, calc(100vw - 48px));
+  padding: 34px 30px 28px;
+  text-align: center;
+  transform: scale(.8) translateY(24px);
+  transition: transform .3s cubic-bezier(.4,1.5,.4,1);
+}
+.dialog-backdrop.open .dialog { transform: scale(1) translateY(0); }
+.dialog .big-emoji { font-size: 54px; margin-bottom: 10px; display: block; }
+.dialog h3 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+.dialog p { font-weight: 600; color: var(--bark-soft); margin-bottom: 24px; line-height: 1.6; }
+.dialog .actions { display: flex; gap: 12px; justify-content: center; }
+
+/* ============================================================
+   头像 & 工具提示
+============================================================ */
+.avatar {
+  width: 64px; height: 64px; border-radius: 50%;
+  border: 4px solid var(--white);
+  box-shadow: 0 4px 0 rgba(92,74,54,.15);
+  display: grid; place-items: center;
+  font-size: 30px;
+  transition: transform .15s ease;
+}
+.avatar:hover { transform: scale(1.1) rotate(-4deg); }
+.avatar.g { background: #D9F2CB; } .avatar.b { background: #D2EEFA; }
+.avatar.y { background: #FFEDB8; } .avatar.p { background: #FFDCDC; }
+
+.tip-wrap { position: relative; display: inline-block; }
+.tip-wrap .tip {
+  position: absolute; bottom: calc(100% + 12px); left: 50%;
+  transform: translateX(-50%) scale(.7);
+  background: var(--bark);
+  color: var(--cream);
+  font-size: 13px; font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 12px;
+  white-space: nowrap;
+  opacity: 0; pointer-events: none;
+  transition: all .18s cubic-bezier(.4,1.6,.4,1);
+}
+.tip-wrap .tip::after {
+  content: ""; position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%);
+  border: 7px solid transparent; border-top-color: var(--bark);
+}
+.tip-wrap:hover .tip, .tip-wrap:focus-within .tip {
+  opacity: 1; transform: translateX(-50%) scale(1);
+}
+
+/* ---- 页脚 ---- */
+.footer {
+  margin-top: 90px; text-align: center;
+  font-weight: 700; color: var(--bark-soft); font-size: 14px;
+}
+.footer .heart { color: var(--coral-deep); }
+
+@media (max-width: 640px) {
+  .panel { padding: 22px 18px; }
+  .card { width: 100%; }
+}
+/* ============================================================
+   v3 实验层:Pokopia 官方主视觉里的三个母题(原创执行)
+   ① 格子草皮 blob ② 瓦片草皮拼布地面 ③ 探头吉祥物
+============================================================ */
+.hero { position: relative; }
+.hero > :not(.hero-blob) { position: relative; z-index: 1; }
+.hero-blob {
+  position: absolute; left: 50%; top: 84px; z-index: 0;
+  width: min(600px, 92vw); height: 198px;
+  transform: translateX(-50%) rotate(-2deg);
+  pointer-events: none;
+  background: repeating-conic-gradient(#CDE56E 0% 25%, #BFDB59 0% 50%);
+  background-size: 54px 54px;
+  background-position: 10px 6px;
+  border: 6px solid var(--white);
+  border-radius: 53% 47% 56% 44% / 52% 58% 42% 48%;
+  box-shadow: 0 7px 0 rgba(92,74,54,.10), 0 16px 30px rgba(92,74,54,.13);
+}
+.hero p { padding-top: 36px; }
+
+.tile-ground {
+  position: fixed; left: 0; right: 0; bottom: 0; height: 52px; z-index: 0;
+  pointer-events: none;
+  background: repeating-conic-gradient(#8FD178 0% 25%, #7EC367 0% 50%);
+  background-size: 52px 52px;
+  border-top: 5px solid rgba(255,255,255,.9);
+}
+
+.hero-mascot { position: absolute; left: calc(50% + 225px); top: 74px; width: 84px; height: 74px; pointer-events: none; animation: peek 3.2s ease-in-out infinite; }
+.hero-mascot .mb { position: absolute; inset: 0; background: var(--cream); border-radius: 48% 48% 45% 45%/55% 55% 42% 42%; border: 4px solid var(--white); box-shadow: 0 5px 0 rgba(92,74,54,.12), 0 10px 18px rgba(92,74,54,.15), inset 0 4px 0 rgba(255,255,255,.8); }
+.hero-mascot .me { position: absolute; top: 34px; width: 8px; height: 10px; background: var(--bark); border-radius: 50%; }
+.hero-mascot .me.l { left: 26px; } .hero-mascot .me.r { right: 26px; }
+.hero-mascot .mm { position: absolute; top: 44px; left: 50%; transform: translateX(-50%); width: 9px; height: 5px; border: 2.5px solid var(--bark); border-top: none; border-radius: 0 0 9px 9px; }
+.hero-mascot .mc { position: absolute; top: 42px; width: 12px; height: 8px; background: var(--coral); opacity: .7; border-radius: 50%; }
+.hero-mascot .mc.l { left: 13px; } .hero-mascot .mc.r { right: 13px; }
+.hero-mascot .ms { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 5px; height: 13px; background: var(--meadow-deep); border-radius: 3px; }
+.hero-mascot .ml { position: absolute; top: -19px; left: 50%; width: 17px; height: 12px; background: var(--meadow); border: 2.5px solid var(--white); border-radius: 0 80% 0 80%; transform: translateX(-3px) rotate(-20deg); }
+@keyframes peek { 0%,100% { transform: rotate(6deg) translateY(0); } 50% { transform: rotate(6deg) translateY(-7px); } }
+@media (max-width: 760px) { .hero-mascot { display: none; } }
+
+/* ---- v3:原创图标(替代 emoji)---- */
+.mi { width: 1.1em; height: 1.1em; display: inline-block; vertical-align: -0.18em; flex: none; }
+.badge.green .mi  { color: var(--meadow-deep); }
+.badge.blue .mi   { color: #3E9DC4; }
+.badge.yellow .mi { color: var(--butter-deep); }
+.badge.pink .mi   { color: var(--coral-deep); }
+.badge.purple .mi { color: var(--lilac-deep); }
+.card .art .mi { width: 58px; height: 58px; filter: drop-shadow(0 4px 0 rgba(92,74,54,.14)); }
+.card .art.grass .mi { color: #E8736C; }
+.card .art.sky .mi   { color: var(--sky-deep); }
+.card .art.dusk .mi  { color: var(--lilac-deep); }
+.avatar .mi { width: 32px; height: 32px; color: var(--bark); }
+.slider-wrap > .mi { color: var(--bark-soft); width: 22px; height: 22px; }
+.dialog .big-emoji .mi { width: 54px; height: 54px; color: var(--meadow-deep); }
+.toast .ico .mi { width: 22px; height: 22px; }
+.toast.ok .ico .mi { color: var(--meadow-deep); }
+.toast.warn .ico .mi { color: var(--butter-deep); }
+
+/* ---- v3:语言切换 ---- */
+.lang-switch { position: fixed; top: 16px; right: 16px; z-index: 60; display: flex; gap: 4px;
+  background: var(--white); border-radius: 999px; padding: 5px;
+  box-shadow: var(--shadow-sticker), var(--shadow-float); }
+.lang-switch button { font-family: var(--font-round); font-size: 13.5px; font-weight: 800;
+  color: var(--bark-soft); background: transparent; border: 0; border-radius: 999px;
+  padding: 7px 13px; cursor: pointer; transition: all .15s ease; }
+.lang-switch button:hover { background: var(--cream); color: var(--bark); }
+.lang-switch button[aria-pressed="true"] { background: var(--meadow); color: var(--white); box-shadow: 0 2px 0 var(--meadow-deep); }
+.lang-switch button:focus-visible { outline: 4px solid var(--sky-deep); outline-offset: 2px; }
+</style>
+</head>
+<body>
+
+<!-- Mochi Icons:原创 SVG 图标集(替代 emoji) -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="mi-leaf" viewBox="0 0 24 24"><path d="M20 4C10.5 4 4.5 10 4.5 19.5C14 19.5 20 13.5 20 4Z" fill="currentColor"/><path d="M7 17C9.5 12.5 13 9 17 7" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" fill="none"/></symbol>
+  <symbol id="mi-drop" viewBox="0 0 24 24"><path d="M12 2.8C9 7 5.5 10.4 5.5 14.4C5.5 18.3 8.4 21.2 12 21.2C15.6 21.2 18.5 18.3 18.5 14.4C18.5 10.4 15 7 12 2.8Z" fill="currentColor"/><circle cx="9.2" cy="14.8" r="1.6" fill="rgba(255,255,255,.65)"/></symbol>
+  <symbol id="mi-zap" viewBox="0 0 24 24"><path d="M14 2.5L5.5 13.5H10.5L9.5 21.5L18.5 10.5H13.2L14 2.5Z" fill="currentColor"/></symbol>
+  <symbol id="mi-berry" viewBox="0 0 24 24"><path d="M12 7.6C10.2 5.6 8.2 5.2 8.2 5.2C9 3.9 10.4 3 12 3C13.6 3 15 3.9 15.8 5.2C15.8 5.2 13.8 5.6 12 7.6Z" fill="rgba(143,209,120,.95)"/><path d="M12 21.5C7.6 21.5 4.5 17.4 4.5 12.9C4.5 9.4 7.1 7.6 12 7.6C16.9 7.6 19.5 9.4 19.5 12.9C19.5 17.4 16.4 21.5 12 21.5Z" fill="currentColor"/><circle cx="9.2" cy="13" r="1.1" fill="rgba(255,255,255,.85)"/><circle cx="14.8" cy="13" r="1.1" fill="rgba(255,255,255,.85)"/><circle cx="12" cy="16.6" r="1.1" fill="rgba(255,255,255,.85)"/></symbol>
+  <symbol id="mi-moon" viewBox="0 0 24 24"><path d="M20.5 14.2C19.4 18.8 15.3 21.8 10.7 21.1C6.2 20.4 3 16.5 3.4 11.9C3.7 8 6.5 4.8 10.3 4C8.9 7.9 9.7 11.7 12.2 13.7C14.5 15.5 17.7 15.6 20.5 14.2Z" fill="currentColor"/></symbol>
+  <symbol id="mi-check" viewBox="0 0 24 24"><path d="M5 12.8L9.8 17.6L19 7" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="mi-wrench" viewBox="0 0 24 24"><path d="M20.8 6.2L17.4 9.6L14.4 6.6L17.8 3.2C16 2.4 13.8 2.7 12.3 4.2C10.8 5.7 10.5 7.9 11.2 9.7L3.9 17C2.9 18 2.9 19.6 3.9 20.6C4.9 21.6 6.5 21.6 7.5 20.6L14.8 13.3C16.6 14 18.8 13.7 20.3 12.2C21.8 10.7 22.1 8.4 20.8 6.2Z" fill="currentColor"/></symbol>
+  <symbol id="mi-heart" viewBox="0 0 24 24"><path d="M12 20.5C7.5 17 3.5 13.6 3.5 9.8C3.5 7 5.8 4.8 8.5 4.8C10 4.8 11.3 5.6 12 6.8C12.7 5.6 14 4.8 15.5 4.8C18.2 4.8 20.5 7 20.5 9.8C20.5 13.6 16.5 17 12 20.5Z" fill="currentColor"/></symbol>
+  <symbol id="mi-star" viewBox="0 0 24 24"><path d="M12 2.8L14.8 8.4L21 9.3L16.5 13.6L17.6 19.8L12 16.9L6.4 19.8L7.5 13.6L3 9.3L9.2 8.4Z" fill="currentColor"/></symbol>
+  <symbol id="mi-bug" viewBox="0 0 24 24"><path d="M5.8 11L3 9.5M5.5 15.5H2.8M5.8 19.5L3.5 21M18.2 11L21 9.5M18.5 15.5H21.2M18.2 19.5L20.5 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="7" r="3.4" fill="currentColor"/><ellipse cx="12" cy="15.2" rx="6" ry="6.6" fill="currentColor"/><path d="M12 9.5V21" stroke="rgba(255,255,255,.5)" stroke-width="1.8"/></symbol>
+  <symbol id="mi-package" viewBox="0 0 24 24"><path d="M4 8.3L12 4.2L20 8.3V16.2L12 20.3L4 16.2Z" fill="currentColor"/><path d="M4 8.3L12 12.3L20 8.3M12 12.3V20.3" stroke="rgba(255,255,255,.6)" stroke-width="1.8" fill="none"/></symbol>
+  <symbol id="mi-backpack" viewBox="0 0 24 24"><path d="M5.5 11C5.5 9.3 6.8 8 8.5 8H15.5C17.2 8 18.5 9.3 18.5 11V18C18.5 19.7 17.2 21 15.5 21H8.5C6.8 21 5.5 19.7 5.5 18V11Z" fill="currentColor"/><path d="M9 8C9 6 10.3 4.5 12 4.5C13.7 4.5 15 6 15 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round"/><rect x="9" y="13" width="6" height="4.6" rx="1.6" fill="rgba(255,255,255,.6)"/></symbol>
+  <symbol id="mi-book" viewBox="0 0 24 24"><path d="M5.5 4.8C5.5 3.5 6.5 2.5 7.8 2.5H18.5V17H7.8C6.9 17 6.1 17.3 5.5 17.9V4.8Z" fill="currentColor"/><path d="M5.5 19.2C5.5 20.5 6.5 21.5 7.8 21.5H18.5V17" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="mi-map" viewBox="0 0 24 24"><path d="M9 3.5L3.5 5.5V20.5L9 18.5L15 20.5L20.5 18.5V3.5L15 5.5L9 3.5Z" fill="currentColor"/><path d="M9 3.5V18.5M15 5.5V20.5" stroke="rgba(255,255,255,.55)" stroke-width="1.8" fill="none"/></symbol>
+  <symbol id="mi-mushroom" viewBox="0 0 24 24"><path d="M8.8 13.2C8.8 13.2 8.3 16.9 8.3 18.4C8.3 20.3 9.9 21.5 12 21.5C14.1 21.5 15.7 20.3 15.7 18.4C15.7 16.9 15.2 13.2 15.2 13.2H8.8Z" fill="rgba(255,249,236,.95)" stroke="rgba(92,74,54,.22)" stroke-width="1.4"/><path d="M12 2.8C6.3 2.8 2.8 6.6 2.8 11C2.8 12.2 3.8 13.2 5 13.2H19C20.2 13.2 21.2 12.2 21.2 11C21.2 6.6 17.7 2.8 12 2.8Z" fill="currentColor"/><circle cx="8" cy="8" r="1.5" fill="rgba(255,255,255,.85)"/><circle cx="14.6" cy="6.3" r="1.2" fill="rgba(255,255,255,.85)"/><circle cx="16.8" cy="9.8" r="1.3" fill="rgba(255,255,255,.85)"/></symbol>
+  <symbol id="mi-bubbles" viewBox="0 0 24 24"><circle cx="9.5" cy="14" r="6.5" fill="currentColor"/><circle cx="17" cy="7.5" r="3.6" fill="currentColor"/><circle cx="18.3" cy="16.8" r="2.5" fill="currentColor"/><circle cx="7.4" cy="11.8" r="1.7" fill="rgba(255,255,255,.7)"/><circle cx="16" cy="6.6" r="1" fill="rgba(255,255,255,.7)"/></symbol>
+  <symbol id="mi-speaker" viewBox="0 0 24 24"><path d="M4 9.8C4 9.2 4.4 8.8 5 8.8H7.6L11.6 5.4C12.3 4.8 13 5.3 13 6.2V17.8C13 18.7 12.3 19.2 11.6 18.6L7.6 15.2H5C4.4 15.2 4 14.8 4 14.2V9.8Z" fill="currentColor"/><path d="M16 9.2C17.1 10 17.7 11 17.7 12C17.7 13 17.1 14 16 14.8M18.6 6.6C20.4 8.1 21.4 10 21.4 12C21.4 14 20.4 15.9 18.6 17.4" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="mi-tent" viewBox="0 0 24 24"><path d="M12 3.6L2.9 19.4C2.6 20 3 20.6 3.6 20.6H8.6L11.3 15.9C11.6 15.4 12.4 15.4 12.7 15.9L15.4 20.6H20.4C21 20.6 21.4 20 21.1 19.4L12 3.6Z" fill="currentColor"/></symbol>
+  <symbol id="mi-face" viewBox="0 0 24 24"><ellipse cx="8.6" cy="11" rx="1.5" ry="2" fill="currentColor"/><ellipse cx="15.4" cy="11" rx="1.5" ry="2" fill="currentColor"/><path d="M10.4 15.2C11.3 16.1 12.7 16.1 13.6 15.2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="5.8" cy="13.6" rx="1.9" ry="1.2" fill="rgba(232,121,121,.55)"/><ellipse cx="18.2" cy="13.6" rx="1.9" ry="1.2" fill="rgba(232,121,121,.55)"/></symbol>
+  <symbol id="mi-flower" viewBox="0 0 24 24"><circle cx="12" cy="5.8" r="3.6" fill="currentColor"/><circle cx="17.9" cy="10.1" r="3.6" fill="currentColor"/><circle cx="15.7" cy="17" r="3.6" fill="currentColor"/><circle cx="8.3" cy="17" r="3.6" fill="currentColor"/><circle cx="6.1" cy="10.1" r="3.6" fill="currentColor"/><circle cx="12" cy="12" r="3" fill="rgba(92,74,54,.45)"/></symbol>
+</svg>
+
+<div class="scenery" aria-hidden="true">
+  <div class="cloud c1"></div>
+  <div class="cloud c2"></div>
+</div>
+<div class="hills" aria-hidden="true">
+  <svg viewBox="0 0 1440 130" preserveAspectRatio="none">
+    <path d="M0,90 C240,20 420,120 720,70 C1020,20 1200,110 1440,60 L1440,130 L0,130 Z" fill="#A4DC8E"/>
+    <path d="M0,110 C300,60 560,130 880,95 C1160,65 1320,120 1440,100 L1440,130 L0,130 Z" fill="#8FD178"/>
+  </svg>
+</div>
+<div class="tile-ground" aria-hidden="true"></div>
+
+<div class="lang-switch" role="group" aria-label="Language">
+  <button type="button" data-lang="zh" aria-pressed="true">中</button>
+  <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  <button type="button" data-lang="ja" aria-pressed="false">日</button>
+</div>
+
+<div class="page">
+
+  <!-- ===== Hero ===== -->
+  <header class="hero">
+    <div class="hero-blob" aria-hidden="true"></div>
+    <div class="hero-mascot" aria-hidden="true">
+      <div class="ml"></div><div class="ms"></div>
+      <div class="mb"></div>
+      <div class="mc l"></div><div class="mc r"></div>
+      <div class="me l"></div><div class="me r"></div>
+      <div class="mm"></div>
+    </div>
+    <span class="hero-badge"><svg class="mi" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 4C10.5 4 4.5 10 4.5 19.5C14 19.5 20 13.5 20 4Z" fill="#8FD178"/><path d="M7 17C9.5 12.5 13 9 17 7" stroke="#5FAE52" stroke-width="2" stroke-linecap="round" fill="none"/></svg> <span data-i18n="heroBadge">治愈系贴纸风组件库 v0.1</span></span>
+    <h1>
+      <span class="puff" style="color:var(--meadow)">M</span><span class="puff" style="color:var(--sky-deep)">o</span><span class="puff" style="color:var(--butter)">c</span><span class="puff" style="color:var(--coral)">h</span><span class="puff" style="color:var(--lilac)">i</span>
+      <span class="puff" style="color:var(--meadow-deep)">U</span><span class="puff" style="color:var(--coral-deep)">I</span>
+    </h1>
+    <p data-i18n-html="heroSub">圆滚滚、软乎乎、按下去会"咕"一下的 UI 组件。<br>把你的网页变成一片晴天草原。</p>
+    <div class="hero-actions">
+      <button class="btn icon-btn" onclick="toast('ok','backpack',T('toastStart'))"><svg class="mi" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 3.5C9.5 3.5 3.5 10 3.5 20.5C14 20.5 20.5 14.5 20.5 3.5Z" fill="currentColor"/><path d="M7 17C9.5 12.5 13 9 17 7" stroke="rgba(95,174,82,.55)" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg> <span data-i18n="ctaStart">开始使用</span></button>
+      <button class="btn ghost" onclick="toast('warn','package',T('toastDocs'))"><span data-i18n="ctaDocs">查看文档</span></button>
+    </div>
+  </header>
+
+  <!-- ===== 按钮 ===== -->
+  <section class="section">
+    <div class="section-tag"><span class="dot" style="background:var(--meadow)"></span><span data-i18n="secButtons">按钮 Buttons</span></div>
+    <div class="panel">
+      <button class="btn" data-i18n="btnGather">采集果实</button>
+      <button class="btn sky" data-i18n="btnDive">跳进水里</button>
+      <button class="btn butter" data-i18n="btnSun">晒晒太阳</button>
+      <button class="btn coral" data-i18n="btnFriend">交个朋友</button>
+      <button class="btn lilac" data-i18n="btnNight">夜间散步</button>
+      <button class="btn ghost" data-i18n="btnThink">再想想…</button>
+      <button class="btn small" data-i18n="btnSmall">小一号</button>
+      <button class="btn coral small icon-btn"><svg class="mi" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5C7.5 17 3.5 13.6 3.5 9.8C3.5 7 5.8 4.8 8.5 4.8C10 4.8 11.3 5.6 12 6.8C12.7 5.6 14 4.8 15.5 4.8C18.2 4.8 20.5 7 20.5 9.8C20.5 13.6 16.5 17 12 20.5Z" fill="currentColor"/></svg> <span data-i18n="btnLike">喜欢</span></button>
+    </div>
+  </section>
+
+  <!-- ===== 标签 ===== -->
+  <section class="section">
+    <div class="section-tag"><span class="dot" style="background:var(--butter)"></span><span data-i18n="secBadges">标签 Badges</span></div>
+    <div class="panel">
+      <span class="badge green"><svg class="mi" aria-hidden="true"><use href="#mi-leaf"/></svg> <span data-i18n="bGrass">草系</span></span>
+      <span class="badge blue"><svg class="mi" aria-hidden="true"><use href="#mi-drop"/></svg> <span data-i18n="bWater">水系</span></span>
+      <span class="badge yellow"><svg class="mi" aria-hidden="true"><use href="#mi-zap"/></svg> <span data-i18n="bPep">元气满满</span></span>
+      <span class="badge pink"><svg class="mi" aria-hidden="true"><use href="#mi-berry"/></svg> <span data-i18n="bLtd">限定款</span></span>
+      <span class="badge purple"><svg class="mi" aria-hidden="true"><use href="#mi-moon"/></svg> <span data-i18n="bNight">夜行性</span></span>
+      <span class="badge green"><svg class="mi" aria-hidden="true"><use href="#mi-check"/></svg> <span data-i18n="bDone">已完成</span></span>
+      <span class="badge yellow"><svg class="mi" aria-hidden="true"><use href="#mi-wrench"/></svg> <span data-i18n="bWip">施工中</span></span>
+    </div>
+  </section>
+
+  <!-- ===== 表单 ===== -->
+  <section class="section">
+    <div class="section-tag"><span class="dot" style="background:var(--sky-deep)"></span><span data-i18n="secForm">表单 Form</span></div>
+    <div class="panel">
+      <div class="field">
+        <label for="f-name" data-i18n="fNameL">给小屋起个名字</label>
+        <input id="f-name" class="input" type="text" placeholder="比如:咕咕小筑" data-i18n-ph="fNamePh">
+      </div>
+      <div class="field">
+        <label for="f-biome" data-i18n="fBiomeL">选择地形</label>
+        <select id="f-biome" class="select">
+          <option data-i18n="oMeadow">微风草原</option>
+          <option data-i18n="oBeach">贝壳海滩</option>
+          <option data-i18n="oForest">蘑菇森林</option>
+          <option data-i18n="oHill">云朵山丘</option>
+        </select>
+      </div>
+      <div class="field" style="flex-basis:100%">
+        <label for="f-memo" data-i18n="fMemoL">留言板</label>
+        <textarea id="f-memo" class="textarea" placeholder="今天也是适合发呆的一天…" data-i18n-ph="fMemoPh"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 开关与选择 ===== -->
+  <section class="section">
+    <div class="section-tag"><span class="dot" style="background:var(--coral)"></span><span data-i18n="secSwitch">开关 & 选择</span></div>
+    <div class="panel">
+      <label class="switch" aria-label="背景音乐" data-i18n-aria="swMusic">
+        <input type="checkbox" checked>
+        <span class="track"></span>
+      </label>
+      <label class="switch" aria-label="夜间模式" data-i18n-aria="swNight">
+        <input type="checkbox">
+        <span class="track"></span>
+      </label>
+
+      <label class="check">
+        <input type="checkbox" checked>
+        <span class="box">
+          <svg width="16" height="13" viewBox="0 0 16 13"><path d="M2 7l4 4 8-9" stroke="#5C4A36" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span data-i18n="ckWater">浇水</span>
+      </label>
+      <label class="check">
+        <input type="checkbox">
+        <span class="box">
+          <svg width="16" height="13" viewBox="0 0 16 13"><path d="M2 7l4 4 8-9" stroke="#5C4A36" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span data-i18n="ckWeed">除草</span>
+      </label>
+
+      <label class="radio"><input type="radio" name="meal" checked><span class="ring"></span><span data-i18n="rPie">苹果派</span></label>
+      <label class="radio"><input type="radio" name="meal"><span class="ring"></span><span data-i18n="rToast">蜂蜜吐司</span></label>
+      <label class="radio"><input type="radio" name="meal"><span class="ring"></span><span data-i18n="rSoup">蘑菇汤</span></label>
+    </div>
+  </section>
+
+  <!-- ===== 进度与滑块 ===== -->
+  <section class="section">
+    <div class="section-tag"><span class="dot" style="background:var(--lilac)"></span><span data-i18n="secProgress">进度 & 滑块</span></div>
+    <div class="panel col">
+      <div class="grow">
+        <div class="meta"><span data-i18n="pTomato">小番茄生长中</span><span id="p1-label">60%</span></div>
+        <div class="track"><div class="fill" id="p1" style="--p:60%"></div></div>
+      </div>
+      <div class="grow sunny">
+        <div class="meta"><span data-i18n="pSun">向日葵能量</span><span>85%</span></div>
+        <div class="track"><div class="fill" style="--p:85%"></div></div>
+      </div>
+      <div class="slider-wrap">
+        <svg class="mi" aria-hidden="true"><use href="#mi-speaker"/></svg>
+        <input type="range" class="slider" min="0" max="100" value="60" id="vol"
+               oninput="document.getElementById('vol-out').textContent=this.value; document.getElementById('p1').style.setProperty('--p', this.value+'%'); document.getElementById('p1-label').textContent=this.value+'%'">
+        <span class="slider-value" id="vol-out">60</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 卡片 ===== -->
+  <section class="section">
+    <div class="section-tag"><span class="dot" style="background:var(--meadow-deep)"></span><span data-i18n="secCards">卡片 Cards</span></div>
+    <div class="panel">
+      <div class="card sticker">
+        <div class="art grass"><svg class="mi" aria-hidden="true"><use href="#mi-mushroom"/></svg></div>
+        <div class="body">
+          <h3 data-i18n="c1n">圆圆菇</h3>
+          <p data-i18n="c1d">下雨天会自己撑开伞,据说摸起来像年糕一样软。</p>
+          <div class="row">
+            <span class="badge green"><svg class="mi" aria-hidden="true"><use href="#mi-leaf"/></svg> <span data-i18n="bGrass">草系</span></span>
+            <button class="btn small" onclick="toast('ok','mushroom',T('toastC1'))" data-i18n="cTake">收下</button>
+          </div>
+        </div>
+      </div>
+      <div class="card sticker">
+        <div class="art sky"><svg class="mi" aria-hidden="true"><use href="#mi-bubbles"/></svg></div>
+        <div class="body">
+          <h3 data-i18n="c2n">泡泡灵</h3>
+          <p data-i18n="c2d">由清晨的露水凝聚而成,开心时会发出汽水般的声音。</p>
+          <div class="row">
+            <span class="badge blue"><svg class="mi" aria-hidden="true"><use href="#mi-drop"/></svg> <span data-i18n="bWater">水系</span></span>
+            <button class="btn sky small" onclick="toast('ok','bubbles',T('toastC2'))" data-i18n="cTake">收下</button>
+          </div>
+        </div>
+      </div>
+      <div class="card sticker">
+        <div class="art dusk"><svg class="mi" aria-hidden="true"><use href="#mi-moon"/></svg></div>
+        <div class="body">
+          <h3 data-i18n="c3n">眠眠绒</h3>
+          <p data-i18n="c3d">只在月亮升起后出现,抱着它睡觉不会做噩梦。</p>
+          <div class="row">
+            <span class="badge purple"><svg class="mi" aria-hidden="true"><use href="#mi-moon"/></svg> <span data-i18n="cNight">夜行</span></span>
+            <button class="btn lilac small" onclick="toast('ok','moon',T('toastC3'))" data-i18n="cTake">收下</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Tabs ===== -->
+  <section class="section">
+    <div class="section-tag"><span class="dot" style="background:var(--butter-deep)"></span><span data-i18n="secTabs">选项卡 Tabs</span></div>
+    <div class="tabs">
+      <div class="tab-list" role="tablist">
+        <button class="tab-btn" role="tab" aria-selected="true" data-tab="t1"><svg class="mi" aria-hidden="true"><use href="#mi-backpack"/></svg> <span data-i18n="tBag">背包</span></button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-tab="t2"><svg class="mi" aria-hidden="true"><use href="#mi-book"/></svg> <span data-i18n="tDex">图鉴</span></button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-tab="t3"><svg class="mi" aria-hidden="true"><use href="#mi-map"/></svg> <span data-i18n="tMap">地图</span></button>
+      </div>
+      <div class="tab-panel" id="t1" role="tabpanel">
+        <h4 data-i18n="tBagH">背包(12/30)</h4>
+        <span data-i18n="tBagB">背包里有:苹果 ×3、木材 ×8、神秘的发光石头 ×1。要不要去河边看看今天有没有新东西被冲上岸?</span>
+      </div>
+      <div class="tab-panel" id="t2" role="tabpanel" hidden>
+        <h4 data-i18n="tDexH">图鉴进度</h4>
+        <span data-i18n="tDexB">已收录 24 / 96 种小生物。最近一次新发现是「圆圆菇」,出现地点:蘑菇森林的树桩旁。</span>
+      </div>
+      <div class="tab-panel" id="t3" role="tabpanel" hidden>
+        <h4 data-i18n="tMapH">云朵山丘 · 微风草原</h4>
+        <span data-i18n="tMapB">当前位置:微风草原。向北走 5 分钟有一座吊桥,过桥之后就是云朵山丘的观景台啦。</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 头像 & 提示 ===== -->
+  <section class="section">
+    <div class="section-tag"><span class="dot" style="background:var(--coral-deep)"></span><span data-i18n="secAvatar">头像 & 提示 Tooltip</span></div>
+    <div class="panel">
+      <span class="tip-wrap"><span class="avatar g" tabindex="0"><svg class="mi" aria-hidden="true"><use href="#mi-face"/></svg></span><span class="tip" data-i18n="tipFrog">蛙蛙村长 · 在线</span></span>
+      <span class="tip-wrap"><span class="avatar b" tabindex="0"><svg class="mi" aria-hidden="true"><use href="#mi-face"/></svg></span><span class="tip" data-i18n="tipPenguin">企鹅邮差 · 送信中</span></span>
+      <span class="tip-wrap"><span class="avatar y" tabindex="0"><svg class="mi" aria-hidden="true"><use href="#mi-face"/></svg></span><span class="tip" data-i18n="tipChick">小鸡店员 · 摸鱼中</span></span>
+      <span class="tip-wrap"><span class="avatar p" tabindex="0"><svg class="mi" aria-hidden="true"><use href="#mi-face"/></svg></span><span class="tip" data-i18n="tipRabbit">兔兔裁缝 · 离线</span></span>
+    </div>
+  </section>
+
+  <!-- ===== 对话框 & Toast ===== -->
+  <section class="section">
+    <div class="section-tag"><span class="dot" style="background:var(--sky)"></span><span data-i18n="secDialog">对话框 & 通知</span></div>
+    <div class="panel">
+      <button class="btn coral" onclick="openDialog()" data-i18n="btnDlg">打开对话框</button>
+      <button class="btn" onclick="toast('ok','star',T('toastOk'))" data-i18n="btnToastOk">成功 Toast</button>
+      <button class="btn butter" onclick="toast('warn','bug',T('toastWarn'))" data-i18n="btnToastWarn">提醒 Toast</button>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span data-i18n="footA">用</span> <span class="heart"><svg class="mi" aria-hidden="true"><use href="#mi-heart"/></svg></span> <span data-i18n="footB">和一点点阳光制作 · Mochi UI · 原创设计,灵感来自治愈系生活模拟游戏</span>
+  </footer>
+</div>
+
+<!-- 对话框 -->
+<div class="dialog-backdrop" id="dlg" onclick="if(event.target===this) closeDialog()">
+  <div class="dialog sticker" role="dialog" aria-modal="true" aria-labelledby="dlg-title">
+    <span class="big-emoji"><svg class="mi" aria-hidden="true"><use href="#mi-tent"/></svg></span>
+    <h3 id="dlg-title" data-i18n="dlgTitle">要在这里搭帐篷吗?</h3>
+    <p data-i18n="dlgBody">这片草地看起来很平整,晚上还能看到星星。不过离小卖部有点远哦。</p>
+    <div class="actions">
+      <button class="btn ghost" onclick="closeDialog()" data-i18n="dlgNo">再逛逛</button>
+      <button class="btn" onclick="closeDialog(); toast('ok','tent',T('toastTent'))" data-i18n="dlgYes">就这里!</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-zone" id="toast-zone" aria-live="polite"></div>
+
+<script>
+/* Tabs */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.setAttribute('aria-selected', 'false'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.hidden = true);
+    btn.setAttribute('aria-selected', 'true');
+    document.getElementById(btn.dataset.tab).hidden = false;
+  });
+});
+
+/* Dialog */
+function openDialog(){ document.getElementById('dlg').classList.add('open'); }
+function closeDialog(){ document.getElementById('dlg').classList.remove('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDialog(); });
+
+/* Toast */
+function toast(type, icon, msg){
+  const zone = document.getElementById('toast-zone');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  el.innerHTML = '<span class="ico"><svg class="mi" aria-hidden="true"><use href="#mi-' + icon + '"/></svg></span>' + msg;
+  zone.appendChild(el);
+  setTimeout(() => { el.classList.add('bye'); setTimeout(() => el.remove(), 320); }, 2600);
+}
+
+/* ============ i18n:中 / EN / 日 ============ */
+const LANGS = ['zh', 'en', 'ja'];
+const I18N = {
+  title:      ['Mochi UI · 治愈系贴纸风组件库', 'Mochi UI · A cozy sticker-style UI kit', 'Mochi UI · ほのぼのステッカー風UIキット'],
+  heroBadge:  ['治愈系贴纸风组件库 v0.1', 'A cozy sticker-style UI kit v0.1', 'ほのぼのステッカー風UIキット v0.1'],
+  heroSub:    ['圆滚滚、软乎乎、按下去会"咕"一下的 UI 组件。<br>把你的网页变成一片晴天草原。',
+               'Round, squishy components that go \u201cboop\u201d when you press them.<br>Turn your page into a sunny meadow.',
+               'まんまる、ふわふわ、押すと「ぷにっ」とへこむUIコンポーネント。<br>あなたのページを、はれの草原に。'],
+  ctaStart:   ['开始使用', 'Get started', 'はじめる'],
+  ctaDocs:    ['查看文档', 'Read the docs', 'ドキュメント'],
+  toastStart: ['开始冒险!欢迎来到草原', 'Adventure begins! Welcome to the meadow', 'ぼうけんのはじまり!草原へようこそ'],
+  toastDocs:  ['npm install mochi-ui(假装的)', 'npm install mochi-ui (pretend)', 'npm install mochi-ui(という気分)'],
+  secButtons: ['按钮 Buttons', 'Buttons', 'ボタン Buttons'],
+  btnGather:  ['采集果实', 'Gather berries', 'きのみあつめ'],
+  btnDive:    ['跳进水里', 'Jump in the pond', 'みずにとびこむ'],
+  btnSun:     ['晒晒太阳', 'Soak up the sun', 'ひなたぼっこ'],
+  btnFriend:  ['交个朋友', 'Make a friend', 'ともだちになる'],
+  btnNight:   ['夜间散步', 'Night stroll', 'よるのさんぽ'],
+  btnThink:   ['再想想…', 'Hmm, maybe\u2026', 'ちょっと考える…'],
+  btnSmall:   ['小一号', 'Size small', 'ちいさめ'],
+  btnLike:    ['喜欢', 'Like', 'すき'],
+  secBadges:  ['标签 Badges', 'Badges', 'タグ Badges'],
+  bGrass:     ['草系', 'Grass type', 'くさタイプ'],
+  bWater:     ['水系', 'Water type', 'みずタイプ'],
+  bPep:       ['元气满满', 'Full of pep', 'げんきいっぱい'],
+  bLtd:       ['限定款', 'Limited', '限定もの'],
+  bNight:     ['夜行性', 'Nocturnal', 'よるがた'],
+  bDone:      ['已完成', 'Done', 'かんりょう'],
+  bWip:       ['施工中', 'In progress', 'こうじちゅう'],
+  cNight:     ['夜行', 'Nocturnal', 'よるがた'],
+  secForm:    ['表单 Form', 'Form', 'フォーム Form'],
+  fNameL:     ['给小屋起个名字', 'Name your cottage', 'おうちの名前'],
+  fNamePh:    ['比如:咕咕小筑', 'e.g. Goo-goo Cottage', '例:ぐぐハウス'],
+  fBiomeL:    ['选择地形', 'Pick a biome', '地形をえらぶ'],
+  oMeadow:    ['微风草原', 'Breezy Meadow', 'そよかぜ草原'],
+  oBeach:     ['贝壳海滩', 'Seashell Beach', 'かいがらビーチ'],
+  oForest:    ['蘑菇森林', 'Mushroom Forest', 'きのこの森'],
+  oHill:      ['云朵山丘', 'Cloudy Hills', 'くもの丘'],
+  fMemoL:     ['留言板', 'Message board', 'でんごんばん'],
+  fMemoPh:    ['今天也是适合发呆的一天…', 'Another perfect day for daydreaming\u2026', 'きょうもぼーっとするのにいい日…'],
+  secSwitch:  ['开关 & 选择', 'Switches & choices', 'スイッチ & チェック'],
+  swMusic:    ['背景音乐', 'Background music', 'BGM'],
+  swNight:    ['夜间模式', 'Night mode', 'ナイトモード'],
+  ckWater:    ['浇水', 'Water the plants', 'みずやり'],
+  ckWeed:     ['除草', 'Pull the weeds', 'くさむしり'],
+  rPie:       ['苹果派', 'Apple pie', 'アップルパイ'],
+  rToast:     ['蜂蜜吐司', 'Honey toast', 'はちみつトースト'],
+  rSoup:      ['蘑菇汤', 'Mushroom soup', 'きのこスープ'],
+  secProgress:['进度 & 滑块', 'Progress & slider', 'プログレス & スライダー'],
+  pTomato:    ['小番茄生长中', 'Baby tomato growing', 'プチトマト成長中'],
+  pSun:       ['向日葵能量', 'Sunflower energy', 'ひまわりエナジー'],
+  secCards:   ['卡片 Cards', 'Cards', 'カード Cards'],
+  c1n:        ['圆圆菇', 'Roundshroom', 'まるまるダケ'],
+  c1d:        ['下雨天会自己撑开伞,据说摸起来像年糕一样软。', 'Opens its own little umbrella on rainy days. Said to feel as soft as mochi.', '雨の日はじぶんで傘をひらく。さわるとおもちみたいにやわらかいらしい。'],
+  toastC1:    ['圆圆菇加入了背包!', 'Roundshroom joined your bag!', 'まるまるダケをゲット!'],
+  c2n:        ['泡泡灵', 'Bubblet', 'あわプニ'],
+  c2d:        ['由清晨的露水凝聚而成,开心时会发出汽水般的声音。', 'Formed from morning dew. Makes fizzy soda sounds when happy.', 'あさつゆから生まれた。うれしいとソーダみたいな音をだす。'],
+  toastC2:    ['泡泡灵跟你回家了!', 'Bubblet followed you home!', 'あわプニがついてきた!'],
+  c3n:        ['眠眠绒', 'Snoozefluff', 'ねむねむモフ'],
+  c3d:        ['只在月亮升起后出现,抱着它睡觉不会做噩梦。', 'Appears only after moonrise. Hug it to keep bad dreams away.', '月がのぼるとあらわれる。だっこして寝るとこわい夢を見ない。'],
+  toastC3:    ['眠眠绒打了个哈欠~', 'Snoozefluff let out a yawn~', 'ねむねむモフがあくびした〜'],
+  cTake:      ['收下', 'Take it', 'もらう'],
+  secTabs:    ['选项卡 Tabs', 'Tabs', 'タブ Tabs'],
+  tBag:       ['背包', 'Backpack', 'リュック'],
+  tDex:       ['图鉴', 'Critterdex', 'ずかん'],
+  tMap:       ['地图', 'Map', 'マップ'],
+  tBagH:      ['背包(12/30)', 'Backpack (12/30)', 'リュック(12/30)'],
+  tBagB:      ['背包里有:苹果 ×3、木材 ×8、神秘的发光石头 ×1。要不要去河边看看今天有没有新东西被冲上岸?',
+               'Inside: apples ×3, wood ×8, one mysterious glowing stone. How about checking the river for newly washed-up treasures?',
+               'なかみ:りんご×3、もくざい×8、なぞの光る石×1。川辺で新しい漂着物をさがしてみる?'],
+  tDexH:      ['图鉴进度', 'Critterdex progress', 'ずかんの進み'],
+  tDexB:      ['已收录 24 / 96 种小生物。最近一次新发现是「圆圆菇」,出现地点:蘑菇森林的树桩旁。',
+               '24 / 96 critters recorded. Latest find: Roundshroom, spotted beside a stump in Mushroom Forest.',
+               '24 / 96種類とうろく済み。さいきんの発見は「まるまるダケ」。きのこの森の切りかぶのそばで見つけたよ。'],
+  tMapH:      ['云朵山丘 · 微风草原', 'Cloudy Hills · Breezy Meadow', 'くもの丘・そよかぜ草原'],
+  tMapB:      ['当前位置:微风草原。向北走 5 分钟有一座吊桥,过桥之后就是云朵山丘的观景台啦。',
+               'You are in Breezy Meadow. Five minutes north is a rope bridge \u2014 cross it to reach the Cloudy Hills lookout.',
+               '現在地:そよかぜ草原。北へ5分あるくとつり橋があって、わたるとくもの丘のてんぼう台だよ。'],
+  secAvatar:  ['头像 & 提示 Tooltip', 'Avatars & tooltip', 'アバター & ツールチップ'],
+  tipFrog:    ['蛙蛙村长 · 在线', 'Mayor Froggy · online', 'カエル村長・オンライン'],
+  tipPenguin: ['企鹅邮差 · 送信中', 'Penguin postman · delivering', 'ペンギン郵便屋さん・はいたつ中'],
+  tipChick:   ['小鸡店员 · 摸鱼中', 'Chick clerk · slacking off', 'ひよこ店員・サボりちゅう'],
+  tipRabbit:  ['兔兔裁缝 · 离线', 'Bunny tailor · offline', 'うさぎの仕立て屋・オフライン'],
+  secDialog:  ['对话框 & 通知', 'Dialog & toasts', 'ダイアログ & 通知'],
+  btnDlg:     ['打开对话框', 'Open dialog', 'ダイアログを開く'],
+  btnToastOk: ['成功 Toast', 'Success toast', '成功トースト'],
+  btnToastWarn:['提醒 Toast', 'Warning toast', '注意トースト'],
+  toastOk:    ['操作成功!获得 10 颗星星', 'Success! You earned 10 stars', 'せいこう!星を10こゲット'],
+  toastWarn:  ['背包里好像混进了一只虫子', 'Looks like a bug snuck into your bag', 'リュックに虫がまぎれこんだみたい'],
+  dlgTitle:   ['要在这里搭帐篷吗?', 'Pitch your tent here?', 'ここにテントをはる?'],
+  dlgBody:    ['这片草地看起来很平整,晚上还能看到星星。不过离小卖部有点远哦。',
+               'The grass looks nice and flat, and you can see the stars at night. It is a bit far from the shop, though.',
+               'この草地はたいらで、夜には星も見える。でも売店からはちょっと遠いかも。'],
+  dlgNo:      ['再逛逛', 'Keep exploring', 'もう少し見てまわる'],
+  dlgYes:     ['就这里!', 'Right here!', 'ここにする!'],
+  toastTent:  ['帐篷搭好啦!晚安~', "Tent's up! Good night~", 'テントかんせい!おやすみ〜'],
+  footA:      ['用', 'Made with', ''],
+  footB:      ['和一点点阳光制作 · Mochi UI · 原创设计,灵感来自治愈系生活模拟游戏',
+               'and a bit of sunshine · Mochi UI · An original design inspired by cozy life-sim games',
+               'とひだまりでつくりました · Mochi UI · オリジナルデザイン(ほのぼの生活シムへのオマージュ)'],
+};
+let cur = localStorage.getItem('mochi-lang');
+if (!LANGS.includes(cur)) {
+  const nav = (navigator.language || 'zh').toLowerCase();
+  cur = nav.startsWith('ja') ? 'ja' : nav.startsWith('en') ? 'en' : 'zh';
+}
+function T(k){ const e = I18N[k]; return e ? e[LANGS.indexOf(cur)] : k; }
+function applyLang(lang){
+  cur = lang;
+  localStorage.setItem('mochi-lang', lang);
+  document.documentElement.lang = { zh: 'zh-CN', en: 'en', ja: 'ja' }[lang];
+  document.title = T('title');
+  document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = T(el.dataset.i18n));
+  document.querySelectorAll('[data-i18n-html]').forEach(el => el.innerHTML = T(el.dataset.i18nHtml));
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => el.placeholder = T(el.dataset.i18nPh));
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => el.setAttribute('aria-label', T(el.dataset.i18nAria)));
+  document.querySelectorAll('.lang-switch button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+}
+document.querySelectorAll('.lang-switch button').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
+applyLang(cur);
+</script>
+</body>
+</html>
