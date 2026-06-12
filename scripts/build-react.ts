@@ -1,5 +1,24 @@
 // bun run build:react —— React ESM + 类型声明
 import { $ } from 'bun';
+import { readFileSync, writeFileSync, existsSync, readFileSync as rfSync } from 'fs';
+
+/* ── Step 0: generate sprite.generated.ts from src/icons.svg ── */
+{
+  const svgRaw = readFileSync('src/icons.svg', 'utf8');
+  // Escape backticks and template literal interpolation markers for embedding in a template literal
+  const escaped = svgRaw.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$\{/g, '\\${');
+  const generated =
+    `/* AUTO-GENERATED from src/icons.svg by scripts/build-react.ts — do not edit */\n` +
+    `export const SPRITE = \`${escaped}\`;\n`;
+  const outPath = 'src/react/sprite.generated.ts';
+  const existing = existsSync(outPath) ? rfSync(outPath, 'utf8') : '';
+  if (existing !== generated) {
+    writeFileSync(outPath, generated, 'utf8');
+    console.log('sprite.generated.ts updated');
+  } else {
+    console.log('sprite.generated.ts unchanged');
+  }
+}
 
 const result = await Bun.build({
   entrypoints: ['src/react/index.ts'],
