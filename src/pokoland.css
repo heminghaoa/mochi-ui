@@ -1,8 +1,8 @@
-/* Mochi UI v0.2 — 组件样式(零依赖,引入即用)
+/* Pokoland UI v0.2 — 组件样式(零依赖,引入即用)
    设计令牌与规范见 docs/design-tokens.md */
 
 /* ============================================================
-   Mochi UI — Pokopia 风格贴纸组件库
+   Pokoland UI — Pokopia 风格贴纸组件库
    设计令牌
 ============================================================ */
 :root {
@@ -423,22 +423,22 @@ input[type="range"].slider:focus-visible { outline: 4px solid var(--sky-deep); o
 }
 
 /* ---- v3:原创图标(替代 emoji)---- */
-.mi { width: 1.1em; height: 1.1em; display: inline-block; vertical-align: -0.18em; flex: none; }
-.badge.green .mi  { color: var(--meadow-deep); }
-.badge.blue .mi   { color: #3E9DC4; }
-.badge.yellow .mi { color: var(--butter-deep); }
-.badge.pink .mi   { color: var(--coral-deep); }
-.badge.purple .mi { color: var(--lilac-deep); }
-.card .art .mi { width: 58px; height: 58px; filter: drop-shadow(0 4px 0 rgba(92,74,54,.14)); }
-.card .art.grass .mi { color: #E8736C; }
-.card .art.sky .mi   { color: var(--sky-deep); }
-.card .art.dusk .mi  { color: var(--lilac-deep); }
-.avatar .mi { width: 32px; height: 32px; color: var(--bark); }
-.slider-wrap > .mi { color: var(--bark-soft); width: 22px; height: 22px; }
-.dialog .big-emoji .mi { width: 54px; height: 54px; color: var(--meadow-deep); }
-.toast .ico .mi { width: 22px; height: 22px; }
-.toast.ok .ico .mi { color: var(--meadow-deep); }
-.toast.warn .ico .mi { color: var(--butter-deep); }
+.pi { width: 1.1em; height: 1.1em; display: inline-block; vertical-align: -0.18em; flex: none; }
+.badge.green .pi  { color: var(--meadow-deep); }
+.badge.blue .pi   { color: #3E9DC4; }
+.badge.yellow .pi { color: var(--butter-deep); }
+.badge.pink .pi   { color: var(--coral-deep); }
+.badge.purple .pi { color: var(--lilac-deep); }
+.card .art .pi { width: 58px; height: 58px; filter: drop-shadow(0 4px 0 rgba(92,74,54,.14)); }
+.card .art.grass .pi { color: #E8736C; }
+.card .art.sky .pi   { color: var(--sky-deep); }
+.card .art.dusk .pi  { color: var(--lilac-deep); }
+.avatar .pi { width: 32px; height: 32px; color: var(--bark); }
+.slider-wrap > .pi { color: var(--bark-soft); width: 22px; height: 22px; }
+.dialog .big-emoji .pi { width: 54px; height: 54px; color: var(--meadow-deep); }
+.toast .ico .pi { width: 22px; height: 22px; }
+.toast.ok .ico .pi { color: var(--meadow-deep); }
+.toast.warn .ico .pi { color: var(--butter-deep); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }

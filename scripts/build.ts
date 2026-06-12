@@ -12,17 +12,17 @@ await Bun.write(demoPath, demo);
 rmSync('dist', { recursive: true, force: true });
 mkdirSync('dist');
 
-const js = await Bun.build({ entrypoints: ['src/mochi.js'], minify: true });
+const js = await Bun.build({ entrypoints: ['src/pokoland.js'], minify: true });
 if (!js.success) { console.error('JS 构建失败', js.logs); process.exit(1); }
-await Bun.write('dist/mochi.js', await js.outputs[0].text());
+await Bun.write('dist/pokoland.js', await js.outputs[0].text());
 
 try {
-  const css = await Bun.build({ entrypoints: ['src/mochi.css'], minify: true });
+  const css = await Bun.build({ entrypoints: ['src/pokoland.css'], minify: true });
   if (!css.success) throw new Error('CSS build returned success: false');
-  await Bun.write('dist/mochi.css', await css.outputs[0].text());
+  await Bun.write('dist/pokoland.css', await css.outputs[0].text());
 } catch {
-  await Bun.write('dist/mochi.css', await Bun.file('src/mochi.css').text());
-  console.warn('当前 Bun 版本不支持 CSS 构建,dist/mochi.css 为未压缩副本');
+  await Bun.write('dist/pokoland.css', await Bun.file('src/pokoland.css').text());
+  console.warn('当前 Bun 版本不支持 CSS 构建,dist/pokoland.css 为未压缩副本');
 }
 await Bun.write('dist/icons.svg', icons);
-console.log('build 完成 → dist/{mochi.css,mochi.js,icons.svg}');
+console.log('build 完成 → dist/{pokoland.css,pokoland.js,icons.svg}');

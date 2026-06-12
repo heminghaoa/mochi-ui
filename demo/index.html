@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mochi UI · 治愈系贴纸风组件库</title>
+<title>Pokoland UI · 治愈系贴纸风组件库</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=M+PLUS+Rounded+1c:wght@500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../src/mochi.css">
+<link rel="stylesheet" href="../src/pokoland.css">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -70,7 +70,7 @@ body {
   margin-bottom: 24px;
 }
 .hero h1 {
-  font-size: clamp(44px, 8vw, 84px);
+  font-size: clamp(40px, 7vw, 72px);
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: .01em;
@@ -189,26 +189,26 @@ body {
 
 <!-- ICONS:BEGIN(由 bun run build 从 src/icons.svg 同步,勿手改) -->
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
-  <symbol id="mi-leaf" viewBox="0 0 24 24"><path d="M20 4C10.5 4 4.5 10 4.5 19.5C14 19.5 20 13.5 20 4Z" fill="currentColor"/><path d="M7 17C9.5 12.5 13 9 17 7" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" fill="none"/></symbol>
-  <symbol id="mi-drop" viewBox="0 0 24 24"><path d="M12 2.8C9 7 5.5 10.4 5.5 14.4C5.5 18.3 8.4 21.2 12 21.2C15.6 21.2 18.5 18.3 18.5 14.4C18.5 10.4 15 7 12 2.8Z" fill="currentColor"/><circle cx="9.2" cy="14.8" r="1.6" fill="rgba(255,255,255,.65)"/></symbol>
-  <symbol id="mi-zap" viewBox="0 0 24 24"><path d="M14 2.5L5.5 13.5H10.5L9.5 21.5L18.5 10.5H13.2L14 2.5Z" fill="currentColor"/></symbol>
-  <symbol id="mi-berry" viewBox="0 0 24 24"><path d="M12 7.6C10.2 5.6 8.2 5.2 8.2 5.2C9 3.9 10.4 3 12 3C13.6 3 15 3.9 15.8 5.2C15.8 5.2 13.8 5.6 12 7.6Z" fill="rgba(143,209,120,.95)"/><path d="M12 21.5C7.6 21.5 4.5 17.4 4.5 12.9C4.5 9.4 7.1 7.6 12 7.6C16.9 7.6 19.5 9.4 19.5 12.9C19.5 17.4 16.4 21.5 12 21.5Z" fill="currentColor"/><circle cx="9.2" cy="13" r="1.1" fill="rgba(255,255,255,.85)"/><circle cx="14.8" cy="13" r="1.1" fill="rgba(255,255,255,.85)"/><circle cx="12" cy="16.6" r="1.1" fill="rgba(255,255,255,.85)"/></symbol>
-  <symbol id="mi-moon" viewBox="0 0 24 24"><path d="M20.5 14.2C19.4 18.8 15.3 21.8 10.7 21.1C6.2 20.4 3 16.5 3.4 11.9C3.7 8 6.5 4.8 10.3 4C8.9 7.9 9.7 11.7 12.2 13.7C14.5 15.5 17.7 15.6 20.5 14.2Z" fill="currentColor"/></symbol>
-  <symbol id="mi-check" viewBox="0 0 24 24"><path d="M5 12.8L9.8 17.6L19 7" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="mi-wrench" viewBox="0 0 24 24"><path d="M20.8 6.2L17.4 9.6L14.4 6.6L17.8 3.2C16 2.4 13.8 2.7 12.3 4.2C10.8 5.7 10.5 7.9 11.2 9.7L3.9 17C2.9 18 2.9 19.6 3.9 20.6C4.9 21.6 6.5 21.6 7.5 20.6L14.8 13.3C16.6 14 18.8 13.7 20.3 12.2C21.8 10.7 22.1 8.4 20.8 6.2Z" fill="currentColor"/></symbol>
-  <symbol id="mi-heart" viewBox="0 0 24 24"><path d="M12 20.5C7.5 17 3.5 13.6 3.5 9.8C3.5 7 5.8 4.8 8.5 4.8C10 4.8 11.3 5.6 12 6.8C12.7 5.6 14 4.8 15.5 4.8C18.2 4.8 20.5 7 20.5 9.8C20.5 13.6 16.5 17 12 20.5Z" fill="currentColor"/></symbol>
-  <symbol id="mi-star" viewBox="0 0 24 24"><path d="M12 2.8L14.8 8.4L21 9.3L16.5 13.6L17.6 19.8L12 16.9L6.4 19.8L7.5 13.6L3 9.3L9.2 8.4Z" fill="currentColor"/></symbol>
-  <symbol id="mi-bug" viewBox="0 0 24 24"><path d="M5.8 11L3 9.5M5.5 15.5H2.8M5.8 19.5L3.5 21M18.2 11L21 9.5M18.5 15.5H21.2M18.2 19.5L20.5 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="7" r="3.4" fill="currentColor"/><ellipse cx="12" cy="15.2" rx="6" ry="6.6" fill="currentColor"/><path d="M12 9.5V21" stroke="rgba(255,255,255,.5)" stroke-width="1.8"/></symbol>
-  <symbol id="mi-package" viewBox="0 0 24 24"><path d="M4 8.3L12 4.2L20 8.3V16.2L12 20.3L4 16.2Z" fill="currentColor"/><path d="M4 8.3L12 12.3L20 8.3M12 12.3V20.3" stroke="rgba(255,255,255,.6)" stroke-width="1.8" fill="none"/></symbol>
-  <symbol id="mi-backpack" viewBox="0 0 24 24"><path d="M5.5 11C5.5 9.3 6.8 8 8.5 8H15.5C17.2 8 18.5 9.3 18.5 11V18C18.5 19.7 17.2 21 15.5 21H8.5C6.8 21 5.5 19.7 5.5 18V11Z" fill="currentColor"/><path d="M9 8C9 6 10.3 4.5 12 4.5C13.7 4.5 15 6 15 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round"/><rect x="9" y="13" width="6" height="4.6" rx="1.6" fill="rgba(255,255,255,.6)"/></symbol>
-  <symbol id="mi-book" viewBox="0 0 24 24"><path d="M5.5 4.8C5.5 3.5 6.5 2.5 7.8 2.5H18.5V17H7.8C6.9 17 6.1 17.3 5.5 17.9V4.8Z" fill="currentColor"/><path d="M5.5 19.2C5.5 20.5 6.5 21.5 7.8 21.5H18.5V17" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></symbol>
-  <symbol id="mi-map" viewBox="0 0 24 24"><path d="M9 3.5L3.5 5.5V20.5L9 18.5L15 20.5L20.5 18.5V3.5L15 5.5L9 3.5Z" fill="currentColor"/><path d="M9 3.5V18.5M15 5.5V20.5" stroke="rgba(255,255,255,.55)" stroke-width="1.8" fill="none"/></symbol>
-  <symbol id="mi-mushroom" viewBox="0 0 24 24"><path d="M8.8 13.2C8.8 13.2 8.3 16.9 8.3 18.4C8.3 20.3 9.9 21.5 12 21.5C14.1 21.5 15.7 20.3 15.7 18.4C15.7 16.9 15.2 13.2 15.2 13.2H8.8Z" fill="rgba(255,249,236,.95)" stroke="rgba(92,74,54,.22)" stroke-width="1.4"/><path d="M12 2.8C6.3 2.8 2.8 6.6 2.8 11C2.8 12.2 3.8 13.2 5 13.2H19C20.2 13.2 21.2 12.2 21.2 11C21.2 6.6 17.7 2.8 12 2.8Z" fill="currentColor"/><circle cx="8" cy="8" r="1.5" fill="rgba(255,255,255,.85)"/><circle cx="14.6" cy="6.3" r="1.2" fill="rgba(255,255,255,.85)"/><circle cx="16.8" cy="9.8" r="1.3" fill="rgba(255,255,255,.85)"/></symbol>
-  <symbol id="mi-bubbles" viewBox="0 0 24 24"><circle cx="9.5" cy="14" r="6.5" fill="currentColor"/><circle cx="17" cy="7.5" r="3.6" fill="currentColor"/><circle cx="18.3" cy="16.8" r="2.5" fill="currentColor"/><circle cx="7.4" cy="11.8" r="1.7" fill="rgba(255,255,255,.7)"/><circle cx="16" cy="6.6" r="1" fill="rgba(255,255,255,.7)"/></symbol>
-  <symbol id="mi-speaker" viewBox="0 0 24 24"><path d="M4 9.8C4 9.2 4.4 8.8 5 8.8H7.6L11.6 5.4C12.3 4.8 13 5.3 13 6.2V17.8C13 18.7 12.3 19.2 11.6 18.6L7.6 15.2H5C4.4 15.2 4 14.8 4 14.2V9.8Z" fill="currentColor"/><path d="M16 9.2C17.1 10 17.7 11 17.7 12C17.7 13 17.1 14 16 14.8M18.6 6.6C20.4 8.1 21.4 10 21.4 12C21.4 14 20.4 15.9 18.6 17.4" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></symbol>
-  <symbol id="mi-tent" viewBox="0 0 24 24"><path d="M12 3.6L2.9 19.4C2.6 20 3 20.6 3.6 20.6H8.6L11.3 15.9C11.6 15.4 12.4 15.4 12.7 15.9L15.4 20.6H20.4C21 20.6 21.4 20 21.1 19.4L12 3.6Z" fill="currentColor"/></symbol>
-  <symbol id="mi-face" viewBox="0 0 24 24"><ellipse cx="8.6" cy="11" rx="1.5" ry="2" fill="currentColor"/><ellipse cx="15.4" cy="11" rx="1.5" ry="2" fill="currentColor"/><path d="M10.4 15.2C11.3 16.1 12.7 16.1 13.6 15.2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="5.8" cy="13.6" rx="1.9" ry="1.2" fill="rgba(232,121,121,.55)"/><ellipse cx="18.2" cy="13.6" rx="1.9" ry="1.2" fill="rgba(232,121,121,.55)"/></symbol>
-  <symbol id="mi-flower" viewBox="0 0 24 24"><circle cx="12" cy="5.8" r="3.6" fill="currentColor"/><circle cx="17.9" cy="10.1" r="3.6" fill="currentColor"/><circle cx="15.7" cy="17" r="3.6" fill="currentColor"/><circle cx="8.3" cy="17" r="3.6" fill="currentColor"/><circle cx="6.1" cy="10.1" r="3.6" fill="currentColor"/><circle cx="12" cy="12" r="3" fill="rgba(92,74,54,.45)"/></symbol>
+  <symbol id="pi-leaf" viewBox="0 0 24 24"><path d="M20 4C10.5 4 4.5 10 4.5 19.5C14 19.5 20 13.5 20 4Z" fill="currentColor"/><path d="M7 17C9.5 12.5 13 9 17 7" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" fill="none"/></symbol>
+  <symbol id="pi-drop" viewBox="0 0 24 24"><path d="M12 2.8C9 7 5.5 10.4 5.5 14.4C5.5 18.3 8.4 21.2 12 21.2C15.6 21.2 18.5 18.3 18.5 14.4C18.5 10.4 15 7 12 2.8Z" fill="currentColor"/><circle cx="9.2" cy="14.8" r="1.6" fill="rgba(255,255,255,.65)"/></symbol>
+  <symbol id="pi-zap" viewBox="0 0 24 24"><path d="M14 2.5L5.5 13.5H10.5L9.5 21.5L18.5 10.5H13.2L14 2.5Z" fill="currentColor"/></symbol>
+  <symbol id="pi-berry" viewBox="0 0 24 24"><path d="M12 7.6C10.2 5.6 8.2 5.2 8.2 5.2C9 3.9 10.4 3 12 3C13.6 3 15 3.9 15.8 5.2C15.8 5.2 13.8 5.6 12 7.6Z" fill="rgba(143,209,120,.95)"/><path d="M12 21.5C7.6 21.5 4.5 17.4 4.5 12.9C4.5 9.4 7.1 7.6 12 7.6C16.9 7.6 19.5 9.4 19.5 12.9C19.5 17.4 16.4 21.5 12 21.5Z" fill="currentColor"/><circle cx="9.2" cy="13" r="1.1" fill="rgba(255,255,255,.85)"/><circle cx="14.8" cy="13" r="1.1" fill="rgba(255,255,255,.85)"/><circle cx="12" cy="16.6" r="1.1" fill="rgba(255,255,255,.85)"/></symbol>
+  <symbol id="pi-moon" viewBox="0 0 24 24"><path d="M20.5 14.2C19.4 18.8 15.3 21.8 10.7 21.1C6.2 20.4 3 16.5 3.4 11.9C3.7 8 6.5 4.8 10.3 4C8.9 7.9 9.7 11.7 12.2 13.7C14.5 15.5 17.7 15.6 20.5 14.2Z" fill="currentColor"/></symbol>
+  <symbol id="pi-check" viewBox="0 0 24 24"><path d="M5 12.8L9.8 17.6L19 7" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="pi-wrench" viewBox="0 0 24 24"><path d="M20.8 6.2L17.4 9.6L14.4 6.6L17.8 3.2C16 2.4 13.8 2.7 12.3 4.2C10.8 5.7 10.5 7.9 11.2 9.7L3.9 17C2.9 18 2.9 19.6 3.9 20.6C4.9 21.6 6.5 21.6 7.5 20.6L14.8 13.3C16.6 14 18.8 13.7 20.3 12.2C21.8 10.7 22.1 8.4 20.8 6.2Z" fill="currentColor"/></symbol>
+  <symbol id="pi-heart" viewBox="0 0 24 24"><path d="M12 20.5C7.5 17 3.5 13.6 3.5 9.8C3.5 7 5.8 4.8 8.5 4.8C10 4.8 11.3 5.6 12 6.8C12.7 5.6 14 4.8 15.5 4.8C18.2 4.8 20.5 7 20.5 9.8C20.5 13.6 16.5 17 12 20.5Z" fill="currentColor"/></symbol>
+  <symbol id="pi-star" viewBox="0 0 24 24"><path d="M12 2.8L14.8 8.4L21 9.3L16.5 13.6L17.6 19.8L12 16.9L6.4 19.8L7.5 13.6L3 9.3L9.2 8.4Z" fill="currentColor"/></symbol>
+  <symbol id="pi-bug" viewBox="0 0 24 24"><path d="M5.8 11L3 9.5M5.5 15.5H2.8M5.8 19.5L3.5 21M18.2 11L21 9.5M18.5 15.5H21.2M18.2 19.5L20.5 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="7" r="3.4" fill="currentColor"/><ellipse cx="12" cy="15.2" rx="6" ry="6.6" fill="currentColor"/><path d="M12 9.5V21" stroke="rgba(255,255,255,.5)" stroke-width="1.8"/></symbol>
+  <symbol id="pi-package" viewBox="0 0 24 24"><path d="M4 8.3L12 4.2L20 8.3V16.2L12 20.3L4 16.2Z" fill="currentColor"/><path d="M4 8.3L12 12.3L20 8.3M12 12.3V20.3" stroke="rgba(255,255,255,.6)" stroke-width="1.8" fill="none"/></symbol>
+  <symbol id="pi-backpack" viewBox="0 0 24 24"><path d="M5.5 11C5.5 9.3 6.8 8 8.5 8H15.5C17.2 8 18.5 9.3 18.5 11V18C18.5 19.7 17.2 21 15.5 21H8.5C6.8 21 5.5 19.7 5.5 18V11Z" fill="currentColor"/><path d="M9 8C9 6 10.3 4.5 12 4.5C13.7 4.5 15 6 15 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round"/><rect x="9" y="13" width="6" height="4.6" rx="1.6" fill="rgba(255,255,255,.6)"/></symbol>
+  <symbol id="pi-book" viewBox="0 0 24 24"><path d="M5.5 4.8C5.5 3.5 6.5 2.5 7.8 2.5H18.5V17H7.8C6.9 17 6.1 17.3 5.5 17.9V4.8Z" fill="currentColor"/><path d="M5.5 19.2C5.5 20.5 6.5 21.5 7.8 21.5H18.5V17" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="pi-map" viewBox="0 0 24 24"><path d="M9 3.5L3.5 5.5V20.5L9 18.5L15 20.5L20.5 18.5V3.5L15 5.5L9 3.5Z" fill="currentColor"/><path d="M9 3.5V18.5M15 5.5V20.5" stroke="rgba(255,255,255,.55)" stroke-width="1.8" fill="none"/></symbol>
+  <symbol id="pi-mushroom" viewBox="0 0 24 24"><path d="M8.8 13.2C8.8 13.2 8.3 16.9 8.3 18.4C8.3 20.3 9.9 21.5 12 21.5C14.1 21.5 15.7 20.3 15.7 18.4C15.7 16.9 15.2 13.2 15.2 13.2H8.8Z" fill="rgba(255,249,236,.95)" stroke="rgba(92,74,54,.22)" stroke-width="1.4"/><path d="M12 2.8C6.3 2.8 2.8 6.6 2.8 11C2.8 12.2 3.8 13.2 5 13.2H19C20.2 13.2 21.2 12.2 21.2 11C21.2 6.6 17.7 2.8 12 2.8Z" fill="currentColor"/><circle cx="8" cy="8" r="1.5" fill="rgba(255,255,255,.85)"/><circle cx="14.6" cy="6.3" r="1.2" fill="rgba(255,255,255,.85)"/><circle cx="16.8" cy="9.8" r="1.3" fill="rgba(255,255,255,.85)"/></symbol>
+  <symbol id="pi-bubbles" viewBox="0 0 24 24"><circle cx="9.5" cy="14" r="6.5" fill="currentColor"/><circle cx="17" cy="7.5" r="3.6" fill="currentColor"/><circle cx="18.3" cy="16.8" r="2.5" fill="currentColor"/><circle cx="7.4" cy="11.8" r="1.7" fill="rgba(255,255,255,.7)"/><circle cx="16" cy="6.6" r="1" fill="rgba(255,255,255,.7)"/></symbol>
+  <symbol id="pi-speaker" viewBox="0 0 24 24"><path d="M4 9.8C4 9.2 4.4 8.8 5 8.8H7.6L11.6 5.4C12.3 4.8 13 5.3 13 6.2V17.8C13 18.7 12.3 19.2 11.6 18.6L7.6 15.2H5C4.4 15.2 4 14.8 4 14.2V9.8Z" fill="currentColor"/><path d="M16 9.2C17.1 10 17.7 11 17.7 12C17.7 13 17.1 14 16 14.8M18.6 6.6C20.4 8.1 21.4 10 21.4 12C21.4 14 20.4 15.9 18.6 17.4" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="pi-tent" viewBox="0 0 24 24"><path d="M12 3.6L2.9 19.4C2.6 20 3 20.6 3.6 20.6H8.6L11.3 15.9C11.6 15.4 12.4 15.4 12.7 15.9L15.4 20.6H20.4C21 20.6 21.4 20 21.1 19.4L12 3.6Z" fill="currentColor"/></symbol>
+  <symbol id="pi-face" viewBox="0 0 24 24"><ellipse cx="8.6" cy="11" rx="1.5" ry="2" fill="currentColor"/><ellipse cx="15.4" cy="11" rx="1.5" ry="2" fill="currentColor"/><path d="M10.4 15.2C11.3 16.1 12.7 16.1 13.6 15.2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="5.8" cy="13.6" rx="1.9" ry="1.2" fill="rgba(232,121,121,.55)"/><ellipse cx="18.2" cy="13.6" rx="1.9" ry="1.2" fill="rgba(232,121,121,.55)"/></symbol>
+  <symbol id="pi-flower" viewBox="0 0 24 24"><circle cx="12" cy="5.8" r="3.6" fill="currentColor"/><circle cx="17.9" cy="10.1" r="3.6" fill="currentColor"/><circle cx="15.7" cy="17" r="3.6" fill="currentColor"/><circle cx="8.3" cy="17" r="3.6" fill="currentColor"/><circle cx="6.1" cy="10.1" r="3.6" fill="currentColor"/><circle cx="12" cy="12" r="3" fill="rgba(92,74,54,.45)"/></symbol>
 </svg>
 <!-- ICONS:END -->
 
@@ -242,14 +242,14 @@ body {
       <div class="me l"></div><div class="me r"></div>
       <div class="mm"></div>
     </div>
-    <span class="hero-badge"><svg class="mi" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 4C10.5 4 4.5 10 4.5 19.5C14 19.5 20 13.5 20 4Z" fill="#8FD178"/><path d="M7 17C9.5 12.5 13 9 17 7" stroke="#5FAE52" stroke-width="2" stroke-linecap="round" fill="none"/></svg> <span data-i18n="heroBadge">治愈系贴纸风组件库 v0.1</span></span>
+    <span class="hero-badge"><svg class="pi" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 4C10.5 4 4.5 10 4.5 19.5C14 19.5 20 13.5 20 4Z" fill="#8FD178"/><path d="M7 17C9.5 12.5 13 9 17 7" stroke="#5FAE52" stroke-width="2" stroke-linecap="round" fill="none"/></svg> <span data-i18n="heroBadge">治愈系贴纸风组件库 v0.1</span></span>
     <h1>
-      <span class="puff" style="color:var(--meadow)">M</span><span class="puff" style="color:var(--sky-deep)">o</span><span class="puff" style="color:var(--butter)">c</span><span class="puff" style="color:var(--coral)">h</span><span class="puff" style="color:var(--lilac)">i</span>
+      <span class="puff" style="color:var(--meadow)">P</span><span class="puff" style="color:var(--sky-deep)">o</span><span class="puff" style="color:var(--butter)">k</span><span class="puff" style="color:var(--coral)">o</span><span class="puff" style="color:var(--lilac)">l</span><span class="puff" style="color:var(--meadow-deep)">a</span><span class="puff" style="color:var(--coral-deep)">n</span><span class="puff" style="color:var(--sky-deep)">d</span>
       <span class="puff" style="color:var(--meadow-deep)">U</span><span class="puff" style="color:var(--coral-deep)">I</span>
     </h1>
     <p data-i18n-html="heroSub">圆滚滚、软乎乎、按下去会"咕"一下的 UI 组件。<br>把你的网页变成一片晴天草原。</p>
     <div class="hero-actions">
-      <button class="btn icon-btn" onclick="toast('ok','backpack',T('toastStart'))"><svg class="mi" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 3.5C9.5 3.5 3.5 10 3.5 20.5C14 20.5 20.5 14.5 20.5 3.5Z" fill="currentColor"/><path d="M7 17C9.5 12.5 13 9 17 7" stroke="rgba(95,174,82,.55)" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg> <span data-i18n="ctaStart">开始使用</span></button>
+      <button class="btn icon-btn" onclick="toast('ok','backpack',T('toastStart'))"><svg class="pi" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 3.5C9.5 3.5 3.5 10 3.5 20.5C14 20.5 20.5 14.5 20.5 3.5Z" fill="currentColor"/><path d="M7 17C9.5 12.5 13 9 17 7" stroke="rgba(95,174,82,.55)" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg> <span data-i18n="ctaStart">开始使用</span></button>
       <button class="btn ghost" onclick="toast('warn','package',T('toastDocs'))"><span data-i18n="ctaDocs">查看文档</span></button>
     </div>
   </header>
@@ -265,7 +265,7 @@ body {
       <button class="btn lilac" data-i18n="btnNight">夜间散步</button>
       <button class="btn ghost" data-i18n="btnThink">再想想…</button>
       <button class="btn small" data-i18n="btnSmall">小一号</button>
-      <button class="btn coral small icon-btn"><svg class="mi" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5C7.5 17 3.5 13.6 3.5 9.8C3.5 7 5.8 4.8 8.5 4.8C10 4.8 11.3 5.6 12 6.8C12.7 5.6 14 4.8 15.5 4.8C18.2 4.8 20.5 7 20.5 9.8C20.5 13.6 16.5 17 12 20.5Z" fill="currentColor"/></svg> <span data-i18n="btnLike">喜欢</span></button>
+      <button class="btn coral small icon-btn"><svg class="pi" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5C7.5 17 3.5 13.6 3.5 9.8C3.5 7 5.8 4.8 8.5 4.8C10 4.8 11.3 5.6 12 6.8C12.7 5.6 14 4.8 15.5 4.8C18.2 4.8 20.5 7 20.5 9.8C20.5 13.6 16.5 17 12 20.5Z" fill="currentColor"/></svg> <span data-i18n="btnLike">喜欢</span></button>
     </div>
   </section>
 
@@ -273,13 +273,13 @@ body {
   <section class="section">
     <div class="section-tag"><span class="dot" style="background:var(--butter)"></span><span data-i18n="secBadges">标签 Badges</span></div>
     <div class="panel">
-      <span class="badge green"><svg class="mi" aria-hidden="true"><use href="#mi-leaf"/></svg> <span data-i18n="bGrass">草系</span></span>
-      <span class="badge blue"><svg class="mi" aria-hidden="true"><use href="#mi-drop"/></svg> <span data-i18n="bWater">水系</span></span>
-      <span class="badge yellow"><svg class="mi" aria-hidden="true"><use href="#mi-zap"/></svg> <span data-i18n="bPep">元气满满</span></span>
-      <span class="badge pink"><svg class="mi" aria-hidden="true"><use href="#mi-berry"/></svg> <span data-i18n="bLtd">限定款</span></span>
-      <span class="badge purple"><svg class="mi" aria-hidden="true"><use href="#mi-moon"/></svg> <span data-i18n="bNight">夜行性</span></span>
-      <span class="badge green"><svg class="mi" aria-hidden="true"><use href="#mi-check"/></svg> <span data-i18n="bDone">已完成</span></span>
-      <span class="badge yellow"><svg class="mi" aria-hidden="true"><use href="#mi-wrench"/></svg> <span data-i18n="bWip">施工中</span></span>
+      <span class="badge green"><svg class="pi" aria-hidden="true"><use href="#pi-leaf"/></svg> <span data-i18n="bGrass">草系</span></span>
+      <span class="badge blue"><svg class="pi" aria-hidden="true"><use href="#pi-drop"/></svg> <span data-i18n="bWater">水系</span></span>
+      <span class="badge yellow"><svg class="pi" aria-hidden="true"><use href="#pi-zap"/></svg> <span data-i18n="bPep">元气满满</span></span>
+      <span class="badge pink"><svg class="pi" aria-hidden="true"><use href="#pi-berry"/></svg> <span data-i18n="bLtd">限定款</span></span>
+      <span class="badge purple"><svg class="pi" aria-hidden="true"><use href="#pi-moon"/></svg> <span data-i18n="bNight">夜行性</span></span>
+      <span class="badge green"><svg class="pi" aria-hidden="true"><use href="#pi-check"/></svg> <span data-i18n="bDone">已完成</span></span>
+      <span class="badge yellow"><svg class="pi" aria-hidden="true"><use href="#pi-wrench"/></svg> <span data-i18n="bWip">施工中</span></span>
     </div>
   </section>
 
@@ -354,7 +354,7 @@ body {
         <div class="track"><div class="fill" style="--p:85%"></div></div>
       </div>
       <div class="slider-wrap">
-        <svg class="mi" aria-hidden="true"><use href="#mi-speaker"/></svg>
+        <svg class="pi" aria-hidden="true"><use href="#pi-speaker"/></svg>
         <input type="range" class="slider" min="0" max="100" value="60" id="vol"
                oninput="document.getElementById('vol-out').textContent=this.value; document.getElementById('p1').style.setProperty('--p', this.value+'%'); document.getElementById('p1-label').textContent=this.value+'%'">
         <span class="slider-value" id="vol-out">60</span>
@@ -367,34 +367,34 @@ body {
     <div class="section-tag"><span class="dot" style="background:var(--meadow-deep)"></span><span data-i18n="secCards">卡片 Cards</span></div>
     <div class="panel">
       <div class="card sticker">
-        <div class="art grass"><svg class="mi" aria-hidden="true"><use href="#mi-mushroom"/></svg></div>
+        <div class="art grass"><svg class="pi" aria-hidden="true"><use href="#pi-mushroom"/></svg></div>
         <div class="body">
           <h3 data-i18n="c1n">圆圆菇</h3>
           <p data-i18n="c1d">下雨天会自己撑开伞,据说摸起来像年糕一样软。</p>
           <div class="row">
-            <span class="badge green"><svg class="mi" aria-hidden="true"><use href="#mi-leaf"/></svg> <span data-i18n="bGrass">草系</span></span>
+            <span class="badge green"><svg class="pi" aria-hidden="true"><use href="#pi-leaf"/></svg> <span data-i18n="bGrass">草系</span></span>
             <button class="btn small" onclick="toast('ok','mushroom',T('toastC1'))" data-i18n="cTake">收下</button>
           </div>
         </div>
       </div>
       <div class="card sticker">
-        <div class="art sky"><svg class="mi" aria-hidden="true"><use href="#mi-bubbles"/></svg></div>
+        <div class="art sky"><svg class="pi" aria-hidden="true"><use href="#pi-bubbles"/></svg></div>
         <div class="body">
           <h3 data-i18n="c2n">泡泡灵</h3>
           <p data-i18n="c2d">由清晨的露水凝聚而成,开心时会发出汽水般的声音。</p>
           <div class="row">
-            <span class="badge blue"><svg class="mi" aria-hidden="true"><use href="#mi-drop"/></svg> <span data-i18n="bWater">水系</span></span>
+            <span class="badge blue"><svg class="pi" aria-hidden="true"><use href="#pi-drop"/></svg> <span data-i18n="bWater">水系</span></span>
             <button class="btn sky small" onclick="toast('ok','bubbles',T('toastC2'))" data-i18n="cTake">收下</button>
           </div>
         </div>
       </div>
       <div class="card sticker">
-        <div class="art dusk"><svg class="mi" aria-hidden="true"><use href="#mi-moon"/></svg></div>
+        <div class="art dusk"><svg class="pi" aria-hidden="true"><use href="#pi-moon"/></svg></div>
         <div class="body">
           <h3 data-i18n="c3n">眠眠绒</h3>
           <p data-i18n="c3d">只在月亮升起后出现,抱着它睡觉不会做噩梦。</p>
           <div class="row">
-            <span class="badge purple"><svg class="mi" aria-hidden="true"><use href="#mi-moon"/></svg> <span data-i18n="cNight">夜行</span></span>
+            <span class="badge purple"><svg class="pi" aria-hidden="true"><use href="#pi-moon"/></svg> <span data-i18n="cNight">夜行</span></span>
             <button class="btn lilac small" onclick="toast('ok','moon',T('toastC3'))" data-i18n="cTake">收下</button>
           </div>
         </div>
@@ -407,9 +407,9 @@ body {
     <div class="section-tag"><span class="dot" style="background:var(--butter-deep)"></span><span data-i18n="secTabs">选项卡 Tabs</span></div>
     <div class="tabs">
       <div class="tab-list" role="tablist">
-        <button class="tab-btn" role="tab" aria-selected="true" data-tab="t1"><svg class="mi" aria-hidden="true"><use href="#mi-backpack"/></svg> <span data-i18n="tBag">背包</span></button>
-        <button class="tab-btn" role="tab" aria-selected="false" data-tab="t2"><svg class="mi" aria-hidden="true"><use href="#mi-book"/></svg> <span data-i18n="tDex">图鉴</span></button>
-        <button class="tab-btn" role="tab" aria-selected="false" data-tab="t3"><svg class="mi" aria-hidden="true"><use href="#mi-map"/></svg> <span data-i18n="tMap">地图</span></button>
+        <button class="tab-btn" role="tab" aria-selected="true" data-tab="t1"><svg class="pi" aria-hidden="true"><use href="#pi-backpack"/></svg> <span data-i18n="tBag">背包</span></button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-tab="t2"><svg class="pi" aria-hidden="true"><use href="#pi-book"/></svg> <span data-i18n="tDex">图鉴</span></button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-tab="t3"><svg class="pi" aria-hidden="true"><use href="#pi-map"/></svg> <span data-i18n="tMap">地图</span></button>
       </div>
       <div class="tab-panel" id="t1" role="tabpanel">
         <h4 data-i18n="tBagH">背包(12/30)</h4>
@@ -430,10 +430,10 @@ body {
   <section class="section">
     <div class="section-tag"><span class="dot" style="background:var(--coral-deep)"></span><span data-i18n="secAvatar">头像 & 提示 Tooltip</span></div>
     <div class="panel">
-      <span class="tip-wrap"><span class="avatar g" tabindex="0"><svg class="mi" aria-hidden="true"><use href="#mi-face"/></svg></span><span class="tip" data-i18n="tipFrog">蛙蛙村长 · 在线</span></span>
-      <span class="tip-wrap"><span class="avatar b" tabindex="0"><svg class="mi" aria-hidden="true"><use href="#mi-face"/></svg></span><span class="tip" data-i18n="tipPenguin">企鹅邮差 · 送信中</span></span>
-      <span class="tip-wrap"><span class="avatar y" tabindex="0"><svg class="mi" aria-hidden="true"><use href="#mi-face"/></svg></span><span class="tip" data-i18n="tipChick">小鸡店员 · 摸鱼中</span></span>
-      <span class="tip-wrap"><span class="avatar p" tabindex="0"><svg class="mi" aria-hidden="true"><use href="#mi-face"/></svg></span><span class="tip" data-i18n="tipRabbit">兔兔裁缝 · 离线</span></span>
+      <span class="tip-wrap"><span class="avatar g" tabindex="0"><svg class="pi" aria-hidden="true"><use href="#pi-face"/></svg></span><span class="tip" data-i18n="tipFrog">蛙蛙村长 · 在线</span></span>
+      <span class="tip-wrap"><span class="avatar b" tabindex="0"><svg class="pi" aria-hidden="true"><use href="#pi-face"/></svg></span><span class="tip" data-i18n="tipPenguin">企鹅邮差 · 送信中</span></span>
+      <span class="tip-wrap"><span class="avatar y" tabindex="0"><svg class="pi" aria-hidden="true"><use href="#pi-face"/></svg></span><span class="tip" data-i18n="tipChick">小鸡店员 · 摸鱼中</span></span>
+      <span class="tip-wrap"><span class="avatar p" tabindex="0"><svg class="pi" aria-hidden="true"><use href="#pi-face"/></svg></span><span class="tip" data-i18n="tipRabbit">兔兔裁缝 · 离线</span></span>
     </div>
   </section>
 
@@ -448,14 +448,14 @@ body {
   </section>
 
   <footer class="footer">
-    <span data-i18n="footA">用</span> <span class="heart"><svg class="mi" aria-hidden="true"><use href="#mi-heart"/></svg></span> <span data-i18n="footB">和一点点阳光制作 · Mochi UI · 原创设计,灵感来自治愈系生活模拟游戏</span>
+    <span data-i18n="footA">用</span> <span class="heart"><svg class="pi" aria-hidden="true"><use href="#pi-heart"/></svg></span> <span data-i18n="footB">和一点点阳光制作 · Pokoland UI · 原创设计,灵感来自治愈系生活模拟游戏</span>
   </footer>
 </div>
 
 <!-- 对话框 -->
 <div class="dialog-backdrop" id="dlg" onclick="if(event.target===this) closeDialog()">
   <div class="dialog sticker" role="dialog" aria-modal="true" aria-labelledby="dlg-title">
-    <span class="big-emoji"><svg class="mi" aria-hidden="true"><use href="#mi-tent"/></svg></span>
+    <span class="big-emoji"><svg class="pi" aria-hidden="true"><use href="#pi-tent"/></svg></span>
     <h3 id="dlg-title" data-i18n="dlgTitle">要在这里搭帐篷吗?</h3>
     <p data-i18n="dlgBody">这片草地看起来很平整,晚上还能看到星星。不过离小卖部有点远哦。</p>
     <div class="actions">
@@ -469,8 +469,8 @@ body {
 
 <script>
 /* 页面文案词典 */
-window.MOCHI_I18N = {
-  title:      ['Mochi UI · 治愈系贴纸风组件库', 'Mochi UI · A cozy sticker-style UI kit', 'Mochi UI · ほのぼのステッカー風UIキット'],
+window.POKOLAND_I18N = {
+  title:      ['Pokoland UI · 治愈系贴纸风组件库', 'Pokoland UI · A cozy sticker-style UI kit', 'Pokoland UI · ほのぼのステッカー風UIキット'],
   heroBadge:  ['治愈系贴纸风组件库 v0.1', 'A cozy sticker-style UI kit v0.1', 'ほのぼのステッカー風UIキット v0.1'],
   heroSub:    ['圆滚滚、软乎乎、按下去会"咕"一下的 UI 组件。<br>把你的网页变成一片晴天草原。',
                'Round, squishy components that go \u201cboop\u201d when you press them.<br>Turn your page into a sunny meadow.',
@@ -478,7 +478,7 @@ window.MOCHI_I18N = {
   ctaStart:   ['开始使用', 'Get started', 'はじめる'],
   ctaDocs:    ['查看文档', 'Read the docs', 'ドキュメント'],
   toastStart: ['开始冒险!欢迎来到草原', 'Adventure begins! Welcome to the meadow', 'ぼうけんのはじまり!草原へようこそ'],
-  toastDocs:  ['npm install mochi-ui(假装的)', 'npm install mochi-ui (pretend)', 'npm install mochi-ui(という気分)'],
+  toastDocs:  ['npm install pokoland-ui(假装的)', 'npm install pokoland-ui (pretend)', 'npm install pokoland-ui(という気分)'],
   secButtons: ['按钮 Buttons', 'Buttons', 'ボタン Buttons'],
   btnGather:  ['采集果实', 'Gather berries', 'きのみあつめ'],
   btnDive:    ['跳进水里', 'Jump in the pond', 'みずにとびこむ'],
@@ -564,11 +564,11 @@ window.MOCHI_I18N = {
   dlgYes:     ['就这里!', 'Right here!', 'ここにする!'],
   toastTent:  ['帐篷搭好啦!晚安~', "Tent's up! Good night~", 'テントかんせい!おやすみ〜'],
   footA:      ['用', 'Made with', ''],
-  footB:      ['和一点点阳光制作 · Mochi UI · 原创设计,灵感来自治愈系生活模拟游戏',
-               'and a bit of sunshine · Mochi UI · An original design inspired by cozy life-sim games',
-               'とひだまりでつくりました · Mochi UI · オリジナルデザイン(ほのぼの生活シムへのオマージュ)'],
+  footB:      ['和一点点阳光制作 · Pokoland UI · 原创设计,灵感来自治愈系生活模拟游戏',
+               'and a bit of sunshine · Pokoland UI · An original design inspired by cozy life-sim games',
+               'とひだまりでつくりました · Pokoland UI · オリジナルデザイン(ほのぼの生活シムへのオマージュ)'],
 };
 </script>
-<script src="../src/mochi.js"></script>
+<script src="../src/pokoland.js"></script>
 </body>
 </html>

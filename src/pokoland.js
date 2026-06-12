@@ -1,6 +1,6 @@
-/* Mochi UI v0.2 — 可选交互(零依赖)
+/* Pokoland UI v0.2 — 可选交互(零依赖)
    提供:toast()/openDialog()/closeDialog()/Tabs 自动初始化/轻量 i18n
-   i18n 词典由页面在加载本脚本前定义:window.MOCHI_I18N = { key: [zh, en, ja] }
+   i18n 词典由页面在加载本脚本前定义:window.POKOLAND_I18N = { key: [zh, en, ja] }
    注意:data-i18n-html 对应的词典值以 innerHTML 渲染,务必为可信静态字符串,不可含用户输入。 */
 (function () {
   'use strict';
@@ -28,7 +28,7 @@
     el.className = 'toast ' + type;
     const ico = document.createElement('span');
     ico.className = 'ico';
-    ico.innerHTML = '<svg class="mi" aria-hidden="true"><use href="#mi-' + icon + '"/></svg>';
+    ico.innerHTML = '<svg class="pi" aria-hidden="true"><use href="#pi-' + icon + '"/></svg>';
     el.appendChild(ico);
     el.appendChild(document.createTextNode(msg));
     zone.appendChild(el);
@@ -39,12 +39,12 @@
   function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* 隐私模式静默 */ } }
 
   var LANGS = ['zh', 'en', 'ja'];
-  var DICT = window.MOCHI_I18N || {};
+  var DICT = window.POKOLAND_I18N || {};
   var cur = 'zh';
   function detect() {
     var url = new URLSearchParams(location.search).get('lang');
     if (LANGS.indexOf(url) >= 0) return url;
-    var saved = lsGet('mochi-lang');
+    var saved = lsGet('pokoland-lang');
     if (LANGS.indexOf(saved) >= 0) return saved;
     var nav = (navigator.language || 'zh').toLowerCase();
     return nav.indexOf('ja') === 0 ? 'ja' : nav.indexOf('en') === 0 ? 'en' : 'zh';
@@ -53,7 +53,7 @@
   function applyLang(lang) {
     if (LANGS.indexOf(lang) < 0) return;
     cur = lang;
-    lsSet('mochi-lang', lang);
+    lsSet('pokoland-lang', lang);
     document.documentElement.lang = { zh: 'zh-CN', en: 'en', ja: 'ja' }[lang];
     if (DICT.title) document.title = T('title');
     document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = T(el.dataset.i18n); });

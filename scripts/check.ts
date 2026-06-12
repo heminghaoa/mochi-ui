@@ -12,8 +12,8 @@ const used = new Set<string>();
 for (const m of html.matchAll(/data-i18n(?:-html|-ph|-aria)?="(\w+)"/g)) used.add(m[1]);
 for (const m of html.matchAll(/T\('(\w+)'\)/g)) used.add(m[1]);
 
-// 词典两种形态都支持:拆分前 const I18N = {...};拆分后 window.MOCHI_I18N = {...}
-const dictMatch = html.match(/(?:const I18N|window\.MOCHI_I18N)\s*=\s*\{([\s\S]*?)\n\};/);
+// 词典两种形态都支持:拆分前 const I18N = {...};拆分后 window.POKOLAND_I18N = {...}
+const dictMatch = html.match(/(?:const I18N|window\.POKOLAND_I18N)\s*=\s*\{([\s\S]*?)\n\};/);
 if (!dictMatch) { console.error('未找到 i18n 词典'); process.exit(1); }
 const dict = new Set<string>();
 for (const m of dictMatch[1].matchAll(/^\s*(\w+):\s*\[/gm)) dict.add(m[1]);
