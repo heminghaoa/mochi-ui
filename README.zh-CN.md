@@ -1,9 +1,11 @@
 # 🍡 Mochi UI
 
+**[English](README.md)** | 简体中文 | **[日本語](README.ja.md)**
+
 > 圆滚滚、软乎乎、按下去会"咕"一下的治愈系贴纸风 UI 组件库。
 > A cozy, sticker-style UI kit inspired by life-sim games. Squishy buttons included.
 
-![status](https://img.shields.io/badge/status-v0.1_孵化中-FFD66B)
+![status](https://img.shields.io/badge/status-v0.2_发芽中-FFD66B)
 ![license](https://img.shields.io/badge/license-MIT-8FD178)
 ![made with](https://img.shields.io/badge/made_with-♥_and_sunshine-FF9D9D)
 
@@ -20,6 +22,10 @@ Mochi UI 是一套**贴纸美学(Sticker Aesthetic)**的网页组件库:
 适合用在:独立游戏官网、儿童/教育产品、宠物类应用、个人博客、任何想让人"哇好可爱"的地方。
 
 ## 🚀 快速开始
+
+**线上 Demo:** https://heminghaoa.github.io/mochi-ui/demo/(右上角可切 中/EN/日)
+
+![Mochi UI](docs/assets/hero-zh.png)
 
 目前是纯 HTML + CSS + 原生 JS 的单文件 demo,零依赖:
 
@@ -55,15 +61,24 @@ open demo/index.html
 
 ```
 mochi-ui/
-├── demo/
-│   └── index.html        # 完整可交互的组件展示页(零依赖)
-├── docs/
-│   ├── design-tokens.md  # 设计令牌:色板、贴纸语言、动效规范
-│   └── components.md     # 组件 API 与用法示例
-├── CONTRIBUTING.md       # 贡献指南
-├── ROADMAP.md            # 路线图
-├── LICENSE               # MIT
-└── README.md
+├── demo/                         # 完整可交互的组件展示页
+├── src/
+│   ├── mochi.css                 # 核心样式
+│   ├── mochi.js                  # Toast / Tabs / Dialog / i18n
+│   └── icons.svg                 # Mochi Icons 图标集(20 个)
+├── scripts/
+│   ├── serve.ts                  # 开发服务器(bun run dev)
+│   ├── build.ts                  # 构建 & 同步图标(bun run build)
+│   └── check.ts                  # 零 emoji 扫描 + i18n 覆盖(bun run check)
+├── docs/                         # 设计规范与组件文档
+├── .github/workflows/pages.yml   # GitHub Pages 自动部署
+├── package.json
+├── README.md                     # 英文(默认入口)
+├── README.zh-CN.md               # 简体中文
+├── README.ja.md                  # 日本語
+├── CONTRIBUTING.md               # 贡献指南
+├── ROADMAP.md                    # 路线图
+└── LICENSE                       # MIT
 ```
 
 ## 🤝 参与贡献
