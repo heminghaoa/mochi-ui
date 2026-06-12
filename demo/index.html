@@ -76,19 +76,29 @@ body {
   letter-spacing: .01em;
   margin-bottom: 18px;
 }
-/* 充气字:每个字母一种贴纸色,厚白描边 */
+/* 充气字:双层结构——底层白描边(text-shadow),顶层斜条纹填充(::after + background-clip) */
 .hero h1 .puff {
+  position: relative;
   display: inline-block;
-  -webkit-text-stroke: 0;
-  paint-order: stroke fill;
+  color: transparent;
   text-shadow:
     3px 3px 0 var(--white), -3px 3px 0 var(--white),
     3px -3px 0 var(--white), -3px -3px 0 var(--white),
-    0 6px 0 rgba(92,74,54,.18);
+    4px 0 0 var(--white), -4px 0 0 var(--white),
+    0 4px 0 var(--white), 0 -4px 0 var(--white),
+    0 7px 0 rgba(92,74,54,.18);
   animation: bob 3.2s ease-in-out infinite;
 }
+.hero h1 .puff::after {
+  content: attr(data-ch);
+  position: absolute; left: 0; top: 0;
+  background-image: repeating-linear-gradient(115deg, var(--c1) 0 12px, var(--c2) 12px 24px);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+  text-shadow: none;
+}
 .hero h1 .puff:nth-child(odd) { animation-delay: -1.6s; }
-@keyframes bob { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-6px) } }
+@keyframes bob { 0%,100% { transform: translateY(0) rotate(var(--r, 0deg)) } 50% { transform: translateY(-6px) rotate(var(--r, 0deg)) } }
 
 .hero p {
   font-size: 18px;
@@ -140,16 +150,14 @@ body {
 .hero { position: relative; }
 .hero > :not(.hero-blob) { position: relative; z-index: 1; }
 .hero-blob {
-  position: absolute; left: 50%; top: 84px; z-index: 0;
-  width: min(600px, 92vw); height: 198px;
+  position: absolute; left: 50%; top: 68px; z-index: 0;
+  width: min(680px, 96vw); height: 240px;
   transform: translateX(-50%) rotate(-2deg);
   pointer-events: none;
-  background: repeating-conic-gradient(#CDE56E 0% 25%, #BFDB59 0% 50%);
-  background-size: 54px 54px;
-  background-position: 10px 6px;
-  border: 6px solid var(--white);
-  border-radius: 53% 47% 56% 44% / 52% 58% 42% 48%;
-  box-shadow: 0 7px 0 rgba(92,74,54,.10), 0 16px 30px rgba(92,74,54,.13);
+}
+.hero-blob svg {
+  width: 100%; height: 100%; display: block; overflow: visible;
+  filter: drop-shadow(0 7px 0 rgba(92,74,54,.10)) drop-shadow(0 14px 26px rgba(92,74,54,.13));
 }
 .hero p { padding-top: 36px; }
 
@@ -234,7 +242,22 @@ body {
 
   <!-- ===== Hero ===== -->
   <header class="hero">
-    <div class="hero-blob" aria-hidden="true"></div>
+    <div class="hero-blob" aria-hidden="true">
+      <svg viewBox="0 0 720 250" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="grass-patch" width="112" height="112" patternUnits="userSpaceOnUse">
+            <rect width="112" height="112" fill="#CDE56E"/>
+            <rect x="0" y="0" width="50" height="50" fill="#BFDB59"/>
+            <rect x="56" y="56" width="50" height="50" fill="#BFDB59"/>
+            <rect x="62" y="8" width="28" height="28" fill="#D9EF87"/>
+            <rect x="8" y="64" width="24" height="24" fill="#D9EF87"/>
+            <rect x="34" y="34" width="22" height="22" fill="#C6E162"/>
+            <rect x="90" y="38" width="22" height="18" fill="#C6E162"/>
+          </pattern>
+        </defs>
+        <path d="M62,138 C40,100 84,58 140,64 C160,26 240,16 296,40 C336,12 432,12 472,40 C530,18 622,40 642,84 C692,100 700,152 658,178 C684,214 616,242 556,228 C516,252 416,254 368,236 C316,254 226,250 192,228 C128,242 70,214 80,178 C40,166 42,150 62,138 Z" fill="url(#grass-patch)" stroke="#FFFFFF" stroke-width="9" stroke-linejoin="round"/>
+      </svg>
+    </div>
     <div class="hero-mascot" aria-hidden="true">
       <div class="ml"></div><div class="ms"></div>
       <div class="mb"></div>
@@ -244,8 +267,8 @@ body {
     </div>
     <span class="hero-badge"><svg class="pi" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 4C10.5 4 4.5 10 4.5 19.5C14 19.5 20 13.5 20 4Z" fill="#8FD178"/><path d="M7 17C9.5 12.5 13 9 17 7" stroke="#5FAE52" stroke-width="2" stroke-linecap="round" fill="none"/></svg> <span data-i18n="heroBadge">治愈系贴纸风组件库 v0.1</span></span>
     <h1>
-      <span class="puff" style="color:var(--meadow)">P</span><span class="puff" style="color:var(--sky-deep)">o</span><span class="puff" style="color:var(--butter)">k</span><span class="puff" style="color:var(--coral)">o</span><span class="puff" style="color:var(--lilac)">l</span><span class="puff" style="color:var(--meadow-deep)">a</span><span class="puff" style="color:var(--coral-deep)">n</span><span class="puff" style="color:var(--sky-deep)">d</span>
-      <span class="puff" style="color:var(--meadow-deep)">U</span><span class="puff" style="color:var(--coral-deep)">I</span>
+      <span class="puff" data-ch="P" style="--c1:#8FD178;--c2:#A9DC8E;--r:-5deg">P</span><span class="puff" data-ch="o" style="--c1:#6EC9EA;--c2:#93D8F1;--r:4deg">o</span><span class="puff" data-ch="k" style="--c1:#FFD66B;--c2:#FFE39A;--r:-3deg">k</span><span class="puff" data-ch="o" style="--c1:#FF9D9D;--c2:#FFBDBD;--r:5deg">o</span><span class="puff" data-ch="l" style="--c1:#C9B8F0;--c2:#DCD1F6;--r:-4deg">l</span><span class="puff" data-ch="a" style="--c1:#5FAE52;--c2:#7CC36F;--r:3deg">a</span><span class="puff" data-ch="n" style="--c1:#E87979;--c2:#F19C9C;--r:-5deg">n</span><span class="puff" data-ch="d" style="--c1:#6EC9EA;--c2:#93D8F1;--r:4deg">d</span>
+      <span class="puff" data-ch="U" style="--c1:#5FAE52;--c2:#7CC36F;--r:-3deg">U</span><span class="puff" data-ch="I" style="--c1:#E87979;--c2:#F19C9C;--r:5deg">I</span>
     </h1>
     <p data-i18n-html="heroSub">圆滚滚、软乎乎、按下去会"咕"一下的 UI 组件。<br>把你的网页变成一片晴天草原。</p>
     <div class="hero-actions">
