@@ -11,3 +11,8 @@ export { Textarea, type TextareaProps } from './Textarea';
 export { Switch, type SwitchProps } from './Switch';
 export { Checkbox, type CheckboxProps } from './Checkbox';
 export { Radio, type RadioProps } from './Radio';
+export { Progress, type ProgressProps } from './Progress';
+export { Slider, type SliderProps } from './Slider';
+export { Card, type CardProps, type CardArtProps } from './Card';
+export { Avatar, type AvatarProps } from './Avatar';
+export { Tooltip, type TooltipProps } from './Tooltip';
