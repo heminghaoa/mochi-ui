@@ -601,6 +601,25 @@ input[type="range"].slider:focus-visible { outline: 4px solid var(--sky-deep); o
   color: var(--bark-soft); padding-top: 8px;
 }
 
+/* ============================================================
+   点击粒子 Burst(data-burst="leaf|splash")
+============================================================ */
+.burst-zone { position: fixed; width: 0; height: 0; pointer-events: none; z-index: 90; }
+.burst-pt { position: absolute; left: 0; top: 0; animation-fill-mode: both; animation-timing-function: linear; }
+.burst-pt.leaf { animation-name: pt-leaf; }
+.burst-pt.splash { animation-name: pt-splash; }
+@keyframes pt-leaf {
+  0%   { transform: translate(-50%, 0) rotate(0deg); opacity: 1; }
+  30%  { transform: translate(calc(-50% + var(--dx) * .55), calc(var(--dy) * .35)) rotate(calc(var(--rot) * .4)); opacity: 1; }
+  60%  { transform: translate(calc(-50% + var(--dx) * .15), calc(var(--dy) * .7)) rotate(calc(var(--rot) * .7)); opacity: .9; }
+  100% { transform: translate(calc(-50% + var(--dx)), var(--dy)) rotate(var(--rot)); opacity: 0; }
+}
+@keyframes pt-splash {
+  0%   { transform: translate(-50%, 0) scale(.55); opacity: 1; }
+  45%  { transform: translate(calc(-50% + var(--dx) * .6), var(--h)) scale(1); opacity: 1; }
+  100% { transform: translate(calc(-50% + var(--dx)), var(--dy)) scale(.75); opacity: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }

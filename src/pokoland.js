@@ -75,9 +75,52 @@
     });
   }
 
+  /* 点击粒子:落叶 / 水花 */
+  function burst(target, type) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var rect = target.getBoundingClientRect();
+    var zone = document.createElement('div');
+    zone.className = 'burst-zone';
+    zone.setAttribute('aria-hidden', 'true');
+    zone.style.left = rect.left + rect.width / 2 + 'px';
+    zone.style.top = (type === 'splash' ? rect.top + 4 : rect.top + rect.height / 2) + 'px';
+    document.body.appendChild(zone);
+    var n = type === 'splash' ? 10 : 7;
+    var colors = type === 'splash'
+      ? ['#6EC9EA', '#93D8F1', '#BDE8F7']
+      : ['#8FD178', '#5FAE52', '#A9DC8E', '#C6E162'];
+    var icon = type === 'splash' ? 'drop' : 'leaf';
+    for (var i = 0; i < n; i++) {
+      var pt = document.createElement('span');
+      pt.className = 'burst-pt ' + type;
+      var size = Math.round(10 + Math.random() * 9);
+      pt.style.color = colors[i % colors.length];
+      pt.style.setProperty('--dx', ((Math.random() - .5) * (type === 'splash' ? 150 : 130)).toFixed(0) + 'px');
+      if (type === 'splash') {
+        pt.style.setProperty('--h', (-(50 + Math.random() * 70)).toFixed(0) + 'px');
+        pt.style.setProperty('--dy', (30 + Math.random() * 30).toFixed(0) + 'px');
+      } else {
+        pt.style.setProperty('--dy', (70 + Math.random() * 70).toFixed(0) + 'px');
+        pt.style.setProperty('--rot', ((Math.random() - .5) * 540).toFixed(0) + 'deg');
+      }
+      pt.style.animationDuration = (type === 'splash' ? .6 + Math.random() * .3 : .9 + Math.random() * .6).toFixed(2) + 's';
+      pt.style.animationDelay = (Math.random() * .12).toFixed(2) + 's';
+      pt.innerHTML = '<svg style="width:' + size + 'px;height:' + size + 'px;display:block" aria-hidden="true"><use href="#pi-' + icon + '"/></svg>';
+      zone.appendChild(pt);
+    }
+    setTimeout(function () { zone.remove(); }, 1800);
+  }
+
+  function initBurst() {
+    document.querySelectorAll('[data-burst]').forEach(function (el) {
+      el.addEventListener('click', function () { burst(el, el.dataset.burst); });
+    });
+  }
+
   function init() {
     initTabs();
     initToTop();
+    initBurst();
     document.querySelectorAll('.lang-switch button').forEach(b => b.addEventListener('click', function () { applyLang(b.dataset.lang); }));
     if (Object.keys(DICT).length) { cur = detect(); applyLang(cur); }
   }
@@ -85,6 +128,7 @@
   else init();
 
   window.toast = toast;
+  window.burst = burst;
   window.openDialog = openDialog;
   window.closeDialog = closeDialog;
   window.T = T;

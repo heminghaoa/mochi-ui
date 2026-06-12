@@ -209,3 +209,12 @@ toast('warn', '🐛', '背包里好像混进了一只虫子');
 ```
 
 `clip-path` 锯齿多边形撕边 + 微旋转(偶数项反向),悬停回正抬升。
+
+## Burst 点击粒子
+
+```html
+<button class="btn" data-burst="leaf">采集果实</button>
+<button class="btn sky" data-burst="splash">跳进水里</button>
+```
+
+`pokoland.js` 自动绑定 `[data-burst]`:`leaf` 飘落叶(之字摇曳下落),`splash` 溅水花(上抛回落)。粒子复用 `pi-leaf` / `pi-drop` 图标与令牌色;也可编程触发 `burst(element, 'leaf')`。`prefers-reduced-motion` 下不发射。
