@@ -1,5 +1,7 @@
 # Mochi UI 开源化设计 Spec
 
+> 2026-06-12 修订:项目更名 Pokoland UI(用户决定,全量改名,见 ../plans/2026-06-12-pokoland-rename.md)。文中 Mochi UI 为更名前的历史名称。
+
 日期:2026-06-12
 状态:待用户批准
 原型:`.proto/index.html`(本 spec 所有视觉/交互决策均已在该原型中验证通过)

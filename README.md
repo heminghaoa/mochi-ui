@@ -1,16 +1,18 @@
-# 🍡 Mochi UI
+# 🏝️ Pokoland UI
 
 English | **[简体中文](README.zh-CN.md)** | **[日本語](README.ja.md)**
 
 > A cozy, sticker-style UI kit. Round, squishy, and it goes "boop" when you press it.
 
+**Framework-agnostic** — drop the CSS into React / Next.js / anything.
+
 ![status](https://img.shields.io/badge/status-v0.2_sprouting-FFD66B)
 ![license](https://img.shields.io/badge/license-MIT-8FD178)
 ![deps](https://img.shields.io/badge/dependencies-zero-8FD178)
 
-**Live demo:** https://heminghaoa.github.io/mochi-ui/demo/ (switch 中 / EN / 日 in the top-right corner)
+**Live demo:** https://heminghaoa.github.io/pokoland-ui/demo/ (switch 中 / EN / 日 in the top-right corner)
 
-![Mochi UI](docs/assets/hero-en.png)
+![Pokoland UI](docs/assets/hero-en.png)
 
 ## ✨ What is this
 
@@ -20,7 +22,7 @@ A sticker-aesthetic web UI kit inspired by cozy life-sim games:
 - **Inflated push feel** — buttons have physical depth and actually sink when pressed
 - **Sunny meadow palette** — sky blue / meadow green / cream / butter / coral
 - **Checker-grass & tile-quilt motifs** — the page sits in a tiny handcrafted world
-- **Original icon set (Mochi Icons)** — 20 hand-drawn SVG symbols, zero emoji in UI
+- **Original icon set (Pokoland Icons)** — 20 hand-drawn SVG symbols, zero emoji in UI
 - **Trilingual demo** — Chinese / English / Japanese, switchable live
 
 ## 🚀 Quick start
@@ -28,17 +30,17 @@ A sticker-aesthetic web UI kit inspired by cozy life-sim games:
 Zero dependencies. Clone and open:
 
 ```bash
-git clone https://github.com/heminghaoa/mochi-ui.git
-open mochi-ui/demo/index.html        # or: bun run dev
+git clone https://github.com/heminghaoa/pokoland-ui.git
+open pokoland-ui/demo/index.html        # or: bun run dev
 ```
 
 Use the library in your own page:
 
 ```html
-<link rel="stylesheet" href="mochi.css">   <!-- from dist/ after `bun run build` -->
-<script src="mochi.js"></script>           <!-- optional: toast / tabs / dialog / i18n -->
+<link rel="stylesheet" href="pokoland.css">   <!-- from dist/ after `bun run build` -->
+<script src="pokoland.js"></script>           <!-- optional: toast / tabs / dialog / i18n -->
 <!-- icons: inline the contents of icons.svg once, then -->
-<svg class="mi"><use href="#mi-leaf"/></svg>
+<svg class="mi"><use href="#pi-leaf"/></svg>
 ```
 
 All design tokens live in `:root` CSS variables — change one line to retheme.
@@ -53,10 +55,10 @@ Built with [Bun](https://bun.sh) (dev server / build), but the **output is plain
 | `bun run check` | zero-emoji scan + i18n key coverage |
 | `bun run build` | sync icons into demo + minify to `dist/` |
 
-## ⚖️ Inspiration & IP
+## ⚖️ Name, inspiration & IP
 
-Mochi UI borrows the *mood* of cozy life-sim games. All designs, colors, characters, icons and copy are **original**. This project is not affiliated with, endorsed by, or associated with Nintendo, The Pokémon Company, or any commercial IP, and contains no official assets. Contributions must follow the same rule.
+The name **Pokoland** comes from the Japanese onomatopoeia *poko-poko* (ぽこぽこ) — the soft "boop" a squishy button makes. The cozy mood is inspired by cozy life-sim games, particularly *Pokémon Pokopia*. All designs, colors, characters, icons and copy are **original**. Pokoland UI is an unofficial fan-spirited project: not affiliated with, endorsed by, or associated with Nintendo or The Pokémon Company, and it contains no official assets. Contributions must follow the same rule.
 
 ## 📄 License
 
-[MIT](LICENSE) © 2026 Mochi UI Contributors
+[MIT](LICENSE) © 2026 Pokoland UI Contributors
