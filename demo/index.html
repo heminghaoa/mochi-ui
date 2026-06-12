@@ -467,34 +467,8 @@ body {
 <div class="toast-zone" id="toast-zone" aria-live="polite"></div>
 
 <script>
-/* Tabs */
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab-btn').forEach(b => b.setAttribute('aria-selected', 'false'));
-    document.querySelectorAll('.tab-panel').forEach(p => p.hidden = true);
-    btn.setAttribute('aria-selected', 'true');
-    document.getElementById(btn.dataset.tab).hidden = false;
-  });
-});
-
-/* Dialog */
-function openDialog(){ document.getElementById('dlg').classList.add('open'); }
-function closeDialog(){ document.getElementById('dlg').classList.remove('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDialog(); });
-
-/* Toast */
-function toast(type, icon, msg){
-  const zone = document.getElementById('toast-zone');
-  const el = document.createElement('div');
-  el.className = 'toast ' + type;
-  el.innerHTML = '<span class="ico"><svg class="mi" aria-hidden="true"><use href="#mi-' + icon + '"/></svg></span>' + msg;
-  zone.appendChild(el);
-  setTimeout(() => { el.classList.add('bye'); setTimeout(() => el.remove(), 320); }, 2600);
-}
-
-/* ============ i18n:中 / EN / 日 ============ */
-const LANGS = ['zh', 'en', 'ja'];
-const I18N = {
+/* 页面文案词典 */
+window.MOCHI_I18N = {
   title:      ['Mochi UI · 治愈系贴纸风组件库', 'Mochi UI · A cozy sticker-style UI kit', 'Mochi UI · ほのぼのステッカー風UIキット'],
   heroBadge:  ['治愈系贴纸风组件库 v0.1', 'A cozy sticker-style UI kit v0.1', 'ほのぼのステッカー風UIキット v0.1'],
   heroSub:    ['圆滚滚、软乎乎、按下去会"咕"一下的 UI 组件。<br>把你的网页变成一片晴天草原。',
@@ -593,25 +567,7 @@ const I18N = {
                'and a bit of sunshine · Mochi UI · An original design inspired by cozy life-sim games',
                'とひだまりでつくりました · Mochi UI · オリジナルデザイン(ほのぼの生活シムへのオマージュ)'],
 };
-let cur = localStorage.getItem('mochi-lang');
-if (!LANGS.includes(cur)) {
-  const nav = (navigator.language || 'zh').toLowerCase();
-  cur = nav.startsWith('ja') ? 'ja' : nav.startsWith('en') ? 'en' : 'zh';
-}
-function T(k){ const e = I18N[k]; return e ? e[LANGS.indexOf(cur)] : k; }
-function applyLang(lang){
-  cur = lang;
-  localStorage.setItem('mochi-lang', lang);
-  document.documentElement.lang = { zh: 'zh-CN', en: 'en', ja: 'ja' }[lang];
-  document.title = T('title');
-  document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = T(el.dataset.i18n));
-  document.querySelectorAll('[data-i18n-html]').forEach(el => el.innerHTML = T(el.dataset.i18nHtml));
-  document.querySelectorAll('[data-i18n-ph]').forEach(el => el.placeholder = T(el.dataset.i18nPh));
-  document.querySelectorAll('[data-i18n-aria]').forEach(el => el.setAttribute('aria-label', T(el.dataset.i18nAria)));
-  document.querySelectorAll('.lang-switch button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
-}
-document.querySelectorAll('.lang-switch button').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
-applyLang(cur);
 </script>
+<script src="../src/mochi.js"></script>
 </body>
 </html>
