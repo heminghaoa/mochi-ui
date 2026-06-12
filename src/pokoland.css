@@ -607,18 +607,23 @@ input[type="range"].slider:focus-visible { outline: 4px solid var(--sky-deep); o
 .burst-zone { position: fixed; width: 0; height: 0; pointer-events: none; z-index: 90; }
 .burst-pt { position: absolute; left: 0; top: 0; animation-fill-mode: both; animation-timing-function: linear; }
 .burst-pt.leaf { animation-name: pt-leaf; }
-.burst-pt.splash { animation-name: pt-splash; }
+.burst-pt.splash, .burst-pt.splash > svg { animation-fill-mode: both; }
 @keyframes pt-leaf {
   0%   { transform: translate(-50%, 0) rotate(0deg); opacity: 1; }
   30%  { transform: translate(calc(-50% + var(--dx) * .55), calc(var(--dy) * .35)) rotate(calc(var(--rot) * .4)); opacity: 1; }
   60%  { transform: translate(calc(-50% + var(--dx) * .15), calc(var(--dy) * .7)) rotate(calc(var(--rot) * .7)); opacity: .9; }
   100% { transform: translate(calc(-50% + var(--dx)), var(--dy)) rotate(var(--rot)); opacity: 0; }
 }
-@keyframes pt-splash {
-  0%   { transform: translate(-50%, 0) scale(.55); opacity: 1; }
-  38%  { transform: translate(calc(-50% + var(--dx) * .65), var(--h)) scale(1); opacity: 1; }
-  78%  { opacity: .85; }
-  100% { transform: translate(calc(-50% + var(--dx)), var(--dy)) scale(.8); opacity: 0; }
+/* 水花双轴物理:外层横向匀速漂移,内层纵向"减速上升-加速坠落" */
+@keyframes pt-splash-x {
+  0%   { transform: translate(-50%, 0); opacity: 1; }
+  75%  { opacity: 1; }
+  100% { transform: translate(calc(-50% + var(--dx)), 0); opacity: 0; }
+}
+@keyframes pt-splash-y {
+  0%   { transform: translateY(0) scale(.7); animation-timing-function: cubic-bezier(.16, .74, .42, 1); }
+  42%  { transform: translateY(var(--h)) scale(1); animation-timing-function: cubic-bezier(.52, .04, .84, .42); }
+  100% { transform: translateY(var(--dy)) scale(.85); }
 }
 
 @media (prefers-reduced-motion: reduce) {
