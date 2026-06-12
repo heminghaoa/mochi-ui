@@ -16,3 +16,6 @@ export { Slider, type SliderProps } from './Slider';
 export { Card, type CardProps, type CardArtProps } from './Card';
 export { Avatar, type AvatarProps } from './Avatar';
 export { Tooltip, type TooltipProps } from './Tooltip';
+export { Tabs, type TabsProps } from './Tabs';
+export { Dialog, type DialogProps } from './Dialog';
+export { Toaster, type ToasterProps, toast } from './Toast';
