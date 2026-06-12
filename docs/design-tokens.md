@@ -79,3 +79,26 @@ Mochi UI 的所有视觉决策都收敛在这份文档里。新组件必须从�
 - 自定义控件(switch / checkbox / radio)必须基于原生 `<input>` 实现,只隐藏视觉不隐藏语义
 - Dialog 需要 `role="dialog"` + `aria-modal` + Esc 关闭
 - Toast 容器需要 `aria-live="polite"`
+
+## 6. 世界母题 World Motifs
+
+| 母题 | 实现 |
+|------|------|
+| 格纹草皮 blob | `repeating-conic-gradient(#CDE56E 0% 25%, #BFDB59 0% 50%)`,54px 格,有机 border-radius,6px 白描边 |
+| 瓦片草皮地面 | `repeating-conic-gradient(#8FD178 0% 25%, #7EC367 0% 50%)`,52px 格,顶部 5px 白接缝 |
+| 团子精 | 奶油底色 + 腮红(--coral 70%)+ 发芽,呼吸动画 3.2s |
+
+设计原则(两次失败换来的):扁平 UI 里**饱和度即生命力**,不做哑光化;**blur 需要精细的景**,世界感用清晰的纸艺层叠表达。
+
+## 7. 图标 Mochi Icons
+
+- 24×24 网格;实心墩形 + 圆头线;颜色走 `currentColor`,内部细节用半透明白分层
+- **小尺寸单坨原则**:≤20px 必须是一整块实心形,多零件结构会碎
+- sprite 权威来源 `src/icons.svg`(20 个 symbol),demo 内联副本由 `bun run build` 同步(标记区勿手改)
+- **UI 内零 emoji**(原生 `<option>` 用纯文字)
+
+## 8. CJK 排版
+
+- 胶囊组件(.btn/.badge/.tab-btn/.section-tag)`white-space: nowrap`,空间不足整体换行,禁词中断行
+- 容器尺寸按最长语言(通常是日语)实测:卡片 270px
+- 新组件必须在中/EN/日三语下各过一遍

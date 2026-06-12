@@ -3,6 +3,12 @@
 > 当前为 HTML + CSS class 形式。React 化之后本文档会同步更新为 props API。
 > 所有示例可在 `demo/index.html` 中找到可运行版本。
 
+## 图标与 i18n 约定
+
+图标:`<svg class="mi" aria-hidden="true"><use href="#mi-leaf"/></svg>`,可用名:leaf drop zap berry moon check wrench heart star bug package backpack book map mushroom bubbles speaker tent face flower(共 20 个)。
+toast 第二参传**图标名**:`toast('ok', 'star', T('toastOk'))`。
+文案标记:`data-i18n`(文本)/`data-i18n-html`/`data-i18n-ph`(placeholder)/`data-i18n-aria`;词典 `window.MOCHI_I18N = { key: [zh, en, ja] }` 须在 `mochi.js` 之前定义;`?lang=en` URL 参数可强制语言。
+
 ## Button 按钮
 
 ```html

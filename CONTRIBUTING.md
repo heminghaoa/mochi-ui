@@ -12,6 +12,8 @@
    - 动画尊重 `prefers-reduced-motion`
 4. **零依赖原则(当前阶段)**:demo 保持纯 HTML/CSS/JS,不引入框架和构建工具。React 版本将在独立分支进行(见 ROADMAP)。
 5. **IP 红线**:不接受任何包含任天堂、宝可梦或其他商业 IP 素材的提交(角色形象、Logo、精灵球图形、官方字体复刻等)。原创吉祥物和图形欢迎之至。
+6. **UI 内零 emoji**:界面文案与图标一律用 Mochi Icons(`src/icons.svg`),emoji 仅允许出现在 Markdown 文档中。
+7. **三语齐全**:demo 新增任何文案,`window.MOCHI_I18N` 词典须同时给出中/EN/日,且在三语下检查不破版(日语是布局压力测试)。
 
 ## 工作流
 

@@ -9,18 +9,19 @@
 
 ## v0.2 · 发芽 🌱
 
-- [ ] 拆分 CSS:`mochi.css`(可独立引入的样式表)+ `mochi.js`(可选交互)
+- [x] 拆分 CSS:`mochi.css`(可独立引入的样式表)+ `mochi.js`(可选交互)
 - [ ] 新组件:Pagination、Skeleton(种子发芽加载动画)、Stepper(地图路线步骤条)、Accordion
 - [ ] 夜晚模式:天空变星空、山坡变深绿、丁香紫为主色的暗色主题
 - [ ] 音效系统(可选开关):按钮"噗"、成功"叮"、错误"咕"
-- [ ] GitHub Pages 部署 demo 站
+- [x] GitHub Pages 部署 demo 站
+- [x] 三语 demo + 三语 README(原 v0.3 项提前完成)
+- [ ] 全局 API 收编进 `window.Mochi` 命名空间(现为裸全局 toast/T/applyLang,v0.3 前处理)
 
 ## v0.3 · 开花 🌸
 
 - [ ] React 组件包 `@mochi-ui/react`(Next.js 友好,RSC 兼容)
 - [ ] 设计令牌导出为 Tailwind preset
 - [ ] Figma 组件库(社区文件)
-- [ ] 英文 / 日文文档
 
 ## v1.0 · 结果 🍎
 
