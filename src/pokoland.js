@@ -83,7 +83,7 @@
     zone.className = 'burst-zone';
     zone.setAttribute('aria-hidden', 'true');
     zone.style.left = rect.left + rect.width / 2 + 'px';
-    zone.style.top = (type === 'splash' ? rect.top + 4 : rect.top + rect.height / 2) + 'px';
+    zone.style.top = (type === 'splash' ? rect.top + rect.height * 0.35 : rect.top + rect.height / 2) + 'px';
     document.body.appendChild(zone);
     var n = type === 'splash' ? 10 : 7;
     var colors = type === 'splash'
@@ -95,20 +95,25 @@
       pt.className = 'burst-pt ' + type;
       var size = Math.round(10 + Math.random() * 9);
       pt.style.color = colors[i % colors.length];
-      pt.style.setProperty('--dx', ((Math.random() - .5) * (type === 'splash' ? 150 : 130)).toFixed(0) + 'px');
       if (type === 'splash') {
-        pt.style.setProperty('--h', (-(50 + Math.random() * 70)).toFixed(0) + 'px');
-        pt.style.setProperty('--dy', (30 + Math.random() * 30).toFixed(0) + 'px');
+        /* 从按钮左右两肩出生,各自向外侧溅落 */
+        var side = i % 2 === 0 ? -1 : 1;
+        pt.style.left = (side * (rect.width / 2 - 4)).toFixed(0) + 'px';
+        pt.style.setProperty('--dx', (side * (30 + Math.random() * 90)).toFixed(0) + 'px');
+        pt.style.setProperty('--h', (-(40 + Math.random() * 60)).toFixed(0) + 'px');
+        pt.style.setProperty('--dy', (36 + Math.random() * 34).toFixed(0) + 'px');
+        pt.style.animationDuration = (1.05 + Math.random() * .55).toFixed(2) + 's';
       } else {
+        pt.style.setProperty('--dx', ((Math.random() - .5) * 130).toFixed(0) + 'px');
         pt.style.setProperty('--dy', (70 + Math.random() * 70).toFixed(0) + 'px');
         pt.style.setProperty('--rot', ((Math.random() - .5) * 540).toFixed(0) + 'deg');
+        pt.style.animationDuration = (.9 + Math.random() * .6).toFixed(2) + 's';
       }
-      pt.style.animationDuration = (type === 'splash' ? .6 + Math.random() * .3 : .9 + Math.random() * .6).toFixed(2) + 's';
       pt.style.animationDelay = (Math.random() * .12).toFixed(2) + 's';
       pt.innerHTML = '<svg style="width:' + size + 'px;height:' + size + 'px;display:block" aria-hidden="true"><use href="#pi-' + icon + '"/></svg>';
       zone.appendChild(pt);
     }
-    setTimeout(function () { zone.remove(); }, 1800);
+    setTimeout(function () { zone.remove(); }, 2000);
   }
 
   function initBurst() {
