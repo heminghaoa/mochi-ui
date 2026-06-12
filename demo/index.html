@@ -56,7 +56,7 @@ body {
 .page { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; padding: 0 24px 200px; }
 
 /* ---- Hero ---- */
-.hero { text-align: center; padding: 88px 0 14px; }
+.hero { text-align: center; padding: 64px 0 14px; }
 .hero-badge {
   display: inline-block;
   background: var(--white);
@@ -70,10 +70,11 @@ body {
   margin-bottom: 24px;
 }
 .hero h1 {
-  font-size: clamp(40px, 7vw, 72px);
+  font-size: clamp(44px, 9vw, 90px);
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: .01em;
+  padding-top: 16px;
   margin-bottom: 18px;
 }
 /* 充气字:双层结构——底层白描边(text-shadow),顶层斜条纹填充(::after + background-clip) */
@@ -100,14 +101,7 @@ body {
 .hero h1 .puff:nth-child(odd) { animation-delay: -1.6s; }
 @keyframes bob { 0%,100% { transform: translateY(0) rotate(var(--r, 0deg)) } 50% { transform: translateY(-6px) rotate(var(--r, 0deg)) } }
 
-.hero p {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--bark-soft);
-  max-width: 520px;
-  margin: 0 auto 32px;
-}
-.hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 92px; }
 
 /* ---- 组件分区 ---- */
 .section { margin-top: 72px; }
@@ -160,7 +154,6 @@ body {
   width: 100%; height: 100%; display: block; overflow: visible;
   filter: drop-shadow(0 7px 0 rgba(92,74,54,.10)) drop-shadow(0 14px 26px rgba(92,74,54,.13));
 }
-.hero p { padding-top: 36px; }
 
 .tile-ground {
   position: fixed; left: 0; right: 0; bottom: 0; height: 52px; z-index: 0;
@@ -170,7 +163,7 @@ body {
   border-top: 5px solid rgba(255,255,255,.9);
 }
 
-.hero-mascot { position: absolute; left: calc(50% + 225px); top: 74px; width: 84px; height: 74px; pointer-events: none; animation: peek 3.2s ease-in-out infinite; }
+.hero-mascot { position: absolute; left: calc(50% + 258px); top: 56px; width: 84px; height: 74px; pointer-events: none; animation: peek 3.2s ease-in-out infinite; }
 .hero-mascot .mb { position: absolute; inset: 0; background: var(--cream); border-radius: 48% 48% 45% 45%/55% 55% 42% 42%; border: 4px solid var(--white); box-shadow: 0 5px 0 rgba(92,74,54,.12), 0 10px 18px rgba(92,74,54,.15), inset 0 4px 0 rgba(255,255,255,.8); }
 .hero-mascot .me { position: absolute; top: 34px; width: 8px; height: 10px; background: var(--bark); border-radius: 50%; }
 .hero-mascot .me.l { left: 26px; } .hero-mascot .me.r { right: 26px; }
@@ -183,7 +176,18 @@ body {
 @media (max-width: 760px) { .hero-mascot { display: none; } }
 
 /* ---- v3:语言切换 ---- */
-.lang-switch { position: fixed; top: 16px; right: 16px; z-index: 60; display: flex; gap: 4px;
+.gh-link {
+  position: fixed; top: 16px; right: 16px; z-index: 60;
+  width: 46px; height: 46px; border-radius: 50%;
+  background: var(--white); color: var(--bark);
+  display: grid; place-items: center;
+  box-shadow: var(--shadow-sticker), var(--shadow-float);
+  transition: transform .15s ease;
+}
+.gh-link:hover { transform: translateY(-2px) rotate(-4deg); }
+.gh-link:focus-visible { outline: 4px solid var(--sky-deep); outline-offset: 2px; }
+.gh-link svg { width: 24px; height: 24px; display: block; }
+.lang-switch { position: fixed; top: 16px; right: 74px; z-index: 60; display: flex; gap: 4px;
   background: var(--white); border-radius: 999px; padding: 5px;
   box-shadow: var(--shadow-sticker), var(--shadow-float); }
 .lang-switch button { font-family: var(--font-round); font-size: 13.5px; font-weight: 800;
@@ -244,6 +248,10 @@ body {
   <button type="button" data-lang="ja" aria-pressed="false">日</button>
 </div>
 
+<a class="gh-link" href="https://github.com/heminghaoa/pokoland-ui" target="_blank" rel="noopener" aria-label="GitHub">
+  <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+</a>
+
 <div class="page">
 
   <!-- ===== Hero ===== -->
@@ -271,12 +279,10 @@ body {
       <div class="me l"></div><div class="me r"></div>
       <div class="mm"></div>
     </div>
-    <span class="hero-badge"><svg class="pi" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 4C10.5 4 4.5 10 4.5 19.5C14 19.5 20 13.5 20 4Z" fill="#8FD178"/><path d="M7 17C9.5 12.5 13 9 17 7" stroke="#5FAE52" stroke-width="2" stroke-linecap="round" fill="none"/></svg> <span data-i18n="heroBadge">治愈系贴纸风组件库 v0.1</span></span>
     <h1>
       <span class="puff" data-ch="P" style="--c1:#8FD178;--c2:#A9DC8E;--r:-5deg">P</span><span class="puff" data-ch="o" style="--c1:#6EC9EA;--c2:#93D8F1;--r:4deg">o</span><span class="puff" data-ch="k" style="--c1:#FFD66B;--c2:#FFE39A;--r:-3deg">k</span><span class="puff" data-ch="o" style="--c1:#FF9D9D;--c2:#FFBDBD;--r:5deg">o</span><span class="puff" data-ch="l" style="--c1:#C9B8F0;--c2:#DCD1F6;--r:-4deg">l</span><span class="puff" data-ch="a" style="--c1:#5FAE52;--c2:#7CC36F;--r:3deg">a</span><span class="puff" data-ch="n" style="--c1:#E87979;--c2:#F19C9C;--r:-5deg">n</span><span class="puff" data-ch="d" style="--c1:#6EC9EA;--c2:#93D8F1;--r:4deg">d</span>
       <span class="puff" data-ch="U" style="--c1:#5FAE52;--c2:#7CC36F;--r:-3deg">U</span><span class="puff" data-ch="I" style="--c1:#E87979;--c2:#F19C9C;--r:5deg">I</span>
     </h1>
-    <p data-i18n-html="heroSub">圆滚滚、软乎乎、按下去会"咕"一下的 UI 组件。<br>把你的网页变成一片晴天草原。</p>
     <div class="hero-actions">
       <button class="btn icon-btn" onclick="toast('ok','backpack',T('toastStart'))"><svg class="pi" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 3.5C9.5 3.5 3.5 10 3.5 20.5C14 20.5 20.5 14.5 20.5 3.5Z" fill="currentColor"/><path d="M7 17C9.5 12.5 13 9 17 7" stroke="rgba(95,174,82,.55)" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg> <span data-i18n="ctaStart">开始使用</span></button>
       <button class="btn ghost" onclick="toast('warn','package',T('toastDocs'))"><span data-i18n="ctaDocs">查看文档</span></button>
@@ -559,10 +565,6 @@ body {
 /* 页面文案词典 */
 window.POKOLAND_I18N = {
   title:      ['Pokoland UI · 治愈系贴纸风组件库', 'Pokoland UI · A cozy sticker-style UI kit', 'Pokoland UI · ほのぼのステッカー風UIキット'],
-  heroBadge:  ['治愈系贴纸风组件库 v0.1', 'A cozy sticker-style UI kit v0.1', 'ほのぼのステッカー風UIキット v0.1'],
-  heroSub:    ['圆滚滚、软乎乎、按下去会"咕"一下的 UI 组件。<br>把你的网页变成一片晴天草原。',
-               'Round, squishy components that go \u201cboop\u201d when you press them.<br>Turn your page into a sunny meadow.',
-               'まんまる、ふわふわ、押すと「ぷにっ」とへこむUIコンポーネント。<br>あなたのページを、はれの草原に。'],
   ctaStart:   ['开始使用', 'Get started', 'はじめる'],
   ctaDocs:    ['查看文档', 'Read the docs', 'ドキュメント'],
   toastStart: ['开始冒险!欢迎来到草原', 'Adventure begins! Welcome to the meadow', 'ぼうけんのはじまり!草原へようこそ'],
