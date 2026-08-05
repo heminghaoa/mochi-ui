@@ -3,10 +3,17 @@ const emojiRe = /[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}]
 let failed = false;
 
 const html = await Bun.file('demo/index.html').text();
-html.split('\n').forEach((line, i) => {
-  const hits = line.match(emojiRe);
-  if (hits) { failed = true; console.error(`demo/index.html:${i + 1} emoji: ${[...new Set(hits)].join(' ')}`); }
-});
+function scanEmoji(path: string, source: string) {
+  source.split('\n').forEach((line, i) => {
+    const hits = line.match(emojiRe);
+    if (hits) { failed = true; console.error(`${path}:${i + 1} emoji: ${[...new Set(hits)].join(' ')}`); }
+  });
+}
+
+scanEmoji('demo/index.html', html);
+for await (const path of new Bun.Glob('docs-site/**/*.{ts,tsx,html}').scan('.')) {
+  scanEmoji(path, await Bun.file(path).text());
+}
 
 const used = new Set<string>();
 for (const m of html.matchAll(/data-i18n(?:-html|-ph|-aria)?="(\w+)"/g)) used.add(m[1]);
@@ -24,4 +31,4 @@ if (missing.length) { failed = true; console.error('词典缺键:', missing.join
 if (unused.length) console.warn('警告·词典未使用键:', unused.join(', '));
 
 if (failed) process.exit(1);
-console.log(`check 通过:0 emoji;i18n 用键 ${used.size},词典 ${dict.size}`);
+console.log(`check 通过:demo/docs 0 emoji;i18n 用键 ${used.size},词典 ${dict.size}`);

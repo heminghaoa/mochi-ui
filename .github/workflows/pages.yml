@@ -1,4 +1,4 @@
-name: Deploy demo to GitHub Pages
+name: Build and deploy Pokoland UI
 on:
   push:
     branches: [main]
@@ -19,11 +19,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
       - run: bun run check
+      - run: bun test
       - run: bun run build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: pages-dist
       - uses: actions/deploy-pages@v4
         id: deployment

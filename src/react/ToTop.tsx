@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { Icon } from './Icon';
+import { Icon } from './Icon.js';
 
 export interface ToTopProps extends Omit<React.ComponentPropsWithoutRef<'button'>, 'aria-label'> {
   threshold?: number;

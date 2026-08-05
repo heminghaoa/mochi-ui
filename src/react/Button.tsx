@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { burst, type BurstType } from './burst';
+import { burst, type BurstType } from './burst.js';
 
 export type PokoColor = 'meadow' | 'sky' | 'butter' | 'coral' | 'lilac';
 

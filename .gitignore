@@ -1,5 +1,8 @@
 .DS_Store
 node_modules/
 dist/
+site/
+pages-dist/
+output/playwright/
 *.log
 .claude/

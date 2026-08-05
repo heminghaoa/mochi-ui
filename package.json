@@ -24,7 +24,8 @@
     "build": "bun run scripts/build.ts",
     "check": "bun run scripts/check.ts",
     "test": "bun test",
-    "build:react": "bun run scripts/build-react.ts"
+    "build:react": "bun run scripts/build-react.ts",
+    "build:site": "bun run scripts/build-site.ts"
   },
   "devDependencies": {
     "@happy-dom/global-registrator": "^20.10.2",

@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { Icon, type IconName } from './Icon';
+import { Icon, type IconName } from './Icon.js';
 
 type ToastItem = { id: number; type: 'ok' | 'warn'; icon: IconName; msg: string };
 let nextId = 1;

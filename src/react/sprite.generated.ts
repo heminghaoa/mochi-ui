@@ -1,5 +1,5 @@
 /* AUTO-GENERATED from src/icons.svg by scripts/build-react.ts — do not edit */
-export const SPRITE = `<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+export const SPRITE: string = `<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
   <symbol id="pi-leaf" viewBox="0 0 24 24"><path d="M20 4C10.5 4 4.5 10 4.5 19.5C14 19.5 20 13.5 20 4Z" fill="currentColor"/><path d="M7 17C9.5 12.5 13 9 17 7" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" fill="none"/></symbol>
   <symbol id="pi-drop" viewBox="0 0 24 24"><path d="M12 2.8C9 7 5.5 10.4 5.5 14.4C5.5 18.3 8.4 21.2 12 21.2C15.6 21.2 18.5 18.3 18.5 14.4C18.5 10.4 15 7 12 2.8Z" fill="currentColor"/><circle cx="9.2" cy="14.8" r="1.6" fill="rgba(255,255,255,.65)"/></symbol>
   <symbol id="pi-zap" viewBox="0 0 24 24"><path d="M14 2.5L5.5 13.5H10.5L9.5 21.5L18.5 10.5H13.2L14 2.5Z" fill="currentColor"/></symbol>

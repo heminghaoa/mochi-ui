@@ -4,7 +4,7 @@ Bun.serve({
   port: 4178,
   async fetch(req) {
     let path = decodeURIComponent(new URL(req.url).pathname);
-    if (path === '/') path = '/demo/';
+    if (path === '/') path = '/index.html';
     if (path.endsWith('/')) path += 'index.html';
     const file = Bun.file(root + path);
     return (await file.exists()) ? new Response(file) : new Response('Not found', { status: 404 });

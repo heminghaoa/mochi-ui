@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { PokoColor } from './Button';
+import type { PokoColor } from './Button.js';
 
 const COLOR_CLASS: Record<PokoColor, string> = {
   meadow: 'green',

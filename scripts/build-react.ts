@@ -1,6 +1,6 @@
 // bun run build:react —— React ESM + 类型声明
 import { $ } from 'bun';
-import { readFileSync, writeFileSync, existsSync, readFileSync as rfSync } from 'fs';
+import { existsSync, readFileSync, readdirSync, writeFileSync } from 'fs';
 
 /* ── Step 0: generate sprite.generated.ts from src/icons.svg ── */
 {
@@ -9,9 +9,9 @@ import { readFileSync, writeFileSync, existsSync, readFileSync as rfSync } from 
   const escaped = svgRaw.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$\{/g, '\\${');
   const generated =
     `/* AUTO-GENERATED from src/icons.svg by scripts/build-react.ts — do not edit */\n` +
-    `export const SPRITE = \`${escaped}\`;\n`;
+    `export const SPRITE: string = \`${escaped}\`;\n`;
   const outPath = 'src/react/sprite.generated.ts';
-  const existing = existsSync(outPath) ? rfSync(outPath, 'utf8') : '';
+  const existing = existsSync(outPath) ? readFileSync(outPath, 'utf8') : '';
   if (existing !== generated) {
     writeFileSync(outPath, generated, 'utf8');
     console.log('sprite.generated.ts updated');
@@ -32,4 +32,16 @@ if (!result.success) { console.error(result.logs); process.exit(1); }
 
 const tsc = await $`bun x tsc -p tsconfig.json`.nothrow();
 if (tsc.exitCode !== 0) { console.error('tsc declaration build failed'); process.exit(1); }
+
+const extensionlessImports: string[] = [];
+for (const file of readdirSync('dist/react').filter((name) => name.endsWith('.d.ts'))) {
+  const declaration = readFileSync(`dist/react/${file}`, 'utf8');
+  for (const match of declaration.matchAll(/(?:from\s+|import\s+)['"](\.{1,2}\/[^'"]+)['"]/g)) {
+    if (!/\.(?:js|mjs|cjs|json)$/.test(match[1])) extensionlessImports.push(`${file}: ${match[1]}`);
+  }
+}
+if (extensionlessImports.length) {
+  console.error('ESM declaration imports require runtime extensions:\n' + extensionlessImports.join('\n'));
+  process.exit(1);
+}
 console.log('react build → dist/react/{index.mjs,index.d.ts}');

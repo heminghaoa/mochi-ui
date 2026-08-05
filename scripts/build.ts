@@ -28,4 +28,6 @@ try {
 await Bun.write('dist/icons.svg', icons);
 const react = await $`bun run scripts/build-react.ts`.nothrow();
 if (react.exitCode !== 0) process.exit(1);
-console.log('build 完成 → dist/{pokoland.css,pokoland.js,icons.svg}');
+const site = await $`bun run scripts/build-site.ts`.nothrow();
+if (site.exitCode !== 0) process.exit(1);
+console.log('build 完成 → dist/ + site/ + pages-dist/');
