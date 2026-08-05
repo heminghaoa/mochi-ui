@@ -8,7 +8,7 @@ English | **[简体中文](README.zh-CN.md)** | **[日本語](README.ja.md)**
 ![license](https://img.shields.io/badge/license-MIT-8FD178)
 ![runtime dependencies](https://img.shields.io/badge/runtime_dependencies-zero-8FD178)
 
-**[Documentation](https://heminghaoa.github.io/pokoland-ui/)** · **[Vanilla demo](https://heminghaoa.github.io/pokoland-ui/demo/)**
+**[Documentation](https://heminghaoa.github.io/pokoland-ui/site/)** · **[Vanilla demo](https://heminghaoa.github.io/pokoland-ui/demo/)**
 
 ![Pokoland UI](docs/assets/hero-en.png)
 
@@ -64,7 +64,7 @@ All visual tokens live in `:root` CSS variables, so colors, radius, shadows, and
 
 ## Documentation
 
-The [component field guide](https://heminghaoa.github.io/pokoland-ui/) contains live examples, copyable React snippets, props tables, and accessibility notes for the complete public API. Switch 中文 / EN / 日本語 from any page; hash-based URLs work directly on GitHub Pages.
+The [component field guide](https://heminghaoa.github.io/pokoland-ui/site/) contains live examples, copyable React snippets, props tables, and accessibility notes for the complete public API. Switch 中文 / EN / 日本語 from any page; hash-based URLs work directly on GitHub Pages.
 
 For projects that do not use React, start with the [zero-dependency demo](https://heminghaoa.github.io/pokoland-ui/demo/) and the [vanilla component notes](docs/components.md).
 

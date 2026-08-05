@@ -2,9 +2,9 @@
 
 完整的 React API、实时示例、可复制代码、props 表格与无障碍说明请访问：
 
-- [中文组件文档](https://heminghaoa.github.io/pokoland-ui/?lang=zh)
-- [English documentation](https://heminghaoa.github.io/pokoland-ui/?lang=en)
-- [日本語ドキュメント](https://heminghaoa.github.io/pokoland-ui/?lang=ja)
+- [中文组件文档](https://heminghaoa.github.io/pokoland-ui/site/?lang=zh)
+- [English documentation](https://heminghaoa.github.io/pokoland-ui/site/?lang=en)
+- [日本語ドキュメント](https://heminghaoa.github.io/pokoland-ui/site/?lang=ja)
 
 本文保留 React 与零依赖入口的最小接入说明。可运行的原生版本见 [`demo/index.html`](../demo/index.html)。
 

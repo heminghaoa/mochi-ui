@@ -1,11 +1,7 @@
 import * as React from 'react';
 import {
-  Avatar,
-  Badge,
-  Button,
   Icon,
   IconSprite,
-  Plank,
   Toaster,
 } from '../src/react';
 import {
@@ -111,9 +107,11 @@ function LanguageSwitch({ lang, onChange }: { lang: Lang; onChange: (lang: Lang)
           key={item}
           aria-pressed={lang === item}
           lang={HTML_LANG[item]}
+          aria-label={LANGUAGE_LABELS[item]}
+          title={LANGUAGE_LABELS[item]}
           onClick={() => onChange(item)}
         >
-          {LANGUAGE_LABELS[item]}
+          {item === 'zh' ? '中' : item === 'ja' ? '日' : 'EN'}
         </button>
       ))}
     </div>
@@ -152,7 +150,19 @@ function Directory({ lang, routeId, onNavigate }: { lang: Lang; routeId: string 
   );
 }
 
-function Sidebar({ lang, routeId, open, onClose }: { lang: Lang; routeId: string | null; open: boolean; onClose: () => void }) {
+function Sidebar({
+  lang,
+  routeId,
+  open,
+  onClose,
+  closeButtonRef,
+}: {
+  lang: Lang;
+  routeId: string | null;
+  open: boolean;
+  onClose: () => void;
+  closeButtonRef: React.RefObject<HTMLButtonElement>;
+}) {
   return (
     <>
       <button
@@ -162,13 +172,31 @@ function Sidebar({ lang, routeId, open, onClose }: { lang: Lang; routeId: string
         tabIndex={open ? 0 : -1}
         onClick={onClose}
       />
-      <aside id="site-directory" className={`docs-sidebar${open ? ' open' : ''}`} aria-label={localize(ui.components, lang)}>
+      <aside
+        id="site-directory"
+        className={`docs-sidebar${open ? ' open' : ''}`}
+        aria-label={localize(ui.components, lang)}
+        aria-modal="true"
+        role="dialog"
+      >
         <div className="sidebar-brand">
-          <a href="#/" onClick={onClose} aria-label="Pokoland UI">
-            <Plank>Pokoland UI</Plank>
-          </a>
-          <p>{localize(ui.brandNote, lang)}</p>
-          <Badge color="meadow"><Icon name="leaf" /> v0.3.0</Badge>
+          <div className="directory-title">
+            <span className="directory-mark"><Icon name="map" /></span>
+            <div>
+              <span className="directory-kicker">Pokoland field guide · v0.3.0</span>
+              <h2>{localize(ui.components, lang)}</h2>
+              <p>{localize(ui.brandNote, lang)}</p>
+            </div>
+          </div>
+          <button
+            ref={closeButtonRef}
+            type="button"
+            className="directory-close"
+            aria-label={localize(ui.closeMenu, lang)}
+            onClick={onClose}
+          >
+            <Icon name="check" />
+          </button>
         </div>
         <nav className="directory-nav">
           <Directory lang={lang} routeId={routeId} onNavigate={onClose} />
@@ -189,6 +217,67 @@ function Sidebar({ lang, routeId, open, onClose }: { lang: Lang; routeId: string
   );
 }
 
+const logoLetters = 'PokolandUI'.split('');
+
+function PokolandLogo() {
+  return (
+    <h1 className="pokoland-logo" aria-label="Pokoland UI">
+      {logoLetters.map((letter, index) => (
+        <span
+          className={`puff${letter === 'U' ? ' word-gap' : ''}`}
+          data-ch={letter}
+          aria-hidden="true"
+          key={`${letter}-${index}`}
+        >
+          {letter}
+        </span>
+      ))}
+    </h1>
+  );
+}
+
+function GrassIsland() {
+  return (
+    <div className="hero-blob" aria-hidden="true">
+      <svg viewBox="0 0 720 250" preserveAspectRatio="none">
+        <defs>
+          <pattern id="docs-grass-patch" width="112" height="112" patternUnits="userSpaceOnUse">
+            <rect width="112" height="112" fill="#cde56e" />
+            <rect x="0" y="0" width="50" height="50" fill="#bfdb59" />
+            <rect x="56" y="56" width="50" height="50" fill="#bfdb59" />
+            <rect x="62" y="8" width="28" height="28" fill="#d9ef87" />
+            <rect x="8" y="64" width="24" height="24" fill="#d9ef87" />
+            <rect x="34" y="34" width="22" height="22" fill="#c6e162" />
+            <rect x="90" y="38" width="22" height="18" fill="#c6e162" />
+          </pattern>
+        </defs>
+        <path
+          d="M62,138 C40,100 84,58 140,64 C160,26 240,16 296,40 C336,12 432,12 472,40 C530,18 622,40 642,84 C692,100 700,152 658,178 C684,214 616,242 556,228 C516,252 416,254 368,236 C316,254 226,250 192,228 C128,242 70,214 80,178 C40,166 42,150 62,138 Z"
+          fill="url(#docs-grass-patch)"
+          stroke="#fff"
+          strokeWidth="9"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </div>
+  );
+}
+
+function SproutFriend() {
+  return (
+    <div className="hero-mascot" aria-hidden="true">
+      <span className="mascot-leaf" />
+      <span className="mascot-stem" />
+      <span className="mascot-body" />
+      <span className="mascot-cheek left" />
+      <span className="mascot-cheek right" />
+      <span className="mascot-eye left" />
+      <span className="mascot-eye right" />
+      <span className="mascot-mouth" />
+    </div>
+  );
+}
+
 const quickStartCode = `import { Button, IconSprite } from 'pokoland-ui';
 import 'pokoland-ui/styles.css';
 
@@ -205,93 +294,87 @@ function HomePage({ lang }: { lang: Lang }) {
   return (
     <div className="home-page">
       <section className="home-hero">
-        <div className="hero-copy">
-          <p className="eyebrow"><Icon name="leaf" /> {localize(homeCopy.eyebrow, lang)}</p>
-          <h1>{localize(homeCopy.title, lang).split('\n').map((line) => <span key={line}>{line}</span>)}</h1>
-          <p className="hero-lead">{localize(homeCopy.lead, lang)}</p>
-          <div className="hero-actions">
-            <a className="btn icon-btn" href="#/c/button">
-              <Icon name="map" /> {localize(homeCopy.browse, lang)}
-            </a>
-            <a className="text-link" href="../demo/">
-              {localize(homeCopy.vanilla, lang)} <Icon name="up" />
-            </a>
-          </div>
+        <p className="hero-badge"><Icon name="leaf" /> {localize(homeCopy.eyebrow, lang)}</p>
+        <div className="hero-stage">
+          <GrassIsland />
+          <SproutFriend />
+          <PokolandLogo />
         </div>
-        <div className="hero-pocket" aria-label={localize(ui.liveExample, lang)}>
-          <span className="pocket-note">{localize(ui.liveExample, lang)}</span>
-          <div className="pocket-sky" aria-hidden="true"><span /><span /></div>
-          <Avatar color="butter" className="pocket-avatar" />
-          <Button color="coral" size="sm" burst="leaf"><Icon name="heart" /> Pokoland</Button>
-          <Badge color="sky"><Icon name="drop" /> React 18+</Badge>
+        <div className="hero-actions">
+          <a className="btn icon-btn" href="#component-map">
+            <Icon name="map" /> {localize(homeCopy.browse, lang)}
+          </a>
+          <a className="btn ghost" href="../demo/">
+            {localize(homeCopy.vanilla, lang)}
+          </a>
         </div>
+        <p className="hero-lead">{localize(homeCopy.lead, lang)}</p>
       </section>
 
-      <section className="install-strip" aria-labelledby="install-title">
-        <div>
-          <p className="step-number">01</p>
-          <div>
-            <span className="section-kicker">{localize(homeCopy.firstStep, lang)}</span>
+      <section className="field-section install-section" aria-labelledby="install-title">
+        <div className="section-tag">
+          <span className="tag-dot butter" />
+          <span>{localize(homeCopy.firstStep, lang)}</span>
+        </div>
+        <div className="field-panel install-panel">
+          <div className="install-copy">
+            <span className="step-number">01</span>
             <h2 id="install-title">{localize(homeCopy.firstStepTitle, lang)}</h2>
           </div>
+          <div className="install-command">
+            <code>npm install pokoland-ui</code>
+            <CopyButton text="npm install pokoland-ui" lang={lang} compact />
+          </div>
         </div>
-        <div className="install-command">
-          <code>npm install pokoland-ui</code>
-          <CopyButton text="npm install pokoland-ui" lang={lang} compact />
-        </div>
-      </section>
-
-      <section className="promise-trail" aria-label={localize(homeCopy.trailTitle, lang)}>
-        <article>
-          <span className="trail-marker meadow"><Icon name="zap" /></span>
-          <div><h2>{localize(homeCopy.promiseOneTitle, lang)}</h2><p>{localize(homeCopy.promiseOne, lang)}</p></div>
-        </article>
-        <article>
-          <span className="trail-marker sky"><Icon name="check" /></span>
-          <div><h2>{localize(homeCopy.promiseTwoTitle, lang)}</h2><p>{localize(homeCopy.promiseTwo, lang)}</p></div>
-        </article>
-        <article>
-          <span className="trail-marker butter"><Icon name="package" /></span>
-          <div><h2>{localize(homeCopy.promiseThreeTitle, lang)}</h2><p>{localize(homeCopy.promiseThree, lang)}</p></div>
-        </article>
-      </section>
-
-      <section className="quick-start reference-section" aria-labelledby="quick-start-title">
-        <div className="quick-start-copy">
-          <p className="step-number">02</p>
-          <span className="section-kicker">React</span>
-          <h2 id="quick-start-title">{localize(homeCopy.trailTitle, lang)}</h2>
-          <p>{localize(homeCopy.trail, lang)}</p>
-          <a className="text-link" href="#/c/button">Button <Icon name="up" /></a>
-        </div>
-        <CodeBlock code={quickStartCode} lang={lang} />
       </section>
 
       <ComponentMap lang={lang} />
+
+      <section className="field-section quick-start reference-section" aria-labelledby="quick-start-title">
+        <div className="section-tag">
+          <span className="tag-dot sky" />
+          <span>React</span>
+        </div>
+        <div className="field-panel quick-start-panel">
+          <div className="quick-start-copy">
+            <span className="step-number">02</span>
+            <h2 id="quick-start-title">{localize(homeCopy.trailTitle, lang)}</h2>
+            <p>{localize(homeCopy.trail, lang)}</p>
+            <a className="text-link" href="#/c/button">Button <Icon name="up" /></a>
+          </div>
+          <CodeBlock code={quickStartCode} lang={lang} />
+        </div>
+      </section>
     </div>
   );
 }
 
 function ComponentMap({ lang }: { lang: Lang }) {
   return (
-    <section className="component-map reference-section" aria-labelledby="component-map-title">
-      <div className="component-map-heading">
-        <span className="section-kicker">20 {localize(ui.components, lang)}</span>
-        <h2 id="component-map-title">{localize(ui.onThisPage, lang)}</h2>
+    <section id="component-map" className="field-section component-map reference-section" aria-labelledby="component-map-title">
+      <div className="section-tag">
+        <span className="tag-dot meadow" />
+        <span>20 {localize(ui.components, lang)}</span>
       </div>
-      <div className="component-map-groups">
-        {groups.map((group) => (
-          <div key={group}>
-            <h3>{localize(groupLabel[group], lang)}</h3>
-            <div>
-              {pages.filter((page) => page.group === group).map((page) => (
-                <a href={`#/c/${page.id}`} key={page.id}>
-                  <Icon name={page.icon} /> {localize(page.title, lang)}
-                </a>
-              ))}
+      <div className="field-panel map-panel">
+        <div className="component-map-heading">
+          <span className="step-number"><Icon name="map" /></span>
+          <h2 id="component-map-title">{localize(ui.onThisPage, lang)}</h2>
+        </div>
+        <div className="component-map-groups">
+          {groups.map((group) => (
+            <div key={group}>
+              <h3>{localize(groupLabel[group], lang)}</h3>
+              <div>
+                {pages.filter((page) => page.group === group).map((page) => (
+                  <a href={`#/c/${page.id}`} key={page.id}>
+                    <Icon name={page.icon} /> {localize(page.title, lang)}
+                  </a>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -345,7 +428,7 @@ function ComponentPage({ page, lang }: { page: PageDefinition; lang: Lang }) {
   return (
     <article className="component-page">
       <header className="component-header">
-        <a className="breadcrumb" href="#/">Pokoland UI</a>
+        <a className="breadcrumb" href="#/"><Icon name="leaf" /> Pokoland UI</a>
         <div className="component-title-row">
           <span className="component-mark"><Icon name={page.icon} /></span>
           <div>
@@ -414,6 +497,7 @@ export function App() {
   const page = routeId ? pageById.get(routeId) ?? null : null;
   const [lang, setLang] = React.useState<Lang>(getInitialLanguage);
   const [directoryOpen, setDirectoryOpen] = React.useState(false);
+  const directoryCloseRef = React.useRef<HTMLButtonElement>(null);
 
   React.useEffect(() => {
     document.documentElement.lang = HTML_LANG[lang];
@@ -429,11 +513,17 @@ export function App() {
 
   React.useEffect(() => {
     if (!directoryOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    directoryCloseRef.current?.focus();
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setDirectoryOpen(false);
     };
     document.addEventListener('keydown', closeOnEscape);
-    return () => document.removeEventListener('keydown', closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', closeOnEscape);
+    };
   }, [directoryOpen]);
 
   return (
@@ -445,31 +535,37 @@ export function App() {
         <span className="scenery-cloud cloud-two" />
         <span className="scenery-hill hill-one" />
         <span className="scenery-hill hill-two" />
+        <span className="tile-ground" />
       </div>
-      <header className="mobile-header">
-        <a href="#/" className="mobile-brand">Pokoland UI</a>
+      <Sidebar
+        lang={lang}
+        routeId={routeId}
+        open={directoryOpen}
+        onClose={() => setDirectoryOpen(false)}
+        closeButtonRef={directoryCloseRef}
+      />
+      <header
+        className="site-tools"
+        inert={directoryOpen ? '' : undefined}
+        aria-hidden={directoryOpen || undefined}
+      >
         <button
           type="button"
-          className="menu-button"
+          className="round-tool menu-button"
           aria-expanded={directoryOpen}
           aria-controls="site-directory"
           aria-label={directoryOpen ? localize(ui.closeMenu, lang) : localize(ui.menu, lang)}
           onClick={() => setDirectoryOpen((open) => !open)}
         >
-          <Icon name={directoryOpen ? 'check' : 'map'} />
+          <Icon name="map" />
         </button>
-      </header>
-      <Sidebar lang={lang} routeId={routeId} open={directoryOpen} onClose={() => setDirectoryOpen(false)} />
-      <div
-        className="desktop-tools"
-        inert={directoryOpen ? '' : undefined}
-        aria-hidden={directoryOpen || undefined}
-      >
         <LanguageSwitch lang={lang} onChange={setLang} />
         <a className="round-tool" href="https://github.com/heminghaoa/pokoland-ui" target="_blank" rel="noreferrer" aria-label={localize(ui.github, lang)}>
-          <Icon name="wrench" />
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <path fillRule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z" />
+          </svg>
         </a>
-      </div>
+      </header>
       <main
         id="main-content"
         className="docs-main"

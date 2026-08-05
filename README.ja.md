@@ -8,7 +8,7 @@
 ![license](https://img.shields.io/badge/license-MIT-8FD178)
 ![runtime dependencies](https://img.shields.io/badge/runtime_dependencies-zero-8FD178)
 
-**[コンポーネントドキュメント](https://heminghaoa.github.io/pokoland-ui/?lang=ja)** · **[Vanilla デモ](https://heminghaoa.github.io/pokoland-ui/demo/?lang=ja)**
+**[コンポーネントドキュメント](https://heminghaoa.github.io/pokoland-ui/site/?lang=ja)** · **[Vanilla デモ](https://heminghaoa.github.io/pokoland-ui/demo/?lang=ja)**
 
 ![Pokoland UI](docs/assets/hero-ja.png)
 
@@ -64,7 +64,7 @@ export function App() {
 
 ## ドキュメント
 
-[3 言語対応のコンポーネントガイド](https://heminghaoa.github.io/pokoland-ui/?lang=ja)では、公開 API 全体のライブ例、コピー可能な React コード、props 表、アクセシビリティ上の注意点を確認できます。どのページからでも中国語・英語・日本語を切り替えられます。
+[3 言語対応のコンポーネントガイド](https://heminghaoa.github.io/pokoland-ui/site/?lang=ja)では、公開 API 全体のライブ例、コピー可能な React コード、props 表、アクセシビリティ上の注意点を確認できます。どのページからでも中国語・英語・日本語を切り替えられます。
 
 React を使わない場合は、[依存ゼロのデモ](https://heminghaoa.github.io/pokoland-ui/demo/?lang=ja)と [Vanilla コンポーネントの説明](docs/components.md)をご覧ください。
 

@@ -8,7 +8,7 @@
 ![license](https://img.shields.io/badge/license-MIT-8FD178)
 ![runtime dependencies](https://img.shields.io/badge/runtime_dependencies-zero-8FD178)
 
-**[组件文档](https://heminghaoa.github.io/pokoland-ui/?lang=zh)** · **[原生 Demo](https://heminghaoa.github.io/pokoland-ui/demo/?lang=zh)**
+**[组件文档](https://heminghaoa.github.io/pokoland-ui/site/?lang=zh)** · **[原生 Demo](https://heminghaoa.github.io/pokoland-ui/demo/?lang=zh)**
 
 ![Pokoland UI](docs/assets/hero-zh.png)
 
@@ -64,7 +64,7 @@ export function App() {
 
 ## 文档
 
-[三语组件图鉴](https://heminghaoa.github.io/pokoland-ui/?lang=zh)覆盖完整公开 API，包含实时示例、可复制 React 代码、props 表格与无障碍说明。任意页面都可切换中文、英文和日文，链接可直接分享。
+[三语组件图鉴](https://heminghaoa.github.io/pokoland-ui/site/?lang=zh)覆盖完整公开 API，包含实时示例、可复制 React 代码、props 表格与无障碍说明。任意页面都可切换中文、英文和日文，链接可直接分享。
 
 非 React 项目可从[零依赖 Demo](https://heminghaoa.github.io/pokoland-ui/demo/?lang=zh)与[原生组件说明](docs/components.md)开始。
 

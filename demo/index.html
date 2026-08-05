@@ -282,18 +282,18 @@ body {
       <div class="me l"></div><div class="me r"></div>
       <div class="mm"></div>
     </div>
-    <h1>
+    <h1 aria-label="Pokoland UI">
       <span class="puff" data-ch="P" style="--c1:#8FD178;--c2:#A9DC8E;--r:-5deg">P</span><span class="puff" data-ch="o" style="--c1:#6EC9EA;--c2:#93D8F1;--r:4deg">o</span><span class="puff" data-ch="k" style="--c1:#FFD66B;--c2:#FFE39A;--r:-3deg">k</span><span class="puff" data-ch="o" style="--c1:#FF9D9D;--c2:#FFBDBD;--r:5deg">o</span><span class="puff" data-ch="l" style="--c1:#C9B8F0;--c2:#DCD1F6;--r:-4deg">l</span><span class="puff" data-ch="a" style="--c1:#5FAE52;--c2:#7CC36F;--r:3deg">a</span><span class="puff" data-ch="n" style="--c1:#E87979;--c2:#F19C9C;--r:-5deg">n</span><span class="puff" data-ch="d" style="--c1:#6EC9EA;--c2:#93D8F1;--r:4deg">d</span>
       <span class="puff" data-ch="U" style="--c1:#5FAE52;--c2:#7CC36F;--r:-3deg">U</span><span class="puff" data-ch="I" style="--c1:#E87979;--c2:#F19C9C;--r:5deg">I</span>
     </h1>
     <div class="hero-actions">
-      <button class="btn icon-btn" onclick="toast('ok','backpack',T('toastStart'))"><svg class="pi" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 3.5C9.5 3.5 3.5 10 3.5 20.5C14 20.5 20.5 14.5 20.5 3.5Z" fill="currentColor"/><path d="M7 17C9.5 12.5 13 9 17 7" stroke="rgba(95,174,82,.55)" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg> <span data-i18n="ctaStart">开始使用</span></button>
-      <button class="btn ghost" onclick="toast('warn','package',T('toastDocs'))"><span data-i18n="ctaDocs">查看文档</span></button>
+      <a class="btn icon-btn" href="#components-start"><svg class="pi" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 3.5C9.5 3.5 3.5 10 3.5 20.5C14 20.5 20.5 14.5 20.5 3.5Z" fill="currentColor"/><path d="M7 17C9.5 12.5 13 9 17 7" stroke="rgba(95,174,82,.55)" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg> <span data-i18n="ctaStart">开始使用</span></a>
+      <a class="btn ghost" href="../site/"><span data-i18n="ctaDocs">查看文档</span></a>
     </div>
   </header>
 
   <!-- ===== 按钮 ===== -->
-  <section class="section">
+  <section class="section" id="components-start">
     <div class="section-tag"><span class="dot" style="background:var(--meadow)"></span><span data-i18n="secButtons">按钮 Buttons</span></div>
     <div class="panel">
       <button class="btn" data-burst="leaf" data-i18n="btnGather">采集果实</button>
@@ -570,8 +570,6 @@ window.POKOLAND_I18N = {
   title:      ['Pokoland UI · 治愈系贴纸风组件库', 'Pokoland UI · A cozy sticker-style UI kit', 'Pokoland UI · ほのぼのステッカー風UIキット'],
   ctaStart:   ['开始使用', 'Get started', 'はじめる'],
   ctaDocs:    ['查看文档', 'Read the docs', 'ドキュメント'],
-  toastStart: ['开始冒险!欢迎来到草原', 'Adventure begins! Welcome to the meadow', 'ぼうけんのはじまり!草原へようこそ'],
-  toastDocs:  ['npm install pokoland-ui(假装的)', 'npm install pokoland-ui (pretend)', 'npm install pokoland-ui(という気分)'],
   secButtons: ['按钮 Buttons', 'Buttons', 'ボタン Buttons'],
   btnGather:  ['采集果实', 'Gather berries', 'きのみあつめ'],
   btnDive:    ['跳进水里', 'Jump in the pond', 'みずにとびこむ'],

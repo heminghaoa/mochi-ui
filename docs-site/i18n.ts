@@ -59,17 +59,11 @@ export const homeCopy = {
     en: 'POKOLAND UI · v0.3.0',
     ja: 'POKOLAND UI · v0.3.0',
   },
-  title: {
-    zh: '让界面软一点，\n但代码依然可靠。',
-    en: 'A softer interface,\nwith sturdy code underneath.',
-    ja: '画面はやわらかく、\nコードはしっかり。',
-  },
   lead: {
     zh: '一套带厚白描边、下压手感和草原气息的 React 组件库。零运行时依赖，也保留纯 CSS 与原生 JavaScript 入口。',
     en: 'A React component library with sticker outlines, tactile presses, and meadow air. Zero runtime dependencies, with CSS and vanilla JavaScript entries included.',
     ja: '太い白ふち、押し込む手触り、草原の空気をまとった React コンポーネント集。実行時依存はゼロで、CSS と Vanilla JavaScript も利用できます。',
   },
-  install: { zh: '安装', en: 'Install', ja: 'インストール' },
   browse: { zh: '浏览全部组件', en: 'Browse all components', ja: 'すべてのコンポーネントを見る' },
   vanilla: { zh: '查看纯 HTML 演示', en: 'View the plain HTML demo', ja: 'HTML デモを見る' },
   firstStep: { zh: '第一步', en: 'First step', ja: '最初の一歩' },
@@ -77,24 +71,6 @@ export const homeCopy = {
     zh: '引入一次样式，按需使用组件。',
     en: 'Import the styles once, then use only what you need.',
     ja: 'スタイルを一度読み込み、必要な部品だけ使います。',
-  },
-  promiseOneTitle: { zh: '触感清晰', en: 'Tactile by default', ja: '触って伝わる' },
-  promiseOne: {
-    zh: '悬停、按下、聚焦与禁用状态都有明确反馈。',
-    en: 'Hover, press, focus, and disabled states communicate clearly.',
-    ja: 'ホバー、押下、フォーカス、無効状態がひと目で伝わります。',
-  },
-  promiseTwoTitle: { zh: '类型可靠', en: 'Typed and steady', ja: '型で安心' },
-  promiseTwo: {
-    zh: '完整 TypeScript 声明、原生属性透传与 React 18 支持。',
-    en: 'Complete TypeScript declarations, native prop forwarding, and React 18 support.',
-    ja: '完全な TypeScript 宣言、ネイティブ属性の受け渡し、React 18 対応。',
-  },
-  promiseThreeTitle: { zh: '轻装上阵', en: 'Light on its feet', ja: '軽やかに導入' },
-  promiseThree: {
-    zh: '没有运行时依赖；CSS 与原生入口可单独使用。',
-    en: 'No runtime dependencies; CSS and vanilla entries work independently.',
-    ja: '実行時依存はゼロ。CSS と Vanilla の入口も単独で使えます。',
   },
   trailTitle: { zh: '沿着路牌开始', en: 'Follow the signposts', ja: '道しるべから始めよう' },
   trail: {
