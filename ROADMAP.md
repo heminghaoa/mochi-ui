@@ -1,37 +1,46 @@
-# 🗺️ 路线图 Roadmap
+# Pokoland UI 路线图
 
-## v0.1 · 种子 🌰(当前)
+## v0.1 · 种子
 
-- [x] 设计令牌体系(色板 / 贴纸语言 / 动效规范)
-- [x] 16 个核心组件的 HTML/CSS 实现
-- [x] 可交互单文件 demo
-- [x] 项目文档(README / 设计规范 / 组件文档 / 贡献指南)
+- [x] 建立色板、贴纸语言与动效令牌
+- [x] 完成首批 HTML/CSS 组件
+- [x] 提供可交互原生 Demo
+- [x] 建立设计规范、组件说明与贡献指南
 
-## v0.2 · 发芽 🌱
+## v0.2 · 发芽
 
-- [x] 拆分 CSS:`pokoland.css`(可独立引入的样式表)+ `pokoland.js`(可选交互)
-- [ ] 新组件:Pagination、Skeleton(种子发芽加载动画)、Stepper(地图路线步骤条)、Accordion
-- [ ] 夜晚模式:天空变星空、山坡变深绿、丁香紫为主色的暗色主题
-- [ ] 音效系统(可选开关):按钮"噗"、成功"叮"、错误"咕"
-- [x] GitHub Pages 部署 demo 站
-- [x] 三语 demo + 三语 README(原 v0.3 项提前完成)
-- [ ] 全局 API 收编进 `window.Pokoland` 命名空间(现为裸全局 toast/T/applyLang,v0.3 前处理)
+- [x] 拆分可独立引入的 `pokoland.css` 与可选 `pokoland.js`
+- [x] 建立 25 个原创 SVG 图标与 UI 零 emoji 规则
+- [x] 将交互 API 收编到 `window.Pokoland`
+- [x] 部署 GitHub Pages 原生 Demo
+- [x] 完成中文、英文、日文 Demo 与 README
 
-## v0.3 · 开花 🌸
+## v0.3 · 开花（当前）
 
-- [ ] React 组件包 `@pokoland-ui/react`(Next.js 友好,RSC 兼容)
-- [ ] 设计令牌导出为 Tailwind preset
-- [ ] Figma 组件库(社区文件)
+- [x] 发布面向 React 18+ 的单包 API：`pokoland-ui`
+- [x] 完成 TypeScript 类型、条件导出与原生属性透传
+- [x] 覆盖 React 组件、类型与发布包的自动化测试
+- [x] 建立三语 React 组件文档站，覆盖全部公开 API
+- [x] 保留零依赖 CSS、图标与 Vanilla JavaScript 入口
+- [x] 将检查、测试、包构建与站点构建接入 Pages 部署门禁
+- [ ] 发布 `pokoland-ui@0.3.0`、`v0.3.0` 标签与 GitHub Release
 
-## v1.0 · 结果 🍎
+## v0.4 · 枝叶
 
-- [ ] npm 正式发布
-- [ ] 主题生成器(在线调色,导出 CSS 变量)
-- [ ] 原创吉祥物 + 配套插画素材包(CC BY 授权)
-- [ ] Storybook 文档站
+- [ ] 新组件：Pagination、Skeleton、Stepper、Accordion
+- [ ] 夜晚主题与主题切换机制
+- [ ] 可选音效系统
+- [ ] 设计令牌的 Tailwind preset
+- [ ] 社区 Figma 组件库
 
-## 想法停车场 🅿️
+## v1.0 · 结果
+
+- [ ] 主题生成器：在线调色并导出 CSS 变量
+- [ ] 原创吉祥物与 CC BY 插画素材包
+- [ ] 稳定 API、迁移策略与长期支持约定
+
+## 想法停车场
 
 - Vue / Svelte 移植
-- 季节主题包:樱花 🌸 / 盛夏 🌊 / 红叶 🍁 / 落雪 ⛄
-- 像素风变体(Pokoland Pixel)
+- 季节主题包
+- 像素风变体 Pokoland Pixel

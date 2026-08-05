@@ -1,41 +1,91 @@
-# 🏝️ Pokoland UI
+# Pokoland UI
 
 **[English](README.md)** | **[简体中文](README.zh-CN.md)** | 日本語
 
-> まんまる、ふわふわ、押すと「ぷにっ」となるステッカー風UIキット。
+> ほっとするステッカー風の React コンポーネントライブラリ。依存ゼロの CSS と Vanilla JavaScript も利用できます。
 
-**フレームワーク非依存** — 純CSSなので React / Next.js / どこにでも使えます。
+![status](https://img.shields.io/badge/status-v0.3.0_flowering-FFD66B)
+![license](https://img.shields.io/badge/license-MIT-8FD178)
+![runtime dependencies](https://img.shields.io/badge/runtime_dependencies-zero-8FD178)
 
-**ライブデモ:** https://heminghaoa.github.io/pokoland-ui/demo/ (右上で 中 / EN / 日 を切り替え)
+**[コンポーネントドキュメント](https://heminghaoa.github.io/pokoland-ui/?lang=ja)** · **[Vanilla デモ](https://heminghaoa.github.io/pokoland-ui/demo/?lang=ja)**
 
 ![Pokoland UI](docs/assets/hero-ja.png)
 
-## ✨ これはなに
+## Pokoland UI について
 
-ほのぼの生活シミュレーションゲームの空気感にインスパイアされた、ステッカー美学のWeb UIキットです:
+Pokoland UI は React 18+ 向けの、TypeScript 型定義を備えたコンポーネントライブラリです。
 
-- **太い白フチ** — どのコンポーネントも切り抜きステッカーのよう
-- **ぷにぷに押し心地** — ボタンには物理的な厚みがあり、押すと本当に沈む
-- **はれの草原パレット** — そらいろ / くさいろ / クリーム / バター / さんご
-- **市松グラス & タイル地面のモチーフ** — ページ全体が小さな手作りの世界に
-- **オリジナルアイコン(Pokoland Icons)** — 手描きSVG 25種、UI内に絵文字ゼロ
-- **3言語デモ** — 中・英・日をその場で切り替え
+- 切り抜きステッカーのような太い白フチ
+- ホバー、押下、フォーカス、無効、視差効果を減らす設定への明確な対応
+- CSS カスタムプロパティで調整できる、晴れた草原のカラーパレット
+- オリジナル SVG アイコン 25 種と、製品 UI 内の絵文字ゼロ
+- ネイティブ DOM 属性の透過と完全な型定義
+- 中国語・英語・日本語のコンポーネントドキュメント
+- 任意の React peer を除き、ランタイム依存ゼロ
 
-## 🚀 はじめる
+React を使わないプロジェクトでも、フレームワーク非依存の CSS、SVG sprite、Vanilla JavaScript の入口を個別に利用できます。
 
-依存ゼロ。クローンして開くだけ:
+## インストール
 
 ```bash
-git clone https://github.com/heminghaoa/pokoland-ui.git
-open pokoland-ui/demo/index.html        # または: bun run dev
+npm install pokoland-ui
 ```
 
-デザイントークンはすべて `:root` のCSS変数にあります。一行変えるだけでテーマが変わります。
+```tsx
+import { Button, Icon, IconSprite } from 'pokoland-ui';
+import 'pokoland-ui/styles.css';
 
-## ⚖️ 名前、インスピレーションとIPについて
+export function App() {
+  return (
+    <>
+      <IconSprite />
+      <Button color="sky" burst="splash">
+        <Icon name="drop" />
+        水に飛びこむ
+      </Button>
+    </>
+  );
+}
+```
 
-**Pokoland** という名前は日本語の擬音語「ぽこぽこ」に由来します — ぷにぷにボタンを押したときのやわらかい音感です。ほのぼのとした雰囲気は、ほのぼの生活シミュレーションゲーム — 特に *Pokémon Pokopia* — にインスパイアされています。デザイン・配色・キャラクター・アイコン・文言はすべてオリジナルです。Pokoland UI は非公式のファンスピリットなプロジェクトであり、任天堂・株式会社ポケモンおよびいかなる商業IPとも無関係・無承認であり、公式アセットを一切含みません。コントリビューターも同じルールに従ってください。
+`Icon` を使う場合は、アプリのルート付近で `IconSprite` を一度レンダリングしてください。各コンポーネントは対応するネイティブ属性を引き継ぐため、ラベル、イベント、ref、ARIA 属性をそのまま指定できます。
 
-## 📄 ライセンス
+## パッケージの入口
+
+| インポート | 用途 |
+| --- | --- |
+| `pokoland-ui` | React コンポーネント、ヘルパー、TypeScript 型 |
+| `pokoland-ui/styles.css` | テーマトークンとコンポーネントスタイル |
+| `pokoland-ui/vanilla` | 任意の Toast、Tabs、Dialog、i18n、パーティクル処理 |
+| `pokoland-ui/icons.svg` | 単独で使える Pokoland アイコン sprite |
+
+ビジュアルトークンはすべて `:root` の CSS 変数として公開されています。再ビルドせずに色、角丸、影、モーションを調整できます。
+
+## ドキュメント
+
+[3 言語対応のコンポーネントガイド](https://heminghaoa.github.io/pokoland-ui/?lang=ja)では、公開 API 全体のライブ例、コピー可能な React コード、props 表、アクセシビリティ上の注意点を確認できます。どのページからでも中国語・英語・日本語を切り替えられます。
+
+React を使わない場合は、[依存ゼロのデモ](https://heminghaoa.github.io/pokoland-ui/demo/?lang=ja)と [Vanilla コンポーネントの説明](docs/components.md)をご覧ください。
+
+## 開発
+
+開発とリリースの自動化には [Bun](https://bun.sh) を使用します。
+
+| コマンド | 内容 |
+| --- | --- |
+| `bun run dev` | `localhost:4178` でドキュメントとデモを配信 |
+| `bun run check` | UI の絵文字と 3 言語デモの網羅性を検査 |
+| `bun test` | React、パッケージ、ドキュメントのテストを実行 |
+| `bun run build` | npm、ドキュメント、デモ、Pages artifact を構築 |
+| `npm pack --dry-run` | npm に含まれる正確なファイルを確認 |
+
+コンポーネント、テスト、アクセシビリティ、翻訳、IP に関する要件は [CONTRIBUTING.md](CONTRIBUTING.md) を参照してください。
+
+## 名前、インスピレーション、IP について
+
+**Pokoland** という名前は、日本語の擬音語「ぽこぽこ」に由来し、やわらかいボタンを押したときの音を思わせます。雰囲気は、ほのぼのとした生活シミュレーションゲームから着想を得ています。デザイン、配色、キャラクター、アイコン、文言はすべてオリジナルです。Pokoland UI は非公式のファンスピリットによるプロジェクトで、任天堂・株式会社ポケモンとは無関係であり、承認を受けたものではありません。公式アセットも含みません。コントリビューションにも同じルールが適用されます。
+
+## ライセンス
 
 [MIT](LICENSE) © 2026 Pokoland UI Contributors

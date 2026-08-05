@@ -1,96 +1,91 @@
-# 🏝️ Pokoland UI
+# Pokoland UI
 
 **[English](README.md)** | 简体中文 | **[日本語](README.ja.md)**
 
-> 圆滚滚、软乎乎、按下去会"咕"一下的治愈系贴纸风 UI 组件库。
-> A cozy, sticker-style UI kit inspired by life-sim games. Squishy buttons included.
+> 一套治愈系贴纸风 React 组件库，同时保留零依赖 CSS 与原生 JavaScript 入口。
 
-**框架无关** —— 纯 CSS,丢进 React / Next.js / 任何技术栈都能用。
-
-![status](https://img.shields.io/badge/status-v0.2_发芽中-FFD66B)
+![status](https://img.shields.io/badge/status-v0.3.0_开花-FFD66B)
 ![license](https://img.shields.io/badge/license-MIT-8FD178)
-![made with](https://img.shields.io/badge/made_with-♥_and_sunshine-FF9D9D)
+![runtime dependencies](https://img.shields.io/badge/runtime_dependencies-zero-8FD178)
 
-## ✨ 这是什么
-
-Pokoland UI 是一套**贴纸美学(Sticker Aesthetic)**的网页组件库:
-
-- 🏷️ **厚白描边** —— 每个组件都像一张剪下来的贴纸
-- 🎈 **充气手感** —— 按钮有物理厚度,按下去会真的"沉"下去
-- 🌈 **晴天草原配色** —— 天空蓝 / 草地绿 / 奶油底 / 黄油黄 / 珊瑚粉
-- 🍃 **微旋转排版** —— 组件带 1°~2° 的随机倾斜,像手工贴上去的
-- 🐸 **弹簧动效** —— 所有交互使用 `cubic-bezier(.4, 1.6, .4, 1)` 的过冲曲线
-
-适合用在:独立游戏官网、儿童/教育产品、宠物类应用、个人博客、任何想让人"哇好可爱"的地方。
-
-## 🚀 快速开始
-
-**线上 Demo:** https://heminghaoa.github.io/pokoland-ui/demo/(右上角可切 中/EN/日)
+**[组件文档](https://heminghaoa.github.io/pokoland-ui/?lang=zh)** · **[原生 Demo](https://heminghaoa.github.io/pokoland-ui/demo/?lang=zh)**
 
 ![Pokoland UI](docs/assets/hero-zh.png)
 
-目前是纯 HTML + CSS + 原生 JS 的单文件 demo,零依赖:
+## 这是什么
+
+Pokoland UI 是一套面向 React 18+、带完整 TypeScript 类型的组件库：
+
+- 厚白描边，让组件像手工剪下的贴纸；
+- 清晰的悬停、按下、聚焦、禁用与减少动效状态；
+- 通过 CSS 自定义属性开放的晴天草原配色；
+- 25 个原创 SVG 图标，正式 UI 内零 emoji；
+- 原生 DOM 属性透传与完整声明文件；
+- 中文、英文、日文三语组件文档；
+- 除可选 React peer 之外，零运行时依赖。
+
+不使用 React 的项目仍可单独使用框架无关的样式、SVG sprite 与原生交互入口。
+
+## 安装
 
 ```bash
-# 直接用浏览器打开
-open demo/index.html
+npm install pokoland-ui
 ```
 
-所有设计令牌都在 `:root` 的 CSS 变量里,改一处即可全局换肤:
+```tsx
+import { Button, Icon, IconSprite } from 'pokoland-ui';
+import 'pokoland-ui/styles.css';
 
-```css
-:root {
-  --meadow: #8FD178;  /* 换成你喜欢的颜色 */
+export function App() {
+  return (
+    <>
+      <IconSprite />
+      <Button color="sky" burst="splash">
+        <Icon name="drop" />
+        跳进水里
+      </Button>
+    </>
+  );
 }
 ```
 
-## 📦 组件清单
+使用 `Icon` 时，在应用根部渲染一次 `IconSprite`。组件会透传对应的原生属性，因此标签、事件、ref 与 ARIA 属性都可直接使用。
 
-| 组件 | 状态 | 组件 | 状态 |
-|------|------|------|------|
-| Button(6 色 / 2 尺寸) | ✅ | Tabs(路牌式) | ✅ |
-| Badge | ✅ | Tooltip | ✅ |
-| Input / Select / Textarea | ✅ | Dialog | ✅ |
-| Switch(弹簧感) | ✅ | Toast | ✅ |
-| Checkbox / Radio | ✅ | Avatar | ✅ |
-| Progress(藤蔓生长条) | ✅ | Pagination | 🌱 计划中 |
-| Slider | ✅ | Skeleton(种子发芽) | 🌱 计划中 |
-| Card(图鉴卡) | ✅ | Calendar | 🌱 计划中 |
+## 包入口
 
-详细设计规范见 [docs/design-tokens.md](docs/design-tokens.md),组件用法见 [docs/components.md](docs/components.md),路线图见 [ROADMAP.md](ROADMAP.md)。
+| 引入路径 | 用途 |
+| --- | --- |
+| `pokoland-ui` | React 组件、工具函数与 TypeScript 类型 |
+| `pokoland-ui/styles.css` | 主题令牌与组件样式 |
+| `pokoland-ui/vanilla` | 可选的 Toast、Tabs、Dialog、i18n 与粒子交互 |
+| `pokoland-ui/icons.svg` | 独立 Pokoland 图标 sprite |
 
-## 🗺️ 项目结构
+所有视觉令牌都在 `:root` CSS 变量中，可直接调整颜色、圆角、阴影和动效，不需要重新构建组件包。
 
-```
-pokoland-ui/
-├── demo/                         # 完整可交互的组件展示页
-├── src/
-│   ├── pokoland.css              # 核心样式
-│   ├── pokoland.js               # Toast / Tabs / Dialog / i18n
-│   └── icons.svg                 # Pokoland Icons 图标集(25 个)
-├── scripts/
-│   ├── serve.ts                  # 开发服务器(bun run dev)
-│   ├── build.ts                  # 构建 & 同步图标(bun run build)
-│   └── check.ts                  # 零 emoji 扫描 + i18n 覆盖(bun run check)
-├── docs/                         # 设计规范与组件文档
-├── .github/workflows/pages.yml   # GitHub Pages 自动部署
-├── package.json
-├── README.md                     # 英文(默认入口)
-├── README.zh-CN.md               # 简体中文
-├── README.ja.md                  # 日本語
-├── CONTRIBUTING.md               # 贡献指南
-├── ROADMAP.md                    # 路线图
-└── LICENSE                       # MIT
-```
+## 文档
 
-## 🤝 参与贡献
+[三语组件图鉴](https://heminghaoa.github.io/pokoland-ui/?lang=zh)覆盖完整公开 API，包含实时示例、可复制 React 代码、props 表格与无障碍说明。任意页面都可切换中文、英文和日文，链接可直接分享。
 
-欢迎任何形式的贡献——新组件、配色主题、文档翻译、或者只是来 issue 区聊聊"这个按钮还能更 Q 弹吗"。请先阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。
+非 React 项目可从[零依赖 Demo](https://heminghaoa.github.io/pokoland-ui/demo/?lang=zh)与[原生组件说明](docs/components.md)开始。
 
-## ⚖️ 命名、灵感与 IP
+## 本地开发
 
-**Pokoland** 这个名字来自日语拟声词「ぽこぽこ」——软软的按钮按下去那声噗叽就是它。视觉氛围灵感来自治愈系生活模拟游戏,特别是《Pokémon Pokopia》。**所有设计、配色、图形与文案均为原创。** Pokoland UI 是一个非官方的粉丝精神创作项目,与任天堂、宝可梦公司无关联、无背书,不包含任何官方素材。贡献者同样遵守此原则。
+项目使用 [Bun](https://bun.sh) 完成开发与发布自动化。
 
-## 📄 License
+| 命令 | 用途 |
+| --- | --- |
+| `bun run dev` | 在 `localhost:4178` 启动文档与 Demo |
+| `bun run check` | 检查 UI emoji 与三语 Demo 覆盖 |
+| `bun test` | 运行 React、包与文档测试 |
+| `bun run build` | 构建 npm 产物、文档、Demo 与 Pages artifact |
+| `npm pack --dry-run` | 检查 npm 将要发布的准确文件 |
+
+组件、测试、无障碍、翻译与 IP 规范见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
+## 命名、灵感与 IP
+
+**Pokoland** 来自日语拟声词「ぽこぽこ」，让人联想到软按钮被按下时的轻柔声音。视觉氛围受到治愈系生活模拟游戏启发。所有设计、配色、图形、图标与文案均为原创。Pokoland UI 是非官方的粉丝精神创作项目，与任天堂、宝可梦公司无关联、无背书，也不包含任何官方素材；贡献内容同样必须遵守此规则。
+
+## License
 
 [MIT](LICENSE) © 2026 Pokoland UI Contributors
